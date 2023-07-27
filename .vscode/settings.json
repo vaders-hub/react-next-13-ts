@@ -1,0 +1,65 @@
+{
+  "editor.tabSize": 2,
+  "terminal.integrated.fontFamily": "NanumGothicCoding",
+  "js/ts.implicitProjectConfig.experimentalDecorators": true,
+  "js/ts.implicitProjectConfig.checkJs": true,
+  "vetur.experimental.templateInterpolationService": true,
+  "editor.fontFamily": "NanumGothicCoding, Consolas, 'Courier New', monospace",
+  "eslint.alwaysShowStatus": true,
+  "html.format.enable": true,
+  "editor.formatOnPaste": true,
+  "editor.formatOnSave": true,
+  "htmlhint.enable": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": false
+  },
+  "eslint.validate": ["javascript", "typescript"],
+  "[css]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": true
+  },
+  "[scss]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": true
+  },
+  "[json]": {
+    "editor.quickSuggestions": {
+      "strings": true
+    },
+    "editor.suggest.insertMode": "replace",
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": true
+  },
+ "[javascript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": true
+  },
+  "[typescript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": true
+  },
+  "[tsx]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": true
+  },
+  "[typescriptreact]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": true
+  },
+  "javascript.format.enable": true,
+  "typescript.updateImportsOnFileMove.enabled": "always",
+  "git.enableSmartCommit": true,
+  "editor.suggestSelection": "first",
+  "vsintellicode.modify.editor.suggestSelection": "automaticallyOverrodeDefaultValue",
+  "editor.fontLigatures": false,
+  "editor.cursorBlinking": "smooth",
+  "files.trimFinalNewlines": true,
+  "terminal.integrated.defaultProfile.windows": "Command Prompt",
+  "settingsSync.ignoredExtensions": [
+    
+
+  ],
+  "workbench.editor.highlightModifiedTabs": true,
+  "editor.indentSize": 2,
+  "workbench.startupEditor": "none"
+}
