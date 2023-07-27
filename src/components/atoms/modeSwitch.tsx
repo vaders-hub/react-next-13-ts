@@ -5,7 +5,7 @@ import { styled, createTheme, ThemeProvider } from '@mui/system';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Switch from '@mui/material/Switch';
 
-const SwitchComponent = styled(Switch)(({ theme }) => ({
+const StyledSwitch = styled(Switch)(({ theme }) => ({
   width: 62,
   height: 34,
   padding: 7,
@@ -52,10 +52,14 @@ const SwitchComponent = styled(Switch)(({ theme }) => ({
   },
 }));
 
+const StyledFormControlLabel = styled(FormControlLabel)`
+  float: right;
+`;
+
 export default function ModeSwitch() {
   return (
     <>
-      <FormControlLabel control={<SwitchComponent sx={{ m: 1 }} defaultChecked />} label='Mode' />
+      <StyledFormControlLabel control={<StyledSwitch sx={{ m: 1 }} defaultChecked />} label='Mode' />
     </>
   );
 }

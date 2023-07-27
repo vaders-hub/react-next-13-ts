@@ -1,4 +1,4 @@
-import Button from 'components/forms/button';
+import Button from 'components/atoms/button';
 
 export default function Loin() {
   return (

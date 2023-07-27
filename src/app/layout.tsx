@@ -1,4 +1,4 @@
-import Header from 'components/common/header';
+import Header from 'components/organisms/header';
 
 import 'asset/styles/globals.css';
 import type { Metadata } from 'next';
