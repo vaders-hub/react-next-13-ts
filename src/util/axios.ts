@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const cafeAxiosInstance = axios.create({
-  baseURL: 'https://api.roastandbrew.coffee/',
+  baseURL: 'https://api.roastandbrew.coffee/api/v1/',
 });
 
 cafeAxiosInstance.interceptors.request.use(

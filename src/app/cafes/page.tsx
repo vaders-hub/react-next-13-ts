@@ -1,10 +1,9 @@
-import Button from 'components/atoms/button';
+import List from 'components/organisms/cafe/list';
 
-export default function Loin() {
+export default function Cafe() {
   return (
     <main>
-      <div>Cafe list</div>
-      <Button name={'Tt'} />
+      <List />
     </main>
   );
 }
