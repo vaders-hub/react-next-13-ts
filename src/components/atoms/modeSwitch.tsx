@@ -57,9 +57,18 @@ const StyledFormControlLabel = styled(FormControlLabel)`
 `;
 
 export default function ModeSwitch() {
+  const [checked, setChecked] = React.useState(true);
+  const colorMode = React.useMemo(() => (checked ? 'light' : 'dark'), [checked]);
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setChecked(event.target.checked);
+  };
+
   return (
     <>
-      <StyledFormControlLabel control={<StyledSwitch sx={{ m: 1 }} defaultChecked />} label='Mode' />
+      <StyledFormControlLabel
+        control={<StyledSwitch sx={{ m: 1 }} checked={checked} onChange={handleChange} />}
+        label='Mode'
+      />
     </>
   );
 }
