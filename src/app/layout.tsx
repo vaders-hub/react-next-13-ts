@@ -1,3 +1,4 @@
+import Wrapper from 'components/templates/wrapper';
 import Header from 'components/organisms/header';
 
 import 'asset/styles/globals.css';
@@ -15,8 +16,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang='en'>
       <body className={inter.className}>
-        <Header />
-        {children}
+        <Wrapper>
+          <Header />
+          {children}
+        </Wrapper>
       </body>
     </html>
   );

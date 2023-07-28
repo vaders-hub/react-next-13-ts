@@ -59,10 +59,12 @@ const StyledFormControlLabel = styled(FormControlLabel)`
 `;
 
 export default function ModeSwitch() {
+  const { toggleTheme } = useThemeActions();
   const [checked, setChecked] = React.useState(true);
   const colorMode = React.useMemo(() => (checked ? 'light' : 'dark'), [checked]);
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setChecked(event.target.checked);
+    toggleTheme(colorMode);
   };
 
   return (
