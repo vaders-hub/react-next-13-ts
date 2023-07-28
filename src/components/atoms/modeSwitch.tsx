@@ -5,6 +5,8 @@ import { styled, createTheme, ThemeProvider } from '@mui/system';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Switch from '@mui/material/Switch';
 
+import { useTheme, useThemeActions } from 'store/index';
+
 const StyledSwitch = styled(Switch)(({ theme }) => ({
   width: 62,
   height: 34,
