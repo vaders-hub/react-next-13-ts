@@ -18,7 +18,7 @@ const useThemeStore = create<ThemeState>()(
       },
     }),
     {
-      name: 'bear-storage',
+      name: 'theme-storage',
     },
   ),
 );
