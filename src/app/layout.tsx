@@ -1,9 +1,12 @@
+import QueryWrapper from 'helpers/QueryWrapper';
+
 import Wrapper from 'components/templates/wrapper';
 import Header from 'components/organisms/header';
+import { Inter } from 'next/font/google';
+
+import type { Metadata } from 'next';
 
 import 'asset/styles/globals.css';
-import type { Metadata } from 'next';
-import { Inter } from 'next/font/google';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -16,10 +19,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang='en'>
       <body className={inter.className}>
-        <Wrapper>
-          <Header />
-          {children}
-        </Wrapper>
+        <QueryWrapper>
+          <Wrapper>
+            <Header />
+            {children}
+          </Wrapper>
+        </QueryWrapper>
       </body>
     </html>
   );

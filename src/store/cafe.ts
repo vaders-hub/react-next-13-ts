@@ -8,7 +8,7 @@ interface CafeState {
 }
 
 const fetchCafe = async (): Promise<any> => {
-  const response = await cafeAxiosInstance.get('cafe', { params: { page: 1, search: '' } });
+  const response = await cafeAxiosInstance.get('cafes', { params: { page: 1, search: '' } });
   return response.data;
 };
 
