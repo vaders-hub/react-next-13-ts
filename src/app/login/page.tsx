@@ -1,7 +1,7 @@
 export default function Loin() {
   return (
     <main>
-      <div>Login</div>
+      <div data-testid='login'>Login</div>
     </main>
-  )
+  );
 }
