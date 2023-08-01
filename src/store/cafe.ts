@@ -7,13 +7,17 @@ interface CafeState {
   list: [];
 }
 
-const fetchCafe = async (): Promise<any> => {
-  const response = await cafeAxiosInstance.get('cafes', { params: { page: 1, search: '' } });
+interface CafePrams {
+  page: number;
+}
+
+const fetchCafe = async ({ page }: CafePrams): Promise<any> => {
+  const response = await cafeAxiosInstance.get('cafes', { params: { page, search: '' } });
   return response.data;
 };
 
-export const useCafeQuery = () => {
-  const queryInfo = useQuery({ queryKey: ['cafe'], queryFn: fetchCafe });
+export const useCafeQuery = ({ page }: CafePrams) => {
+  const queryInfo = useQuery({ queryKey: ['cafe', { page }], queryFn: () => fetchCafe({ page }) });
 
   return {
     ...queryInfo,
