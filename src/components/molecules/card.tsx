@@ -8,7 +8,12 @@ import CardContent from '@mui/material/CardContent';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 
-export default function BasicCard({ cafeDatas }: any) {
+type Props = {
+  cafeDatas: any;
+  children?: any;
+};
+
+export default function BasicCard({ cafeDatas }: Props) {
   return (
     <Card sx={{ maxWidth: '20rem' }}>
       <CardContent>
