@@ -7,9 +7,5 @@ export const metadata: Metadata = {
 };
 
 export default function CafeLayout({ children }: ILayout) {
-  return (
-    <>
-      <div>{children}</div>
-    </>
-  );
+  return <>{children}</>;
 }

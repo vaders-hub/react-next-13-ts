@@ -14,7 +14,6 @@ const plainHeader = ({ className, children }: IHeaderProps) => <header className
 
 const StyledHeader = styled(plainHeader)`
   padding: 10px;
-  background-color: yellow;
 `;
 
 function BearCounter() {

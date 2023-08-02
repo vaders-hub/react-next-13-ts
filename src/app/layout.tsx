@@ -1,7 +1,7 @@
-import QueryWrapper from 'helpers/QueryWrapper';
-
+import QueryWrapper from 'helpers/queryWrapper';
 import Wrapper from 'components/templates/wrapper';
 import Header from 'components/organisms/header';
+
 import { Inter } from 'next/font/google';
 
 import type { Metadata } from 'next';
@@ -17,15 +17,15 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang='en'>
-      <body className={inter.className}>
-        <QueryWrapper>
-          <Wrapper>
+    <html lang='en' suppressHydrationWarning>
+      <QueryWrapper>
+        <Wrapper>
+          <body>
             <Header />
             {children}
-          </Wrapper>
-        </QueryWrapper>
-      </body>
+          </body>
+        </Wrapper>
+      </QueryWrapper>
     </html>
   );
 }

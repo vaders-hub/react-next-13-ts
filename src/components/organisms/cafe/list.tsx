@@ -10,7 +10,7 @@ export default function List() {
 
   const currentPage = useMemo(() => data?.current_page, [data]);
   const cafeDatas = useMemo(() => data?.data, [data]);
-  const test = cafeDatas?.map((cafe: any) => <Card cafeDatas={cafe} key={cafe.id} />);
+
   return (
     <>
       {isLoading && <div>isLoading...</div>}

@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { styled } from '@mui/system';
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
@@ -8,20 +9,24 @@ import CardContent from '@mui/material/CardContent';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 
-type Props = {
+type CafeProps = {
   cafeDatas: any;
-  children?: any;
 };
 
-export default function BasicCard({ cafeDatas }: Props) {
+const StyledCard = styled(Card)`
+  margin: 0.5rem;
+  padding: 1rem;
+`;
+
+export default function BasicCard({ cafeDatas }: CafeProps) {
   return (
-    <Card sx={{ maxWidth: '20rem' }}>
+    <StyledCard>
       <CardContent>
         <Typography variant='h5' component='div'>
           {cafeDatas?.company?.name}
         </Typography>
       </CardContent>
-      <CardMedia component='img' height='194' image={cafeDatas?.primary_image_url} alt='Paella dish' />
+      <CardMedia component='img' image={cafeDatas?.primary_image_url} alt='Paella dish' />
       <CardContent>
         <Typography sx={{ fontSize: 14 }} color='text.secondary' gutterBottom>
           {cafeDatas?.company?.description}
@@ -30,6 +35,6 @@ export default function BasicCard({ cafeDatas }: Props) {
       <CardActions>
         <Button size='small'>Learn More </Button>
       </CardActions>
-    </Card>
+    </StyledCard>
   );
 }

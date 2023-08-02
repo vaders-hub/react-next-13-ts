@@ -1,7 +1,7 @@
 'use client';
 
 import * as React from 'react';
-import { styled, createTheme, ThemeProvider } from '@mui/system';
+import { styled } from '@mui/system';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Switch from '@mui/material/Switch';
 
@@ -60,7 +60,7 @@ const StyledFormControlLabel = styled(FormControlLabel)`
 
 export default function ModeSwitch() {
   const { toggleTheme } = useThemeActions();
-  const [checked, setChecked] = React.useState(true);
+  const [checked, setChecked] = React.useState(false);
   const colorMode = React.useMemo(() => (checked ? 'light' : 'dark'), [checked]);
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setChecked(event.target.checked);
@@ -69,10 +69,7 @@ export default function ModeSwitch() {
 
   return (
     <>
-      <StyledFormControlLabel
-        control={<StyledSwitch sx={{ m: 1 }} checked={checked} onChange={handleChange} />}
-        label='Mode'
-      />
+      <StyledFormControlLabel control={<StyledSwitch sx={{ m: 1 }} checked={checked} onChange={handleChange} />} />
     </>
   );
 }
