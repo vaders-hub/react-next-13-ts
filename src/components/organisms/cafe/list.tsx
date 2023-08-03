@@ -3,6 +3,8 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useCafeQuery } from 'store/cafe';
 import Masonry, { ResponsiveMasonry } from 'react-responsive-masonry';
+
+import SearchBox from 'components/molecules/searchBox';
 import Card from 'components/molecules/card';
 
 export default function List() {
@@ -13,8 +15,8 @@ export default function List() {
 
   return (
     <>
+      <SearchBox />
       {isLoading && <div>isLoading...</div>}
-      <div>{currentPage}</div>
       {cafeDatas && (
         <ResponsiveMasonry columnsCountBreakPoints={{ 350: 1, 750: 2, 900: 3, 1200: 4 }}>
           <Masonry>
