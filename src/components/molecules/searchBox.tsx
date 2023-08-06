@@ -44,15 +44,19 @@ const SearchWrapper = styled('div')`
 `;
 
 export default function SearchBox(props: SearchBoxProps) {
-  const { lastPage, setCafePageNo } = props;
+  const { lastPage, setCafePageNo, setCafeSearchWords } = props;
   const noOfPages = useMemo(() => lastPage, [lastPage]);
   const pageList = useMemo(() => (noOfPages ? new Array(noOfPages).fill(0).map((_, i) => i + 1) : [1]), [noOfPages]);
   const cafeSearch = useInput();
   const [page, setPage] = useState('1');
 
-  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    console.log('ee', event);
+  const handleClick = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    setPage('1');
+    setCafeSearchWords(cafeSearch?.value);
   };
+
   const handleChange = useCallback(
     (event: SelectChangeEvent) => {
       const pageNo = event.target.value as string;
@@ -64,30 +68,32 @@ export default function SearchBox(props: SearchBoxProps) {
   );
 
   return (
-    <SearchWrapper>
-      <div>
-        <TextField id='outlined-search' label='Search field' type='search' {...cafeSearch} />
-      </div>
-      <div>
-        <Button variant='contained' size='large' onClick={handleClick}>
-          Search
-        </Button>
-      </div>
-      <div>
-        <Select
-          labelId='demo-simple-select-label'
-          id='demo-simple-select'
-          value={page}
-          label='Age'
-          onChange={handleChange}
-        >
-          {pageList?.map((item, index) => (
-            <MenuItem key={index} value={item}>
-              {item}
-            </MenuItem>
-          ))}
-        </Select>
-      </div>
-    </SearchWrapper>
+    <form onSubmit={handleClick}>
+      <SearchWrapper>
+        <div>
+          <TextField id='outlined-search' label='Search field' type='search' {...cafeSearch} />
+        </div>
+        <div>
+          <Button variant='contained' size='large' type='submit'>
+            Search
+          </Button>
+        </div>
+        <div>
+          <Select
+            labelId='demo-simple-select-label'
+            id='demo-simple-select'
+            value={page}
+            label='Age'
+            onChange={handleChange}
+          >
+            {pageList?.map((item, index) => (
+              <MenuItem key={index} value={item}>
+                {item}
+              </MenuItem>
+            ))}
+          </Select>
+        </div>
+      </SearchWrapper>
+    </form>
   );
 }

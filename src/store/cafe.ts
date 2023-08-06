@@ -9,15 +9,16 @@ interface CafeState {
 
 interface CafePrams {
   page: number;
+  search: string;
 }
 
-const fetchCafe = async ({ page }: CafePrams): Promise<any> => {
-  const response = await cafeAxiosInstance.get('cafes', { params: { page, search: '' } });
+const fetchCafe = async ({ page, search }: CafePrams): Promise<any> => {
+  const response = await cafeAxiosInstance.get('cafes', { params: { page, search } });
   return response.data;
 };
 
-export const useCafeQuery = ({ page }: CafePrams) => {
-  const queryInfo = useQuery({ queryKey: ['cafe', { page }], queryFn: () => fetchCafe({ page }) });
+export const useCafeQuery = ({ page, search }: CafePrams) => {
+  const queryInfo = useQuery({ queryKey: ['cafe', { page, search }], queryFn: () => fetchCafe({ page, search }) });
 
   return {
     ...queryInfo,

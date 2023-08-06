@@ -9,7 +9,8 @@ import Card from 'components/molecules/card';
 
 export default function List() {
   const [page, setPage] = useState(1);
-  const { isLoading, isError, data } = useCafeQuery({ page });
+  const [search, setSearch] = useState('');
+  const { isLoading, isError, data } = useCafeQuery({ page, search });
 
   const [lastPage, setLastPage] = useState(0);
   const currentPage = useMemo(() => data?.current_page, [data]);
@@ -17,7 +18,9 @@ export default function List() {
   const setCafePageNo = useCallback((pageNo: number) => {
     setPage(pageNo);
   }, []);
-  const setCafeSearchWords = (words: string) => {};
+  const setCafeSearchWords = (words: string) => {
+    setSearch(words);
+  };
 
   useEffect(() => {
     if (data) {
