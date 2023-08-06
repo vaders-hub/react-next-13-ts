@@ -1,24 +1,14 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import FormControl from '@mui/material/FormControl';
-import Box from '@mui/material/Box';
-import InputLabel from '@mui/material/InputLabel';
-import FilledInput from '@mui/material/FilledInput';
-import OutlinedInput from '@mui/material/OutlinedInput';
+
+import useInput from 'hooks/useInput';
 import TextField from '@mui/material/TextField';
-import InputAdornment from '@mui/material/InputAdornment';
 import Button from '@mui/material/Button';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 
 import { styled } from '@mui/system';
 
-const searchBox = ({ className, children }: any) => (
-  <div className={className}>
-    <FormControl fullWidth sx={{ m: 1 }}>
-      <TextField id='outlined-search' label='Search field' type='search' />
-    </FormControl>
-  </div>
-);
+import type { SearchBoxProps } from 'types/cafe';
 
 const SearchWrapper = styled('div')`
   display: inline-flex;
@@ -26,7 +16,8 @@ const SearchWrapper = styled('div')`
   margin: 0 0 2rem 0 ;
   padding: 0 8px;
   > div:nth-of-type(1) {
-    width: 60%;
+    width: 55%;
+    padding-right:1%;
     text-align: right;
     .MuiFormControl-root {
       width: 60%;
@@ -34,7 +25,7 @@ const SearchWrapper = styled('div')`
   }
   > div:nth-of-type(2) {
     display: flex;
-    width: 10%;
+    width: 100px;
     align-items: center;
     justify-content: center;
     button {
@@ -45,25 +36,29 @@ const SearchWrapper = styled('div')`
   }
   > div:nth-of-type(3) {
     display: flex;
-    width: 30%;
+    padding-left:1%;
     align-items: center;
     > div {
       min-width:7rem
     }
 `;
 
-export default function SearchBox(props: any) {
+export default function SearchBox(props: SearchBoxProps) {
   const { lastPage, setCafePageNo } = props;
   const noOfPages = useMemo(() => lastPage, [lastPage]);
   const pageList = useMemo(() => (noOfPages ? new Array(noOfPages).fill(0).map((_, i) => i + 1) : [1]), [noOfPages]);
+  const [value, onChange]: any = useInput('');
   const [page, setPage] = useState('1');
-
+  console.log('username', value, onChange);
+  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    console.log('ee', event);
+  };
   const handleChange = useCallback(
     (event: SelectChangeEvent) => {
       const pageNo = event.target.value as string;
 
       setPage(pageNo);
-      setCafePageNo(pageNo);
+      setCafePageNo(parseInt(pageNo));
     },
     [setCafePageNo],
   );
@@ -71,10 +66,10 @@ export default function SearchBox(props: any) {
   return (
     <SearchWrapper>
       <div>
-        <TextField id='outlined-search' label='Search field' type='search' />
+        {/* <TextField id='outlined-search' label='Search field' type='search' value={value} onChange={onChange} /> */}
       </div>
       <div>
-        <Button variant='contained' size='large'>
+        <Button variant='contained' size='large' onClick={handleClick}>
           Search
         </Button>
       </div>

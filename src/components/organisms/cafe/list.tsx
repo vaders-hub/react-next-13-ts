@@ -17,6 +17,7 @@ export default function List() {
   const setCafePageNo = useCallback((pageNo: number) => {
     setPage(pageNo);
   }, []);
+  const setCafeSearchWords = (words: string) => {};
 
   useEffect(() => {
     if (data) {
@@ -26,7 +27,7 @@ export default function List() {
 
   return (
     <>
-      <SearchBox lastPage={lastPage} setCafePageNo={setCafePageNo} />
+      <SearchBox lastPage={lastPage} setCafePageNo={setCafePageNo} setCafeSearchWords={setCafeSearchWords} />
       {isLoading && <div>isLoading...</div>}
       {cafeDatas && (
         <ResponsiveMasonry columnsCountBreakPoints={{ 350: 1, 750: 2, 900: 3, 1200: 4 }}>
