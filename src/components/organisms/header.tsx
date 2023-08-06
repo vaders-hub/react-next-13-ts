@@ -13,6 +13,7 @@ interface IHeaderProps {
 const plainHeader = ({ className, children }: IHeaderProps) => <header className={className}>{children}</header>;
 
 const StyledHeader = styled(plainHeader)`
+  overflow: hidden;
   padding: 10px;
 `;
 
