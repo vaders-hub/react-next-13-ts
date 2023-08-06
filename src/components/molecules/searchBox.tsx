@@ -47,9 +47,9 @@ export default function SearchBox(props: SearchBoxProps) {
   const { lastPage, setCafePageNo } = props;
   const noOfPages = useMemo(() => lastPage, [lastPage]);
   const pageList = useMemo(() => (noOfPages ? new Array(noOfPages).fill(0).map((_, i) => i + 1) : [1]), [noOfPages]);
-  const [value, onChange]: any = useInput('');
+  const cafeSearch = useInput();
   const [page, setPage] = useState('1');
-  console.log('username', value, onChange);
+
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     console.log('ee', event);
   };
@@ -66,7 +66,7 @@ export default function SearchBox(props: SearchBoxProps) {
   return (
     <SearchWrapper>
       <div>
-        {/* <TextField id='outlined-search' label='Search field' type='search' value={value} onChange={onChange} /> */}
+        <TextField id='outlined-search' label='Search field' type='search' {...cafeSearch} />
       </div>
       <div>
         <Button variant='contained' size='large' onClick={handleClick}>

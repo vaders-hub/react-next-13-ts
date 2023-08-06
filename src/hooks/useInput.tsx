@@ -1,8 +1,10 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 
-export default function useInput(opts: any) {
+export default function useInput() {
   const [value, setValue] = useState('');
-  const input = <input value={value} onChange={e => setValue(e.target.value)} {...opts} />;
+  const input = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setValue(event.target.value);
+  };
 
-  return [value, input];
+  return { value, onInput: input };
 }
