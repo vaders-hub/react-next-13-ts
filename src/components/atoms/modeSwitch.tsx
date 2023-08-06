@@ -56,6 +56,7 @@ const StyledSwitch = styled(Switch)(({ theme }) => ({
 
 const StyledFormControlLabel = styled(FormControlLabel)`
   float: right;
+  margin: 0;
 `;
 
 export default function ModeSwitch() {
@@ -69,7 +70,10 @@ export default function ModeSwitch() {
 
   return (
     <>
-      <StyledFormControlLabel control={<StyledSwitch sx={{ m: 1 }} checked={checked} onChange={handleChange} />} />
+      <StyledFormControlLabel
+        label=''
+        control={<StyledSwitch sx={{ m: 1 }} checked={checked} onChange={handleChange} />}
+      />
     </>
   );
 }
