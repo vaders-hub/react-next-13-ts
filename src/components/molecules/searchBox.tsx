@@ -13,34 +13,27 @@ import type { SearchBoxProps } from 'types/cafe';
 const SearchWrapper = styled('div')`
   display: inline-flex;
   width: 100%;
-  margin: 0 0 2rem 0 ;
+  margin: 0 0 2rem 0;
   padding: 0 8px;
-  > div:nth-of-type(1) {
-    width: 55%;
-    padding-right:1%;
-    text-align: right;
-    .MuiFormControl-root {
-      width: 60%;
+  text-align: center;
+
+  > div {
+    width: 100%;
+
+    #outlined-search {
+      width: 25rem;
     }
-  }
-  > div:nth-of-type(2) {
-    display: flex;
-    width: 100px;
-    align-items: center;
-    justify-content: center;
+
     button {
-      margin-top: -2px;
-      height: 93%;
+      margin: -2px 5px 0 5px;
+      height: 99%;
       background-color: #1976d2;
     }
-  }
-  > div:nth-of-type(3) {
-    display: flex;
-    padding-left:1%;
-    align-items: center;
-    > div {
-      min-width:7rem
+
+    #page-select {
+      width: 3rem;
     }
+  }
 `;
 
 export default function SearchBox(props: SearchBoxProps) {
@@ -72,20 +65,10 @@ export default function SearchBox(props: SearchBoxProps) {
       <SearchWrapper>
         <div>
           <TextField id='outlined-search' label='Search field' type='search' {...cafeSearch} />
-        </div>
-        <div>
           <Button variant='contained' size='large' type='submit'>
             Search
           </Button>
-        </div>
-        <div>
-          <Select
-            labelId='demo-simple-select-label'
-            id='demo-simple-select'
-            value={page}
-            label='Age'
-            onChange={handleChange}
-          >
+          <Select labelId='page-select-label' id='page-select' value={page} label='Page' onChange={handleChange}>
             {pageList?.map((item, index) => (
               <MenuItem key={index} value={item}>
                 {item}
