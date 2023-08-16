@@ -6,6 +6,7 @@ import CardHeader from '@mui/material/CardHeader';
 import CardMedia from '@mui/material/CardMedia';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
+import Image from 'next/image';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 
@@ -26,7 +27,15 @@ export default function BasicCard({ cafeDatas }: CafeProps) {
           {cafeDatas?.company?.name}
         </Typography>
       </CardContent>
-      <CardMedia component='img' image={cafeDatas?.primary_image_url} alt='Paella dish' />
+      <Image
+        src={cafeDatas?.primary_image_url}
+        alt='cafe image'
+        width={0}
+        height={0}
+        sizes='100vw'
+        style={{ width: '100%', height: 'auto' }}
+      />
+      {/* <CardMedia component='img' image={cafeDatas?.primary_image_url} alt='Paella dish' /> */}
       <CardContent>
         <Typography sx={{ fontSize: 14 }} color='text.secondary' gutterBottom>
           {cafeDatas?.company?.description}
