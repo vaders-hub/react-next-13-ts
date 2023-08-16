@@ -22,4 +22,25 @@ cafeAxiosInstance.interceptors.response.use(
   },
 );
 
-export default cafeAxiosInstance;
+const redditAxiosInstance = axios.create({
+  baseURL: 'https://www.reddit.com/r/Wallstreetbets/',
+});
+
+redditAxiosInstance.interceptors.request.use(
+  config => {
+    return config;
+  },
+  error => {
+    return Promise.reject(error);
+  },
+);
+
+redditAxiosInstance.interceptors.response.use(
+  response => {
+    return response.data;
+  },
+  error => {
+    return Promise.reject(error);
+  },
+);
+export { cafeAxiosInstance, redditAxiosInstance };

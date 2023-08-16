@@ -9,6 +9,18 @@ const nextConfig = {
         port: '',
         pathname: '/storage/**',
       },
+      {
+        protocol: 'https',
+        hostname: '**.thumbs.redditmedia.com',
+        port: '',
+        pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'external-preview.redd.it',
+        port: '',
+        pathname: '/**',
+      },
     ],
   },
   typescript: {

@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
-import cafeAxiosInstance from 'util/axios';
+import { cafeAxiosInstance } from 'util/axios';
 import { useQuery } from '@tanstack/react-query';
 
 interface CafeState {
