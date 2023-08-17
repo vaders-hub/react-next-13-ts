@@ -1,13 +1,15 @@
 'use client';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { Hydrate, QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 
-interface Props {
-  children: React.ReactNode;
-}
+const QueryWrapper = ({ children }: React.PropsWithChildren) => {
+  const queryClient = new QueryClient();
+  return (
+    <QueryClientProvider client={queryClient}>
+      <Hydrate>{children}</Hydrate>
+      {/* <ReactQueryDevtools initialIsOpen={false} /> */}
+    </QueryClientProvider>
+  );
+};
 
-const queryClient = new QueryClient();
-
-const QueryWrapper = ({ children }: Props) => (
-  <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
-);
 export default QueryWrapper;
