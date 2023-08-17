@@ -22,25 +22,33 @@ cafeAxiosInstance.interceptors.response.use(
   },
 );
 
-const redditAxiosInstance = axios.create({
-  baseURL: 'https://www.reddit.com/r/Wallstreetbets/',
+const newsAxiosInstance = axios.create({
+  baseURL: 'https://newsapi.org/v2',
 });
 
-redditAxiosInstance.interceptors.request.use(
+newsAxiosInstance.interceptors.request.use(
   config => {
-    return config;
+    const baseConfig = {
+      ...config,
+      params: {
+        ...config.params,
+        apiKey: '7e3e8748837845e0a3763d6711159528',
+      },
+    };
+
+    return baseConfig;
   },
   error => {
     return Promise.reject(error);
   },
 );
 
-redditAxiosInstance.interceptors.response.use(
+newsAxiosInstance.interceptors.response.use(
   response => {
-    return response.data;
+    return response;
   },
   error => {
     return Promise.reject(error);
   },
 );
-export { cafeAxiosInstance, redditAxiosInstance };
+export { cafeAxiosInstance, newsAxiosInstance };
