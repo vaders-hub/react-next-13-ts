@@ -9,11 +9,15 @@ const StyledBox = styled(Box)`
   padding-left: 12px;
 `;
 
-export default function Title() {
+interface TitleProp {
+  title: string;
+}
+
+export default function Title({ title }: TitleProp) {
   return (
     <StyledBox sx={{ width: '100%', maxWidth: 500 }}>
       <Typography variant='h3' gutterBottom>
-        Cafe
+        {title}
       </Typography>
     </StyledBox>
   );

@@ -11,8 +11,7 @@ export default async function Reddit(props: any) {
   return (
     <main>
       <Suspense>
-        <h1>News Feed</h1>
-
+        <Title title={'News Feed'} />
         <List initialData={initialData} />
       </Suspense>
     </main>
