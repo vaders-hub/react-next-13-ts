@@ -5,7 +5,7 @@ import Title from 'components/atoms/title';
 import List from 'components/organisms/news/list';
 
 export default async function Reddit(props: any) {
-  const params = { q: 'apple', from: '2023-08-16', to: '2023-08-16', sortBy: 'popularity', page: 3, pageSize: 10 };
+  const params = { q: 'apple', from: '2023-08-16', to: '2023-08-16', sortBy: 'popularity', page: 1, pageSize: 10 };
   const initialData = await fetchNews(params);
 
   return (

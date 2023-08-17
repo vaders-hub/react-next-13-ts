@@ -17,14 +17,22 @@ const Item = styled(Paper)(({ theme }) => ({
 }));
 
 export default function List({ initialData }: any) {
-  // const { isLoading, isError, data } = useNewsQuery({
-  //   q: 'apple',
-  //   from: '2023-08-16',
-  //   to: '2023-08-16',
-  //   sortBy: 'popularity',
-  //   page: 2,
-  //   pageSize: 10,
-  // });
+  const [flag, setFlag] = useState('d');
+  const textq = () => {
+    setFlag('e');
+  };
+  const { isLoading, isError, data } = useNewsQuery(
+    {
+      q: 'apple',
+      from: '2023-08-16',
+      to: '2023-08-16',
+      sortBy: 'popularity',
+      page: 1,
+      pageSize: 10,
+    },
+    flag,
+  );
+
   // console.log('data', data);
   // console.log('initialData', initialData);
   const subDatas = useMemo(() => [...initialData?.articles], [initialData]);
@@ -42,6 +50,7 @@ export default function List({ initialData }: any) {
           ))}
         </Grid>
       </Box>
+      <button onClick={textq}>test</button>
     </>
   );
 }

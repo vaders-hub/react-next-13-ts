@@ -17,11 +17,13 @@ export const fetchNews = async (params: RedditParams): Promise<any> => {
   return response.data;
 };
 
-export const useNewsQuery = (params: RedditParams) => {
+export const useNewsQuery = (params: RedditParams, flag: any) => {
+  console.log('flag', flag);
   const queryInfo = useQuery({
     queryKey: ['news', params],
     queryFn: () => fetchNews(params),
-    suspense: true,
+    enabled: false,
+    suspense: flag === 'e' ? true : false,
     staleTime: 5 * 1000,
   });
 
