@@ -9,7 +9,6 @@ import Grid from '@mui/material/Unstable_Grid2';
 import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
-import Words from 'components/molecules/words';
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -55,7 +54,6 @@ export default function List({ initialData }: any) {
 
   return (
     <>
-      <Words onSelected={onSelected} />
       <Box sx={{ flexGrow: 1 }}>
         <Grid container spacing={{ xs: 2, md: 2 }} columns={{ xs: 4, sm: 8, md: 12 }}>
           {subDatas?.map((article, index) => (
