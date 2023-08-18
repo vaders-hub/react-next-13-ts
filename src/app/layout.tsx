@@ -22,14 +22,14 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang='en' suppressHydrationWarning>
-      <QueryWrapper>
-        <Wrapper>
-          <body>
+      <Wrapper>
+        <body>
+          <QueryWrapper>
             <Header />
             {children}
-          </body>
-        </Wrapper>
-      </QueryWrapper>
+          </QueryWrapper>
+        </body>
+      </Wrapper>
     </html>
   );
 }

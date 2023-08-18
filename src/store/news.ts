@@ -22,8 +22,7 @@ export const useNewsQuery = (params: RedditParams, flag: any) => {
   const queryInfo = useQuery({
     queryKey: ['news', params],
     queryFn: () => fetchNews(params),
-    enabled: false,
-    suspense: flag === 'e' ? true : false,
+    enabled: flag,
     staleTime: 5 * 1000,
   });
 

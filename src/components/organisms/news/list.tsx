@@ -7,6 +7,8 @@ import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Unstable_Grid2';
 import CardMedia from '@mui/material/CardMedia';
+import Typography from '@mui/material/Typography';
+import Button from '@mui/material/Button';
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -17,26 +19,30 @@ const Item = styled(Paper)(({ theme }) => ({
 }));
 
 export default function List({ initialData }: any) {
-  const [flag, setFlag] = useState('d');
-  const textq = () => {
-    setFlag('e');
-  };
-  const { isLoading, isError, data } = useNewsQuery(
+  const [flag, setFlag] = useState(false);
+  const { isFetching, isLoading, isError, data } = useNewsQuery(
     {
       q: 'apple',
       from: '2023-08-16',
       to: '2023-08-16',
       sortBy: 'popularity',
-      page: 1,
+      page: 2,
       pageSize: 10,
     },
     flag,
   );
 
-  // console.log('data', data);
-  // console.log('initialData', initialData);
-  const subDatas = useMemo(() => [...initialData?.articles], [initialData]);
-  // console.log('data', subDatas);
+  const clientDatas = useMemo(() => data?.articles || [], [data]);
+  const subDatas = useMemo(() => [...initialData?.articles, ...clientDatas], [initialData, clientDatas]);
+
+  const fetchMore = () => {
+    setFlag(prev => !prev);
+  };
+
+  useEffect(() => {
+    if (!isFetching && !isLoading) setFlag(false);
+  }, [isFetching, isLoading]);
+
   return (
     <>
       <Box sx={{ flexGrow: 1 }} style={{ padding: '0 1rem' }}>
@@ -44,13 +50,20 @@ export default function List({ initialData }: any) {
           {subDatas?.map((article, index) => (
             <Grid xs={2} sm={2} md={4} key={index}>
               <Item>
+                <Typography sx={{ fontSize: 14 }} color='text.secondary' gutterBottom>
+                  {article?.title}
+                </Typography>
                 <CardMedia component='img' image={article?.urlToImage} alt='Paella dish' />
               </Item>
             </Grid>
           ))}
         </Grid>
       </Box>
-      <button onClick={textq}>test</button>
+      <div style={{ textAlign: 'center' }}>
+        <Button size='small' onClick={fetchMore}>
+          Load More
+        </Button>
+      </div>
     </>
   );
 }
