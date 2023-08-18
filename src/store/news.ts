@@ -18,7 +18,6 @@ export const fetchNews = async (params: RedditParams): Promise<any> => {
 };
 
 export const useNewsQuery = (params: RedditParams, flag: any) => {
-  console.log('flag', flag);
   const queryInfo = useQuery({
     queryKey: ['news', params],
     queryFn: () => fetchNews(params),

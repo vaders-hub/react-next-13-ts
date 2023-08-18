@@ -12,7 +12,9 @@ export default async function News(props: any) {
     <main>
       <Suspense>
         <Title title={'News Feed'} />
-        <List initialData={initialData} />
+        <div style={{ padding: '0 1rem' }}>
+          <List initialData={initialData} />
+        </div>
       </Suspense>
     </main>
   );
