@@ -4,11 +4,14 @@ import { newsAxiosInstance } from 'util/axios';
 import { useQuery } from '@tanstack/react-query';
 
 interface NewsState {
-  selected: string | null;
+  selected: number | null;
+  actions: {
+    setSelected: (index: number) => void;
+  };
 }
 
 interface NewsParams {
-  q: string;
+  q: string | null;
   from: string;
   to: string;
   sortBy: string;
@@ -40,7 +43,7 @@ const useNewsStore = create<NewsState>()(
     (set, get) => ({
       selected: null,
       actions: {
-        setSelected: index => set(state => ({ selected: index })),
+        setSelected: index => set({ selected: index }),
       },
     }),
     {

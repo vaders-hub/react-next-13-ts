@@ -65,7 +65,7 @@ export default function List({ initialData }: any) {
                 <Typography sx={{ fontSize: 14 }} color='text.secondary' gutterBottom>
                   {article?.title}
                 </Typography>
-                <CardMedia component='img' image={article?.urlToImage} alt='Paella dish' />
+                <CardMedia component='img' image={article?.urlToImage} alt={article?.title} />
               </Item>
             </Grid>
           ))}
