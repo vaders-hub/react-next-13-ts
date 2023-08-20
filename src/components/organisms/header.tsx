@@ -1,9 +1,11 @@
 'use client';
 
 import * as React from 'react';
+import Link from 'next/link';
 import ModeSwitch from 'components/atoms/modeSwitch';
 import { styled } from '@mui/system';
 import { useBears, useBearActions } from 'store/index';
+import Nav from 'components/molecules/nav';
 
 interface IHeaderProps {
   className?: string;
@@ -26,6 +28,7 @@ export default function Header() {
   return (
     <>
       <StyledHeader>
+        <Nav />
         <ModeSwitch />
       </StyledHeader>
     </>

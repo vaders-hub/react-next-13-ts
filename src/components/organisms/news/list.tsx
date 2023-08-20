@@ -2,6 +2,8 @@
 
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useNewsQuery } from 'store/news';
+import { useSelectedNews, useSelectedNewsActions } from 'store/news';
+import usePrevious from 'hooks/usePrevious';
 import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
@@ -20,14 +22,15 @@ const Item = styled(Paper)(({ theme }) => ({
 
 export default function List({ initialData }: any) {
   const [flag, setFlag] = useState(false);
-  const [topic, setTopic] = useState('apple');
+  const topic = useSelectedNews();
+  const prevTopic = usePrevious(topic);
   const { isFetching, isLoading, isError, data } = useNewsQuery(
     {
       q: topic,
       from: '2023-08-16',
       to: '2023-08-16',
       sortBy: 'popularity',
-      page: 2,
+      page: 1,
       pageSize: 10,
     },
     flag,
@@ -41,12 +44,12 @@ export default function List({ initialData }: any) {
     setFlag(prev => !prev);
   };
 
-  const onSelected = (topic: string) => {
-    severDatas.splice(0);
-
-    setTopic(topic);
-    setFlag(true);
-  };
+  useEffect(() => {
+    if (prevTopic) {
+      severDatas.splice(0);
+      setFlag(true);
+    }
+  }, [prevTopic, topic, severDatas, setFlag]);
 
   useEffect(() => {
     if (!isFetching && !isLoading) setFlag(false);
@@ -68,11 +71,11 @@ export default function List({ initialData }: any) {
           ))}
         </Grid>
       </Box>
-      <div style={{ textAlign: 'center' }}>
+      {/* <div style={{ textAlign: 'center' }}>
         <Button size='small' onClick={fetchMore}>
           Load More
         </Button>
-      </div>
+      </div> */}
     </>
   );
 }

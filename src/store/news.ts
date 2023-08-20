@@ -3,7 +3,11 @@ import { devtools } from 'zustand/middleware';
 import { newsAxiosInstance } from 'util/axios';
 import { useQuery } from '@tanstack/react-query';
 
-interface RedditParams {
+interface NewsState {
+  selected: string | null;
+}
+
+interface NewsParams {
   q: string;
   from: string;
   to: string;
@@ -12,12 +16,12 @@ interface RedditParams {
   page?: number;
 }
 
-export const fetchNews = async (params: RedditParams): Promise<any> => {
+export const fetchNews = async (params: NewsParams): Promise<any> => {
   const response = await newsAxiosInstance.get('everything/', { params });
   return response.data;
 };
 
-export const useNewsQuery = (params: RedditParams, flag: any) => {
+export const useNewsQuery = (params: NewsParams, flag: any) => {
   const queryInfo = useQuery({
     queryKey: ['news', params],
     queryFn: () => fetchNews(params),
@@ -30,3 +34,20 @@ export const useNewsQuery = (params: RedditParams, flag: any) => {
     data: queryInfo.data,
   };
 };
+
+const useNewsStore = create<NewsState>()(
+  devtools(
+    (set, get) => ({
+      selected: null,
+      actions: {
+        setSelected: index => set(state => ({ selected: index })),
+      },
+    }),
+    {
+      name: 'news-storage',
+    },
+  ),
+);
+
+export const useSelectedNews = () => useNewsStore(state => state.selected);
+export const useSelectedNewsActions = () => useNewsStore(state => state.actions);

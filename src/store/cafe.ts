@@ -32,7 +32,7 @@ const useCafeStore = create<CafeState>()(
       list: [],
     }),
     {
-      name: 'theme-storage',
+      name: 'cafe-storage',
     },
   ),
 );
