@@ -1,11 +1,12 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 
 import useInput from 'hooks/useInput';
+import useChange from 'hooks/useChange';
+
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
-
 import { styled } from '@mui/system';
 
 import type { SearchBoxProps } from 'types/cafe';
@@ -41,24 +42,20 @@ export default function SearchBox(props: SearchBoxProps) {
   const noOfPages = useMemo(() => lastPage, [lastPage]);
   const pageList = useMemo(() => (noOfPages ? new Array(noOfPages).fill(0).map((_, i) => i + 1) : [1]), [noOfPages]);
   const cafeSearch = useInput();
-  const [page, setPage] = useState('1');
+  const pageSearch = useChange({ defaultValue: 1 });
 
   const handleClick = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    setPage('1');
+    pageSearch.reset(1);
     setCafeSearchWords(cafeSearch?.value);
   };
 
-  const handleChange = useCallback(
-    (event: SelectChangeEvent) => {
-      const pageNo = event.target.value as string;
+  useEffect(() => {
+    const { value } = pageSearch;
 
-      setPage(pageNo);
-      setCafePageNo(parseInt(pageNo));
-    },
-    [setCafePageNo],
-  );
+    setCafePageNo(parseInt(value));
+  }, [pageSearch, setCafePageNo]);
 
   return (
     <form onSubmit={handleClick}>
@@ -68,7 +65,13 @@ export default function SearchBox(props: SearchBoxProps) {
           <Button variant='contained' size='large' type='submit'>
             Search
           </Button>
-          <Select labelId='page-select-label' id='page-select' value={page} label='Page' onChange={handleChange}>
+          <Select
+            labelId='page-select-label'
+            id='page-select'
+            label='Page'
+            value={pageSearch.value}
+            onChange={pageSearch.onChange}
+          >
             {pageList?.map((item, index) => (
               <MenuItem key={index} value={item}>
                 {item}
