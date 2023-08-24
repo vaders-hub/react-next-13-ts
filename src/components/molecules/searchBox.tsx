@@ -52,10 +52,8 @@ export default function SearchBox(props: SearchBoxProps) {
   };
 
   useEffect(() => {
-    const { value } = pageSearch;
-
-    setCafePageNo(parseInt(value));
-  }, [pageSearch, setCafePageNo]);
+    setCafePageNo(parseInt(pageSearch.value));
+  }, [pageSearch.value, setCafePageNo]);
 
   return (
     <form onSubmit={handleClick}>
