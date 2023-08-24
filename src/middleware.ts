@@ -5,6 +5,10 @@ export function middleware(request: NextRequest) {
   const hostname = request.headers.get('host');
   const { device } = userAgent(request);
 
-  console.log('login', request.url);
+  console.log('middleware', request.url);
   return NextResponse.next();
 }
+
+export const config = {
+  // matcher: ['/about/:path*', '/dashboard/:path*'],
+};
