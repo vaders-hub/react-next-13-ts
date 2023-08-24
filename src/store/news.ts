@@ -4,9 +4,9 @@ import { newsAxiosInstance } from 'util/axios';
 import { useQuery } from '@tanstack/react-query';
 
 interface NewsState {
-  selected: number | null;
+  selected: string | null;
   actions: {
-    setSelected: (index: number) => void;
+    setSelected: (index: string) => void;
   };
 }
 

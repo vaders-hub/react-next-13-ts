@@ -11,6 +11,9 @@ const nextConfig = {
       },
     ],
   },
+  experimental: {
+    appDir: true,
+  },
   typescript: {
     ignoreBuildErrors: false,
   },
