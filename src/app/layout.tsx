@@ -1,4 +1,4 @@
-import QueryWrapper from 'helpers/queryWrapper';
+import QueryWrapper from 'helpers/QueryWrapper';
 import Wrapper from 'components/templates/wrapper';
 import Header from 'components/organisms/header';
 
