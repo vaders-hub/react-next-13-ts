@@ -61,5 +61,6 @@
   ],
   "workbench.editor.highlightModifiedTabs": true,
   "editor.indentSize": 2,
-  "workbench.startupEditor": "none"
+  "workbench.startupEditor": "none",
+  "typescript.tsdk": "node_modules\\typescript\\lib"
 }
