@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import { devtools, persist, createJSONStorage } from 'zustand/middleware';
+import { useNewsStore } from 'store/news';
 
 interface SessionState {
   isLoggedIn: boolean;
@@ -22,7 +23,16 @@ const useSessionStore = create<SessionState>()(
       (set, get) => ({
         isLoggedIn: false,
         actions: {
-          updateStatus: () => set({ isLoggedIn: true }),
+          updateStatus: () => {
+            /*
+              * update other store
+              
+              const newStore = useNewsStore.getState();
+              newStore.selected = 'abc';
+              
+            */
+            set({ isLoggedIn: true });
+          },
         },
       }),
       {

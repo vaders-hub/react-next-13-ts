@@ -38,7 +38,7 @@ export const useNewsQuery = (params: NewsParams, flag: any) => {
   };
 };
 
-const useNewsStore = create<NewsState>()(
+export const useNewsStore = create<NewsState>()(
   devtools(
     (set, get) => ({
       selected: null,
