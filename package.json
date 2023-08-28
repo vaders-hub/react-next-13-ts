@@ -29,6 +29,7 @@
     "@types/react-responsive-masonry": "^2.1.0",
     "autoprefixer": "10.4.14",
     "axios": "^1.4.0",
+    "cookies-next": "^3.0.0",
     "dayjs": "^1.11.9",
     "eslint-config-next": "13.4.12",
     "immer": "^10.0.2",

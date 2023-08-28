@@ -1,7 +1,5 @@
 import { create } from 'zustand';
-import { devtools } from 'zustand/middleware';
-import { cafeAxiosInstance } from 'util/axios';
-import { useQuery } from '@tanstack/react-query';
+import { devtools, persist, createJSONStorage } from 'zustand/middleware';
 
 interface SessionState {
   isLoggedIn: boolean;
@@ -20,15 +18,17 @@ export const fetchAuth = async (): Promise<any> => {
 
 const useSessionStore = create<SessionState>()(
   devtools(
-    (set, get) => ({
-      isLoggedIn: false,
-      actions: {
-        updateStatus: () => set({ isLoggedIn: true }),
+    persist(
+      (set, get) => ({
+        isLoggedIn: false,
+        actions: {
+          updateStatus: () => set({ isLoggedIn: true }),
+        },
+      }),
+      {
+        name: 'session-storage',
       },
-    }),
-    {
-      name: 'session-storage',
-    },
+    ),
   ),
 );
 

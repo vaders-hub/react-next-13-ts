@@ -1,9 +1,10 @@
 import { redirect } from 'next/navigation';
 import { NextResponse, NextRequest } from 'next/server';
 import { fetchAuth } from 'store/session';
+import { getCookie, getCookies, setCookie, hasCookie } from 'cookies-next';
 
 import QueryWrapper from 'helpers/queryWrapper';
-import SessionProvider from 'components/templates/sessionProvider';
+import SessionProvider from 'helpers/sessionProvider';
 import ThemeWrapper from 'components/templates/wrapper';
 
 import type { Metadata } from 'next';
