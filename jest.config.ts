@@ -5,8 +5,9 @@ const createJestConfig = nextJest({
 });
 
 const customJestConfig = {
-  setupFilesAfterEnv: ['<rootDir>/jest.setup.ts'],
-  moduleDirectories: ['node_modules', '<rootDir>/'],
+  setupFilesAfterEnv: ['<rootDir>/jest.setup.ts', 'jest-styled-components'],
+  moduleDirectories: ['node_modules', '<rootDir>/src/'],
+  moduleNameMapper: { '^@/hooks/(.*)$': '<rootDir>hooks/$1' },
   testEnvironment: 'jest-environment-jsdom',
 };
 

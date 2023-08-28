@@ -50,7 +50,7 @@ export default function Loin() {
   return (
     <main style={{ height: '100%' }}>
       <LoginWrap>
-        <LoginBox>
+        <LoginBox data-testid='login'>
           <form onSubmit={handleClick}>
             <TextField id='outlined-id' label='ID' {...loginId} />
             <TextField id='outlined-password' label='Password' {...loginPW} />
