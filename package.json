@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start -p 3004",
     "lint": "next lint",
-    "test": "jest --ci"
+    "test": "jest --ci",
+    "cypress": "cypress open"
   },
   "dependencies": {
     "@emotion/react": "^11.11.1",
@@ -42,7 +43,6 @@
     "react-responsive-masonry": "^2.1.7",
     "styled-components": "^6.0.5",
     "tailwindcss": "3.3.3",
-    "typescript": "5.1.6",
     "vader-second": "1.0.5",
     "zustand": "^4.3.9"
   },
@@ -51,6 +51,7 @@
     "@testing-library/react": "^14.0.0",
     "@testing-library/react-hooks": "^8.0.1",
     "@types/jest": "^29.5.4",
+    "cypress": "^12.17.4",
     "eslint": "8.45.0",
     "eslint-plugin-react": "^7.33.2",
     "eslint-plugin-react-hooks": "^4.6.0",
@@ -59,7 +60,8 @@
     "jest-styled-components": "^7.1.1",
     "react-test-renderer": "^18.2.0",
     "sass": "^1.64.1",
-    "ts-node": "^10.9.1"
+    "ts-node": "^10.9.1",
+    "typescript": "5.1.6"
   },
   "browserslist": {
     "production": [
