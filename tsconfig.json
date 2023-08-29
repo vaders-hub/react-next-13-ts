@@ -38,7 +38,7 @@
     "**/*.tsx",
     ".next/types/**/*.ts",
     "dist/types/**/*.ts",
-    "src/cypress/e2e/app.cy.js", "src/tests/cafe.test.js"  ],
+    "src/cypress/e2e/**/*.js", "src/tests/**/*.js"  ],
   "exclude": [
     "node_modules", "**/*.spec.ts", "**/*.test.ts"
   ],
