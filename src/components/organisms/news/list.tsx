@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useNewsQuery } from 'store/news';
-import { useSelectedNews, useSelectedNewsActions } from 'store/news';
+import { useSelectedNews } from 'store/news';
 import usePrevious from 'hooks/usePrevious';
 import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
@@ -45,15 +45,24 @@ export default function List({ initialData }: any) {
   };
 
   useEffect(() => {
-    if (prevTopic) {
+    if (prevTopic && topic !== prevTopic) {
+      console.log('conditional topic', topic, prevTopic);
       severDatas.splice(0);
       setFlag(true);
     }
-  }, [prevTopic, topic, severDatas, setFlag]);
+  }, [topic, prevTopic, severDatas, setFlag]);
 
   useEffect(() => {
-    if (!isFetching && !isLoading) setFlag(false);
-  }, [isFetching, isLoading, flag]);
+    if (topic && topic !== prevTopic) {
+      console.log('mounted', topic, prevTopic, subDatas, data);
+      severDatas.splice(0);
+      setFlag(true);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+  // useEffect(() => {
+  //   if (!isFetching && !isLoading) setFlag(false);
+  // }, [isFetching, isLoading, flag]);
 
   return (
     <>

@@ -43,7 +43,7 @@ export const useNewsStore = create<NewsState>()(
     (set, get) => ({
       selected: null,
       actions: {
-        setSelected: index => set({ selected: index }),
+        setSelected: topic => set({ selected: topic }),
       },
     }),
     {

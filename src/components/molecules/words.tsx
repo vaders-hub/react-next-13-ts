@@ -1,7 +1,7 @@
 'use client';
 
-import React, { useCallback, useEffect, useState } from 'react';
-import { generate } from 'random-words';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import { useRouter, usePathname } from 'next/navigation';
 
 import { useSelectedNews, useSelectedNewsActions } from 'store/news';
 
@@ -22,32 +22,36 @@ const StyledChip = styled(Chip)`
   margin: 0 0.5rem 0.5rem 0;
 `;
 
-export default function Words(props: any) {
-  const topics: string[] = props?.topics;
+export default function Words() {
+  const router = useRouter();
+
   const selected = useSelectedNews();
   const { setSelected } = useSelectedNewsActions();
+  const params = useMemo(() => (selected ? new URLSearchParams(`topic=${selected}`) : ''), [selected]);
+
   const handleClick = useCallback(
     (topic: string) => {
       setSelected(topic);
+      router.push(`/news?${params}`);
     },
-    [setSelected],
+    [setSelected, params, router],
   );
 
-  useEffect(() => {
-    if (topics.length && selected === null) setSelected(topics[0]);
-  }, [topics, selected, setSelected]);
+  // useEffect(() => {
+  //   if (topics.length && selected === null) setSelected(topics[0]);
+  // }, [topics, selected, setSelected]);
 
   return (
     <>
       <StyledStack direction='row'>
-        {topics?.map((topic, index) => (
+        {/* {topics?.map((topic, index) => (
           <StyledChip
             key={`${topic}-${index}`}
             className={topic === selected ? 'selected' : ''}
             label={topic}
             onClick={e => handleClick(topic)}
           />
-        ))}
+        ))} */}
       </StyledStack>
     </>
   );
