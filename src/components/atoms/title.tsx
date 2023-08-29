@@ -16,7 +16,7 @@ interface TitleProp {
 export default function Title({ title }: TitleProp) {
   return (
     <StyledBox sx={{ width: '100%', maxWidth: 500 }}>
-      <Typography variant='h3' gutterBottom>
+      <Typography variant='h3' gutterBottom data-testid='title'>
         {title}
       </Typography>
     </StyledBox>
