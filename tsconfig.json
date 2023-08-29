@@ -40,6 +40,6 @@
     "dist/types/**/*.ts",
     "src/cypress/e2e/**/*.js", "src/tests/**/*.js"  ],
   "exclude": [
-    "node_modules", "**/*.spec.ts", "**/*.test.ts"
+    "node_modules"
   ],
 }
