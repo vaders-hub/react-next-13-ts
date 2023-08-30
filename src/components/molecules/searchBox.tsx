@@ -58,9 +58,9 @@ export default function SearchBox(props: SearchBoxProps) {
   return (
     <form onSubmit={handleClick}>
       <SearchWrapper>
-        <div>
+        <div data-testid='search-box'>
           <TextField id='outlined-search' label='Search field' type='search' {...cafeSearch} />
-          <Button variant='contained' size='large' type='submit'>
+          <Button variant='contained' size='large' type='submit' data-testid='search-button'>
             Search
           </Button>
           <Select

@@ -12,7 +12,7 @@ interface CafePrams {
   search: string;
 }
 
-const fetchCafe = async ({ page, search }: CafePrams): Promise<any> => {
+export const fetchCafe = async ({ page, search }: CafePrams): Promise<any> => {
   const response = await cafeAxiosInstance.get('cafes', { params: { page, search } });
   return response.data;
 };
