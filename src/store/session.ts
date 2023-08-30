@@ -37,6 +37,7 @@ const useSessionStore = create<SessionState>()(
       }),
       {
         name: 'session-storage',
+        partialize: state => Object.fromEntries(Object.entries(state).filter(([key]) => !['actions'].includes(key))),
       },
     ),
   ),

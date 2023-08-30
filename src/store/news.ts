@@ -1,17 +1,20 @@
 import { create } from 'zustand';
-import { devtools } from 'zustand/middleware';
+import { devtools, persist, createJSONStorage } from 'zustand/middleware';
 import { newsAxiosInstance } from 'util/axios';
 import { useQuery } from '@tanstack/react-query';
 
 interface NewsState {
+  topics: string[];
   selected: string | null;
   actions: {
+    addTopcis: (topics: string[]) => void;
+    clearTopics: () => void;
     setSelected: (index: string) => void;
   };
 }
 
 interface NewsParams {
-  q: string | null;
+  q: string | any;
   from: string;
   to: string;
   sortBy: string;
@@ -40,17 +43,25 @@ export const useNewsQuery = (params: NewsParams, flag: any) => {
 
 export const useNewsStore = create<NewsState>()(
   devtools(
-    (set, get) => ({
-      selected: null,
-      actions: {
-        setSelected: topic => set({ selected: topic }),
+    persist(
+      (set, get) => ({
+        topics: [],
+        selected: null,
+        actions: {
+          addTopcis: topics => set({ topics: [...topics] }),
+          clearTopics: () => set({ topics: [] }),
+          setSelected: topic => set({ selected: topic }),
+        },
+      }),
+      {
+        name: 'news-storage',
+        storage: createJSONStorage(() => sessionStorage),
+        partialize: state => Object.fromEntries(Object.entries(state).filter(([key]) => !['actions'].includes(key))),
       },
-    }),
-    {
-      name: 'news-storage',
-    },
+    ),
   ),
 );
 
-export const useSelectedNews = () => useNewsStore(state => state.selected);
-export const useSelectedNewsActions = () => useNewsStore(state => state.actions);
+export const useTopics = () => useNewsStore(state => state.topics);
+export const useSelectedTopic = () => useNewsStore(state => state.selected);
+export const useSelectedTopicActions = () => useNewsStore(state => state.actions);

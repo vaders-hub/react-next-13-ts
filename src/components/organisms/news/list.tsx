@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useNewsQuery } from 'store/news';
-import { useSelectedNews } from 'store/news';
+import { useSelectedTopic } from 'store/news';
 import usePrevious from 'hooks/usePrevious';
 import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
@@ -21,48 +21,8 @@ const Item = styled(Paper)(({ theme }) => ({
 }));
 
 export default function List({ initialData }: any) {
-  const [flag, setFlag] = useState(false);
-  const topic = useSelectedNews();
-  const prevTopic = usePrevious(topic);
-  const { isFetching, isLoading, isError, data } = useNewsQuery(
-    {
-      q: topic,
-      from: '2023-08-16',
-      to: '2023-08-16',
-      sortBy: 'popularity',
-      page: 1,
-      pageSize: 10,
-    },
-    flag,
-  );
-
   const severDatas = initialData?.articles;
-  const clientDatas = useMemo(() => data?.articles || [], [data]);
-  const subDatas = useMemo(() => [...severDatas, ...clientDatas], [severDatas, clientDatas]);
-
-  const fetchMore = () => {
-    setFlag(prev => !prev);
-  };
-
-  useEffect(() => {
-    if (prevTopic && topic !== prevTopic) {
-      console.log('conditional topic', topic, prevTopic);
-      severDatas.splice(0);
-      setFlag(true);
-    }
-  }, [topic, prevTopic, severDatas, setFlag]);
-
-  useEffect(() => {
-    if (topic && topic !== prevTopic) {
-      console.log('mounted', topic, prevTopic, subDatas, data);
-      severDatas.splice(0);
-      setFlag(true);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-  // useEffect(() => {
-  //   if (!isFetching && !isLoading) setFlag(false);
-  // }, [isFetching, isLoading, flag]);
+  const subDatas = useMemo(() => [...severDatas], [severDatas]);
 
   return (
     <>

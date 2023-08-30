@@ -1,8 +1,4 @@
-import { redirect } from 'next/navigation';
-import { NextResponse, NextRequest } from 'next/server';
-import { fetchAuth } from 'store/session';
 import { getCookie, getCookies, setCookie, hasCookie } from 'cookies-next';
-import { generate } from 'random-words';
 
 import QueryWrapper from 'helpers/queryWrapper';
 import SessionProvider from 'helpers/sessionProvider';
@@ -25,9 +21,6 @@ export const metadata: Metadata = {
 };
 
 export default async function RootLayout({ children }: ChildProp) {
-  const topics = generate(20);
-  const authInfo = await fetchAuth();
-  console.log('topics', topics);
   return (
     <html lang='en' suppressHydrationWarning>
       <ThemeWrapper>

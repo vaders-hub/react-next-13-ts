@@ -2,8 +2,9 @@
 
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useRouter, usePathname } from 'next/navigation';
+import { generate } from 'random-words';
 
-import { useSelectedNews, useSelectedNewsActions } from 'store/news';
+import { useTopics, useSelectedTopic, useSelectedTopicActions } from 'store/news';
 
 import { styled } from '@mui/system';
 import Chip from '@mui/material/Chip';
@@ -24,34 +25,35 @@ const StyledChip = styled(Chip)`
 
 export default function Words() {
   const router = useRouter();
-
-  const selected = useSelectedNews();
-  const { setSelected } = useSelectedNewsActions();
-  const params = useMemo(() => (selected ? new URLSearchParams(`topic=${selected}`) : ''), [selected]);
+  const topics = useTopics();
+  const selected = useSelectedTopic();
+  const { addTopcis, setSelected } = useSelectedTopicActions();
 
   const handleClick = useCallback(
     (topic: string) => {
+      const params = new URLSearchParams(`topic=${topic}`);
+
       setSelected(topic);
-      router.push(`/news?${params}`);
+      router.push(`/news/${topic}`);
     },
-    [setSelected, params, router],
+    [router, setSelected],
   );
 
-  // useEffect(() => {
-  //   if (topics.length && selected === null) setSelected(topics[0]);
-  // }, [topics, selected, setSelected]);
+  useEffect(() => {
+    if (topics.length && selected === null) setSelected(topics[0]);
+  }, [topics, setSelected]);
 
   return (
     <>
       <StyledStack direction='row'>
-        {/* {topics?.map((topic, index) => (
+        {topics?.map((topic, index) => (
           <StyledChip
             key={`${topic}-${index}`}
             className={topic === selected ? 'selected' : ''}
             label={topic}
-            onClick={e => handleClick(topic)}
+            onClick={() => handleClick(topic)}
           />
-        ))} */}
+        ))}
       </StyledStack>
     </>
   );

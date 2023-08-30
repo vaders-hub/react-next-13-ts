@@ -1,6 +1,11 @@
 'use client';
 
+import React, { useEffect } from 'react';
 import Link from 'next/link';
+import { generate } from 'random-words';
+import { generatedTopics } from 'util/common';
+import { useTopics, useSelectedTopic, useSelectedTopicActions } from 'store/news';
+
 import { styled } from '@mui/system';
 
 const StyledUL = styled('ul')`
@@ -13,6 +18,17 @@ const StyledLI = styled('li')`
 `;
 
 export default function Nav() {
+  const topics = useTopics();
+  const selected = useSelectedTopic();
+  const { addTopcis, setSelected } = useSelectedTopicActions();
+
+  if (!topics.length) {
+    addTopcis(generatedTopics);
+    if (!selected) setSelected(generatedTopics[0]);
+  }
+
+  // const params = new URLSearchParams(`topic=${selected || topics[0]}`);
+
   return (
     <StyledUL>
       <StyledLI>
@@ -22,7 +38,7 @@ export default function Nav() {
         <Link href='/cafes'>Cafes</Link>
       </StyledLI>
       <StyledLI>
-        <Link href='/news'>News</Link>
+        <Link href={`/news/${selected}`}>News</Link>
       </StyledLI>
     </StyledUL>
   );
