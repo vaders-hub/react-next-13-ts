@@ -1,6 +1,6 @@
 'use client';
 
-import * as React from 'react';
+import React, { useEffect, useState } from 'react';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
@@ -18,8 +18,20 @@ function PaperComponent(props: PaperProps) {
   );
 }
 
-export default function DraggableDialog() {
-  const [open, setOpen] = React.useState(false);
+export default function DraggableDialog({ children }: any) {
+  const [open, setOpen] = useState(false);
+  const [hasChildren, setHasChildren] = useState(false);
+
+  useEffect(() => {
+    if (children) {
+      setOpen(true);
+      setHasChildren(true);
+    }
+    return () => {
+      setOpen(false);
+      setHasChildren(false);
+    };
+  }, [children]);
 
   return (
     <div>
@@ -28,9 +40,12 @@ export default function DraggableDialog() {
           Subscribe
         </DialogTitle>
         <DialogContent>
-          <DialogContentText>
-            To subscribe to this website, please enter your email address here. We will send updates occasionally.
-          </DialogContentText>
+          {hasChildren && children}
+          {!hasChildren && (
+            <DialogContentText>
+              To subscribe to this website, please enter your email address here. We will send updates occasionally.
+            </DialogContentText>
+          )}
         </DialogContent>
         <DialogActions>
           <Button autoFocus>Cancel</Button>
