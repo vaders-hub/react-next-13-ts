@@ -3,6 +3,7 @@ import { getCookie, getCookies, setCookie, hasCookie } from 'cookies-next';
 import QueryWrapper from 'helpers/queryWrapper';
 import SessionProvider from 'helpers/sessionProvider';
 import ThemeWrapper from 'components/templates/wrapper';
+import CommonContext from 'helpers/commonContext';
 
 import type { Metadata } from 'next';
 interface ChildProp {
@@ -26,7 +27,9 @@ export default async function RootLayout({ children }: ChildProp) {
       <ThemeWrapper>
         <body>
           <QueryWrapper>
-            <SessionProvider>{children}</SessionProvider>
+            <SessionProvider>
+              <CommonContext>{children}</CommonContext>
+            </SessionProvider>
           </QueryWrapper>
         </body>
       </ThemeWrapper>
