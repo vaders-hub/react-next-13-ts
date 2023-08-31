@@ -1,12 +1,14 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  output: 'export',
+  // output: 'export',
+  // distDir: 'dist',
   skipTrailingSlashRedirect: true,
-  distDir: 'dist',
+  productionBrowserSourceMaps: false,
   reactStrictMode: false,
   images: {
     loader: 'custom',
     loaderFile: './src/util/image-loader.ts',
+    path: '/',
     remotePatterns: [
       {
         protocol: 'https',
@@ -16,11 +18,11 @@ const nextConfig = {
       },
     ],
   },
+  devIndicators: {
+    buildActivityPosition: 'bottom-right',
+  },
   typescript: {
     ignoreBuildErrors: false,
-  },
-  experimental: {
-    appDir: true,
   },
 };
 

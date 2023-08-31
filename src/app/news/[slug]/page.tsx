@@ -28,7 +28,14 @@ export default async function News({ params }: PageProps) {
     page: 1,
     pageSize: 10,
   };
-  const initialData = await fetchNews(param);
+  const initialData: any = [];
+
+  try {
+    const result = await fetchNews(param);
+    if (result) Object.assign(initialData, result);
+  } catch (e) {
+    console.log(e);
+  }
 
   return (
     <main>
@@ -36,7 +43,8 @@ export default async function News({ params }: PageProps) {
         <Title title={'News Feed'} />
         <div style={{ padding: '0 1rem' }}>
           <Words />
-          <List initialData={initialData} />
+          {initialData.length > 0 && <List initialData={initialData} />}
+          {!initialData.length && slug}
         </div>
       </Suspense>
     </main>
