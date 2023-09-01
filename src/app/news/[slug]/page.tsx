@@ -1,10 +1,10 @@
 import { Suspense } from 'react';
+import dynamic from 'next/dynamic';
 import { generate } from 'random-words';
 import { generatedTopics } from 'util/common';
 import { fetchNews } from 'store/news';
 import Title from 'components/atoms/title';
 import Words from 'components/molecules/words';
-import List from 'components/organisms/news/list';
 
 interface PageProps {
   params: { slug: string };
@@ -17,6 +17,10 @@ export const revalidate = 5; // false | 'force-cache' | 0 | number
 export async function generateStaticParams() {
   return generatedTopics?.map(topic => ({ slug: topic, all: generatedTopics }));
 }
+
+const List = dynamic(() => import('components/organisms/news/list'), {
+  loading: () => <p>Loading...</p>,
+});
 
 export default async function News({ params }: PageProps) {
   const { slug } = params;
@@ -33,9 +37,7 @@ export default async function News({ params }: PageProps) {
   try {
     const result = await fetchNews(param);
     if (result) Object.assign(initialData, result);
-  } catch (e) {
-    console.log(e);
-  }
+  } catch (e) {}
 
   return (
     <main>

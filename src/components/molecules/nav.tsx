@@ -40,6 +40,9 @@ export default function Nav() {
       <StyledLI>
         <Link href={`/news/${selected}`}>News</Link>
       </StyledLI>
+      <StyledLI>
+        <Link href='/interception'>interception test</Link>
+      </StyledLI>
     </StyledUL>
   );
 }

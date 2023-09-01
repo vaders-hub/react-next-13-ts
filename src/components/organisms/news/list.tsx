@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useNewsQuery } from 'store/news';
+import { useModal, useModalActions } from 'store/';
 import { useSelectedTopic } from 'store/news';
 import usePrevious from 'hooks/usePrevious';
 import { styled } from '@mui/material/styles';
@@ -21,6 +22,7 @@ const Item = styled(Paper)(({ theme }) => ({
 }));
 
 export default function List({ initialData }: any) {
+  const { showModal } = useModalActions();
   const severDatas = initialData?.articles;
   const subDatas = useMemo(() => [...severDatas], [severDatas]);
 

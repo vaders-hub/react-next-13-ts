@@ -1,6 +1,9 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
+import { useRouter, usePathname } from 'next/navigation';
+import { useModal, useModalActions } from 'store/';
+
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
@@ -19,36 +22,43 @@ function PaperComponent(props: PaperProps) {
 }
 
 export default function DraggableDialog({ children }: any) {
-  const [open, setOpen] = useState(false);
-  const [hasChildren, setHasChildren] = useState(false);
+  const router = useRouter();
+  const pathname = usePathname();
+  const [intercepted, setIntercepted] = useState(false);
+  const { visible, component, callback } = useModal();
+  const { showModal, closeModal } = useModalActions();
 
   useEffect(() => {
-    if (children) {
-      setOpen(true);
-      setHasChildren(true);
+    if (pathname.includes('loc')) {
+      setIntercepted(true);
+      showModal();
     }
     return () => {
-      setOpen(false);
-      setHasChildren(false);
+      setIntercepted(false);
+      closeModal();
     };
-  }, [children]);
+  }, [pathname]);
 
   return (
     <div>
-      <Dialog open={open} PaperComponent={PaperComponent} aria-labelledby='draggable-dialog-title'>
+      <Dialog open={visible} PaperComponent={PaperComponent} aria-labelledby='draggable-dialog-title'>
         <DialogTitle style={{ cursor: 'move' }} id='draggable-dialog-title'>
           Subscribe
         </DialogTitle>
         <DialogContent>
-          {hasChildren && children}
-          {!hasChildren && (
-            <DialogContentText>
-              To subscribe to this website, please enter your email address here. We will send updates occasionally.
-            </DialogContentText>
-          )}
+          <DialogContentText>
+            To subscribe to this website, please enter your email address here. We will send updates occasionally.
+          </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button autoFocus>Cancel</Button>
+          <Button
+            autoFocus
+            onClick={() => {
+              intercepted ? router.back() : closeModal();
+            }}
+          >
+            Cancel
+          </Button>
           <Button>Subscribe</Button>
         </DialogActions>
       </Dialog>
