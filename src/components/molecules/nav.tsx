@@ -10,7 +10,7 @@ import { styled } from '@mui/system';
 
 const StyledUL = styled('ul')`
   display: inline-flex;
-  padding: 0.5rem;
+  padding: 0.5rem 0;
 `;
 
 const StyledLI = styled('li')`

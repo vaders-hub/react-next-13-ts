@@ -5,9 +5,9 @@ import Typography from '@mui/material/Typography';
 
 import { styled } from '@mui/system';
 
-const StyledBox = styled(Box)`
-  padding-left: 12px;
-`;
+const StyledBox = styled(Box)(({ theme }) => ({
+  padding: 0,
+}));
 
 interface TitleProp {
   title: string;
