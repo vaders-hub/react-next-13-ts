@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { useSessionStore } from 'store/session';
 
 const cafeAxiosInstance = axios.create({
   baseURL: 'https://api.roastandbrew.coffee/api/v1/',
@@ -6,6 +7,11 @@ const cafeAxiosInstance = axios.create({
 
 cafeAxiosInstance.interceptors.request.use(
   config => {
+    /*
+      call store outside hook
+      
+      console.log('useSessionRoot', useSessionStore.getState());
+     */
     return config;
   },
   error => {

@@ -25,7 +25,7 @@ const useSessionStore = create<SessionState>()(
         actions: {
           updateStatus: () => {
             /*
-              * update other store
+              update other store
               
               const newStore = useNewsStore.getState();
               newStore.selected = 'abc';
@@ -45,3 +45,4 @@ const useSessionStore = create<SessionState>()(
 
 export const useSession = () => useSessionStore(state => state.isLoggedIn);
 export const useSessionActions = () => useSessionStore(state => state.actions);
+export { useSessionStore };
