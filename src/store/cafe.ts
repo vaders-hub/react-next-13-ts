@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
+import { wretchInstance } from 'util/wretch';
 import { cafeAxiosInstance } from 'util/axios';
 import { useQuery } from '@tanstack/react-query';
 
@@ -14,6 +15,7 @@ interface CafePrams {
 
 export const fetchCafe = async ({ page, search }: CafePrams): Promise<any> => {
   const response = await cafeAxiosInstance.get('cafes', { params: { page, search } });
+  const wretchResponse = await wretchInstance.get('/todos/1');
   return response.data;
 };
 
