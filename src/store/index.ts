@@ -7,7 +7,7 @@ interface CommonState {
   pageLoaded: boolean;
   modal: { visible: boolean; component?: string; callback?: CallbackType };
   actions: {
-    setPageLoad: () => void;
+    setPageLoad: (flag: boolean) => void;
     modal: {
       showModal: () => void;
       closeModal: () => void;
@@ -28,7 +28,7 @@ const useCommonStore = create<CommonState>()(
       pageLoaded: false,
       modal: { visible: false, component: '', callback: null },
       actions: {
-        setPageLoad: () => set(state => ({ pageLoaded: !state.pageLoaded })),
+        setPageLoad: flag => set({ pageLoaded: flag }),
         modal: {
           showModal: () => set(state => ({ modal: { ...state.modal, visible: true } })),
           closeModal: () => set(state => ({ modal: { visible: false, component: '', callback: null } })),

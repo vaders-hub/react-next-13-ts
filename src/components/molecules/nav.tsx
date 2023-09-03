@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect } from 'react';
+import React, { memo, useEffect } from 'react';
 import Link from 'next/link';
 import { generate } from 'random-words';
 import { generatedTopics } from 'util/common';
@@ -17,7 +17,7 @@ const StyledLI = styled('li')`
   margin-right: 0.5rem;
 `;
 
-export default function Nav() {
+function Nav() {
   const topics = useTopics();
   const selected = useSelectedTopic();
   const { addTopcis, setSelected } = useSelectedTopicActions();
@@ -46,3 +46,5 @@ export default function Nav() {
     </StyledUL>
   );
 }
+
+export default memo(Nav);
