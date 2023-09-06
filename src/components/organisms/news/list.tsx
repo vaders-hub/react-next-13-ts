@@ -27,7 +27,7 @@ const StyledImageLoader = styled('div')(({ theme }) => ({
   overflow: 'hidden',
   '& div': {
     width: '100%',
-    marginTop: '-7.5rem',
+    marginTop: '-10.5rem',
   },
 }));
 

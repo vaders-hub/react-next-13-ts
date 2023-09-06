@@ -38,7 +38,7 @@ export default function ImageLoader({ imgUrl }: ImageUrlProps) {
           sizes='100vw'
           style={{ width: '100%', height: 'auto' }}
           onLoad={e => setLoaded(true)}
-          onError={e => console.error(e.target)}
+          onError={() => <span>can't load image</span>}
         />
       )}
     </>
