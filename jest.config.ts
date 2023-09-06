@@ -10,6 +10,7 @@ const customJestConfig = {
   moduleNameMapper: { '^@/hooks/(.*)$': '<rootDir>hooks/$1' },
   testEnvironment: 'jest-environment-jsdom',
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'node'],
+  modulePathIgnorePatterns: ['<rootDir>/src/cypress'],
 };
 
 module.exports = createJestConfig(customJestConfig);
