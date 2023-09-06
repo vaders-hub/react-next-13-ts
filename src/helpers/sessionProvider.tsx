@@ -1,8 +1,10 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
-import { useRouter, usePathname } from 'next/navigation';
+import React, { useEffect, useRef, useState } from 'react';
+import { useRouter, usePathname, useSearchParams } from 'next/navigation';
+import { usePageLoaded, usePageLoadActions } from 'store';
 import { useSession } from 'store/session';
+import usePrevious from 'hooks/usePrevious';
 
 import Header from 'components/organisms/header';
 interface ChildProp {
@@ -12,6 +14,10 @@ interface ChildProp {
 export default function SessionProvider({ children }: ChildProp) {
   const loginStatus = useSession();
   const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const previousPathname = usePrevious(pathname);
+  const pageLoaded = usePageLoaded();
+  const { setPageLoad } = usePageLoadActions();
   const router = useRouter();
   const [visible, setVisible] = useState(false);
 
@@ -27,10 +33,17 @@ export default function SessionProvider({ children }: ChildProp) {
       if (pathname === '/login') router.push('/');
     }
 
-    return () => {
-      console.log('clear');
-    };
+    return () => {};
   }, [loginStatus, pathname, router, setVisible]);
+
+  useEffect(() => {
+    if (pathname !== previousPathname) {
+      setPageLoad(false);
+    }
+    return () => {
+      setPageLoad(true);
+    };
+  }, [pathname, previousPathname, pageLoaded, setPageLoad]);
 
   return (
     <>

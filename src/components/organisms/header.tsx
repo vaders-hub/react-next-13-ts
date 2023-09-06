@@ -15,7 +15,6 @@ const plainHeader = ({ className, children }: IHeaderProps) => <header className
 
 const StyledHeader = styled(plainHeader)`
   overflow: hidden;
-  padding: 10px;
 `;
 
 export default function Header() {
