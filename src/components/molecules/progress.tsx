@@ -11,6 +11,8 @@ import { styled } from '@mui/system';
 const StyledBox = styled(Box)`
   position: fixed;
   top: 0;
+  margin-left: -2rem;
+  transition: all 1s;
 `;
 
 export default function Progress() {
