@@ -44,7 +44,7 @@ export default async function News({ params }: PageProps) {
     <main>
       <Suspense>
         <Title title={'News Feed'} />
-        <div style={{ padding: '0 1rem' }}>
+        <div>
           <Words />
           {initialData.length > 0 && <List initialData={initialData} />}
           {!initialData.length && slug}
