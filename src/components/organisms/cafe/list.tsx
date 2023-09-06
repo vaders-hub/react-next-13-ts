@@ -35,7 +35,7 @@ export default function List() {
       <div className={'list-wrap'}>
         {cafeDatas && (
           <ResponsiveMasonry columnsCountBreakPoints={{ 350: 1, 750: 2, 900: 3, 1200: 4 }}>
-            <Masonry>{cafeDatas?.map((cafe: any) => <Card cafeDatas={cafe} key={cafe.id}></Card>)}</Masonry>
+            <Masonry>{cafeDatas?.map((cafe: any) => <Card cafeDatas={cafe} key={cafe.id} />)}</Masonry>
           </ResponsiveMasonry>
         )}
       </div>

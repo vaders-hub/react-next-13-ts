@@ -36,7 +36,8 @@ export default async function News({ params }: PageProps) {
 
   try {
     const result = await fetchNews(param);
-    if (result) Object.assign(initialData, result);
+
+    if (result) Object.assign(initialData, result.articles);
   } catch (e) {}
 
   return (

@@ -9,9 +9,9 @@ import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Unstable_Grid2';
-import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
+import ImageLoader from 'components/molecules/imageLoader';
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -21,9 +21,19 @@ const Item = styled(Paper)(({ theme }) => ({
   color: theme.palette.text.secondary,
 }));
 
+const StyledImageLoader = styled('div')(({ theme }) => ({
+  position: 'relative',
+  minHeight: '10rem',
+  overflow: 'hidden',
+  '& div': {
+    width: '100%',
+    marginTop: '-7.5rem',
+  },
+}));
+
 export default function List({ initialData }: any) {
   const { showModal } = useModalActions();
-  const severDatas = initialData?.articles;
+  const severDatas = initialData;
   const subDatas = useMemo(() => [...severDatas], [severDatas]);
 
   return (
@@ -36,7 +46,10 @@ export default function List({ initialData }: any) {
                 <Typography sx={{ fontSize: 14 }} color='text.secondary' gutterBottom>
                   {article?.title}
                 </Typography>
-                <CardMedia component='img' image={article?.urlToImage} alt={article?.title} />
+
+                <StyledImageLoader>
+                  <ImageLoader imgUrl={article?.urlToImage} />
+                </StyledImageLoader>
               </Item>
             </Grid>
           ))}
