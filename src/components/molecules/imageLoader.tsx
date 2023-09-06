@@ -17,7 +17,7 @@ export default function ImageLoader({ imgUrl }: ImageUrlProps) {
 
   return (
     <>
-      {!loaded && (
+      {imgUrl && !loaded && (
         <SytledLoaderImage>
           <Image
             src={LoadingSpin}
@@ -29,15 +29,18 @@ export default function ImageLoader({ imgUrl }: ImageUrlProps) {
           />
         </SytledLoaderImage>
       )}
-      <Image
-        src={imgUrl}
-        alt='cafe image'
-        width={0}
-        height={0}
-        sizes='100vw'
-        style={{ width: '100%', height: 'auto' }}
-        onLoad={e => setLoaded(true)}
-      />
+      {imgUrl && (
+        <Image
+          src={imgUrl}
+          alt='cafe image'
+          width={0}
+          height={0}
+          sizes='100vw'
+          style={{ width: '100%', height: 'auto' }}
+          onLoad={e => setLoaded(true)}
+          onError={e => console.error(e.target)}
+        />
+      )}
     </>
   );
 }
