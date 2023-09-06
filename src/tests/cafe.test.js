@@ -21,7 +21,7 @@ import Cafes from '../app/cafes/page';
 import List from '../components/organisms/cafe/list';
 
 describe('query component', () => {
-  test('successful query component', async () => {
+  it('successful query component', async () => {
     const { container } = renderWithClient(<Cafes />);
     const main = getByTestId(container, 'cafes');
     const title = getByTestId(main, 'title');
