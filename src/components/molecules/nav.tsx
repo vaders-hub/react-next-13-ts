@@ -1,7 +1,8 @@
 'use client';
 
-import React, { memo, useEffect } from 'react';
+import React, { memo, useCallback, useEffect, useState } from 'react';
 import Link from 'next/link';
+import { wretchNextInstance } from 'util/wretch';
 import { generate } from 'random-words';
 import { generatedTopics } from 'util/common';
 import { useTopics, useSelectedTopic, useSelectedTopicActions } from 'store/news';
@@ -20,29 +21,33 @@ const StyledLI = styled('li')`
 function Nav() {
   const topics = useTopics();
   const selected = useSelectedTopic();
+  const [lnbData, setLnbData] = useState([]);
   const { addTopcis, setSelected } = useSelectedTopicActions();
+  const fetchLnb = useCallback(async () => {
+    const data: any = await wretchNextInstance.get('/nav');
+
+    setLnbData(data);
+  }, []);
 
   if (!topics.length) {
     addTopcis(generatedTopics);
     if (!selected) setSelected(generatedTopics[0]);
   }
 
+  useEffect(() => {
+    if (!lnbData.length) fetchLnb();
+  }, [lnbData, fetchLnb]);
+
   // const params = new URLSearchParams(`topic=${selected || topics[0]}`);
 
   return (
     <StyledUL>
-      <StyledLI>
-        <Link href='/'>Home</Link>
-      </StyledLI>
-      <StyledLI>
-        <Link href='/cafes'>Cafes</Link>
-      </StyledLI>
-      <StyledLI>
-        <Link href={`/news/${selected}`}>News</Link>
-      </StyledLI>
-      <StyledLI>
-        <Link href='/interception'>interception test</Link>
-      </StyledLI>
+      {lnbData?.map((lnb: any) => (
+        <StyledLI key={lnb.name}>
+          {lnb.name !== 'News' && <Link href={lnb.path}>{lnb.name}</Link>}
+          {lnb.name === 'News' && <Link href={`${lnb.path}/${selected}`}>{lnb.name}</Link>}
+        </StyledLI>
+      ))}
     </StyledUL>
   );
 }

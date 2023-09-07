@@ -3,7 +3,6 @@ import { useSessionStore } from 'store/session';
 
 const baseUrl = 'https://jsonplaceholder.typicode.com';
 const contextMiddleware = (next: any) => (url: string, opts: any) => {
-  console.log('middleware', url, opts);
   /*
       call store outside hook
       
@@ -23,4 +22,12 @@ const wretchInstance = wretch(baseUrl, { mode: 'cors' })
   })
   .middlewares([contextMiddleware]);
 
-export { wretchInstance };
+const nextBaseUrl = '/api/';
+const wretchNextInstance = wretch(nextBaseUrl, { mode: 'cors' })
+  .errorType('json')
+  .resolve(r => {
+    return r.json();
+  })
+  .middlewares([contextMiddleware]);
+
+export { wretchInstance, wretchNextInstance };
