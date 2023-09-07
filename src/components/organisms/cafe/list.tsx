@@ -4,6 +4,7 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useCafeQuery } from 'store/cafe';
 import Masonry, { ResponsiveMasonry } from 'react-responsive-masonry';
 
+import PageLoader from 'components/atoms/pageLoader';
 import SearchBox from 'components/molecules/searchBox';
 import Card from 'components/molecules/card';
 
@@ -31,7 +32,7 @@ export default function List() {
   return (
     <>
       <SearchBox lastPage={lastPage} setCafePageNo={setCafePageNo} setCafeSearchWords={setCafeSearchWords} />
-      {isLoading && <div>isLoading...</div>}
+      {isLoading && <PageLoader />}
       <div className={'list-wrap'}>
         {cafeDatas && (
           <ResponsiveMasonry columnsCountBreakPoints={{ 350: 1, 750: 2, 900: 3, 1200: 4 }}>
