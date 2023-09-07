@@ -7,6 +7,7 @@ import { generate } from 'random-words';
 import { generatedTopics } from 'util/common';
 import { useTopics, useSelectedTopic, useSelectedTopicActions } from 'store/news';
 
+import Typography from '@mui/material/Typography';
 import { styled } from '@mui/system';
 
 const StyledUL = styled('ul')`
@@ -44,8 +45,20 @@ function Nav() {
     <StyledUL>
       {lnbData?.map((lnb: any) => (
         <StyledLI key={lnb.name}>
-          {lnb.name !== 'News' && <Link href={lnb.path}>{lnb.name}</Link>}
-          {lnb.name === 'News' && <Link href={`${lnb.path}/${selected}`}>{lnb.name}</Link>}
+          {lnb.name !== 'News' && (
+            <Link href={lnb.path}>
+              <Typography variant='button' display='block' gutterBottom>
+                {lnb.name}
+              </Typography>
+            </Link>
+          )}
+          {lnb.name === 'News' && (
+            <Link href={`${lnb.path}/${selected}`}>
+              <Typography variant='button' display='block' gutterBottom>
+                {lnb.name}
+              </Typography>
+            </Link>
+          )}
         </StyledLI>
       ))}
     </StyledUL>

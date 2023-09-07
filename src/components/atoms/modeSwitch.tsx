@@ -55,8 +55,7 @@ const StyledSwitch = styled(Switch)(({ theme }) => ({
 }));
 
 const StyledFormControlLabel = styled(FormControlLabel)`
-  float: right;
-  margin: 0 -0.5rem 0 0;
+  margin: -0.2rem -1rem 0 0;
 `;
 
 export default function ModeSwitch() {
