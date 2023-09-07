@@ -30,7 +30,7 @@ export default async function RootLayout({ children, random }: RootLayoutProps) 
           <QueryWrapper>
             <SessionProvider>
               <CommonContext>
-                <div>{children}</div>
+                {children}
                 {random}
               </CommonContext>
             </SessionProvider>
