@@ -11,8 +11,8 @@ import { styled } from '@mui/system';
 const StyledBox = styled(Box)`
   position: fixed;
   top: 0;
-  margin-left: -2rem;
-  transition: all 1s;
+  margin-left: -1rem;
+  transition: all 0.5s;
 `;
 
 export default function Progress() {
@@ -42,7 +42,7 @@ export default function Progress() {
   return (
     <>
       <StyledBox sx={{ width: '100%' }}>
-        <div style={{ width: `${percent}%`, height: '5px', backgroundColor: 'blue' }}></div>
+        <div style={{ width: `${percent}%`, height: '3px', backgroundColor: '#1976d2' }}></div>
       </StyledBox>
     </>
   );
