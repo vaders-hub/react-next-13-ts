@@ -3,15 +3,17 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useRouter, usePathname, useSearchParams } from 'next/navigation';
 import { usePageLoaded, usePageLoadActions } from 'store';
+import { useNavActions, createNewCustomStore } from 'store/index';
 import { useSession } from 'store/session';
 import usePrevious from 'hooks/usePrevious';
 
 import Header from 'components/organisms/header';
 interface ChildProp {
   children: React.ReactNode;
+  data: any;
 }
 
-export default function SessionProvider({ children }: ChildProp) {
+export default function SessionProvider({ children, data }: ChildProp) {
   const loginStatus = useSession();
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -20,8 +22,10 @@ export default function SessionProvider({ children }: ChildProp) {
   const { setPageLoad } = usePageLoadActions();
   const router = useRouter();
   const [visible, setVisible] = useState(false);
+  const nav = useNavActions();
 
   useEffect(() => {
+    nav.setNav(data);
     if (!loginStatus) {
       setVisible(false);
       if (pathname === '/login') setVisible(true);
@@ -34,7 +38,7 @@ export default function SessionProvider({ children }: ChildProp) {
     }
 
     return () => {};
-  }, [loginStatus, pathname, router, setVisible]);
+  }, [loginStatus, pathname, router, setVisible, nav]);
 
   useEffect(() => {
     if (pathname !== previousPathname) {

@@ -5,7 +5,7 @@ export async function GET(request: Request) {
     { name: 'Home', path: '/' },
     { name: 'Cafes', path: '/cafes' },
     { name: 'News', path: '/news' },
-    { name: 'interception test', path: '/interception' },
+    { name: 'lab', path: '/interception' },
   ];
   return NextResponse.json(nav);
 }

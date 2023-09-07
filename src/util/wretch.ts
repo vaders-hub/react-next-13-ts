@@ -22,7 +22,7 @@ const wretchInstance = wretch(baseUrl, { mode: 'cors' })
   })
   .middlewares([contextMiddleware]);
 
-const nextBaseUrl = '/api/';
+const nextBaseUrl = 'http://localhost:3001/api/';
 const wretchNextInstance = wretch(nextBaseUrl, { mode: 'cors' })
   .errorType('json')
   .resolve(r => {
