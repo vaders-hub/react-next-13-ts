@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { memo, useCallback, useEffect, useMemo, useState } from 'react';
 import { useCafeQuery } from 'store/cafe';
 import Masonry, { ResponsiveMasonry } from 'react-responsive-masonry';
 
@@ -19,9 +19,12 @@ export default function List() {
   const setCafePageNo = useCallback((pageNo: number) => {
     setPage(pageNo);
   }, []);
-  const setCafeSearchWords = (words: string) => {
-    setSearch(words);
-  };
+  const setCafeSearchWords = useCallback(
+    (words: string) => {
+      setSearch(words);
+    },
+    [setSearch],
+  );
 
   useEffect(() => {
     if (data) {

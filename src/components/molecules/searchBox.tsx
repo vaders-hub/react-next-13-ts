@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { memo, useCallback, useEffect, useMemo, useState } from 'react';
 
 import useInput from 'hooks/useInput';
 import useChange from 'hooks/useChange';
@@ -37,19 +37,22 @@ const SearchWrapper = styled('div')`
   }
 `;
 
-export default function SearchBox(props: SearchBoxProps) {
+function SearchBox(props: SearchBoxProps) {
   const { lastPage, setCafePageNo, setCafeSearchWords } = props;
   const noOfPages = useMemo(() => lastPage, [lastPage]);
   const pageList = useMemo(() => (noOfPages ? new Array(noOfPages).fill(0).map((_, i) => i + 1) : [1]), [noOfPages]);
   const cafeSearch = useInput();
   const pageSearch = useChange({ defaultValue: 1 });
 
-  const handleClick = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  const handleClick = useCallback(
+    (e: React.FormEvent<HTMLFormElement>) => {
+      e.preventDefault();
 
-    pageSearch.reset(1);
-    setCafeSearchWords(cafeSearch?.value);
-  };
+      pageSearch.reset(1);
+      setCafeSearchWords(cafeSearch?.value);
+    },
+    [cafeSearch.value, setCafeSearchWords],
+  );
 
   useEffect(() => {
     setCafePageNo(parseInt(pageSearch.value));
@@ -81,3 +84,5 @@ export default function SearchBox(props: SearchBoxProps) {
     </form>
   );
 }
+
+export default memo(SearchBox);
