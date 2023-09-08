@@ -1,6 +1,7 @@
 'use client';
 
 import * as React from 'react';
+import { useFavoriteToggleAction } from 'store/index';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import { styled } from '@mui/system';
 import Nav from 'components/molecules/nav';
@@ -38,6 +39,8 @@ const StyledFavoriteIcon = styled(FavoriteIcon)(({ theme }) => ({
 }));
 
 export default function Header() {
+  const toggleFavorite = useFavoriteToggleAction();
+
   return (
     <>
       <StyledHeader>
@@ -45,7 +48,7 @@ export default function Header() {
           <Nav />
         </div>
         <div>
-          <a href='#'>
+          <a href='#' onClick={toggleFavorite}>
             <StyledFavoriteIcon />
           </a>
         </div>

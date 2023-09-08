@@ -5,10 +5,12 @@ type ThemeMode = 'light' | 'dark';
 type CallbackType = null | (() => any);
 interface CommonState {
   pageLoaded: boolean;
+  favoriteOpened: boolean;
   modal: { visible: boolean; component?: string; callback?: CallbackType };
   nav: any;
   actions: {
     setPageLoad: (flag: boolean) => void;
+    toggleFavorite: () => void;
     setNav: (data: any) => void;
     modal: {
       showModal: () => void;
@@ -53,10 +55,12 @@ export const useCommonStore = create<CommonState>()(
     persist(
       (set, get) => ({
         pageLoaded: false,
+        favoriteOpened: false,
         modal: { visible: false, component: '', callback: null },
         nav: [],
         actions: {
           setPageLoad: flag => set({ pageLoaded: flag }),
+          toggleFavorite: () => set(state => ({ favoriteOpened: !state.favoriteOpened })),
           setNav: data => set({ nav: data }),
           modal: {
             showModal: () => set(state => ({ modal: { ...state.modal, visible: true } })),
@@ -66,7 +70,7 @@ export const useCommonStore = create<CommonState>()(
       }),
       {
         name: 'common-storage',
-        partialize: state => Object.fromEntries(Object.entries(state).filter(([key]) => !['actions'].includes(key))),
+        partialize: state => ({ nav: state.nav }),
       },
     ),
   ),
@@ -88,6 +92,8 @@ const useThemeStore = create<ThemeState>()(
 
 export const usePageLoaded = () => useCommonStore(state => state.pageLoaded);
 export const usePageLoadActions = () => useCommonStore(state => state.actions);
+export const useFavoriteToggle = () => useCommonStore(state => state.favoriteOpened);
+export const useFavoriteToggleAction = () => useCommonStore(state => state.actions.toggleFavorite);
 export const useModal = () => useCommonStore(state => state.modal);
 export const useModalActions = () => useCommonStore(state => state.actions.modal);
 export const useNav = () => useCommonStore(state => state.nav);
