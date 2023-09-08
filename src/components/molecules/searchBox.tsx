@@ -1,4 +1,4 @@
-import { memo, useCallback, useEffect, useMemo, useState } from 'react';
+import { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 import useInput from 'hooks/useInput';
 import useChange from 'hooks/useChange';
@@ -43,15 +43,17 @@ function SearchBox(props: SearchBoxProps) {
   const pageList = useMemo(() => (noOfPages ? new Array(noOfPages).fill(0).map((_, i) => i + 1) : [1]), [noOfPages]);
   const cafeSearch = useInput();
   const pageSearch = useChange({ defaultValue: 1 });
+  const inputRef = useRef<HTMLInputElement>(null);
 
   const handleClick = useCallback(
-    (e: React.FormEvent<HTMLFormElement>) => {
-      e.preventDefault();
-
-      pageSearch.reset(1);
-      setCafeSearchWords(cafeSearch?.value);
+    (event: React.FormEvent<HTMLFormElement>) => {
+      event.preventDefault();
+      if (inputRef.current) {
+        pageSearch.reset(1);
+        setCafeSearchWords(inputRef.current.value);
+      }
     },
-    [cafeSearch.value, setCafeSearchWords],
+    [setCafeSearchWords],
   );
 
   useEffect(() => {
@@ -62,7 +64,7 @@ function SearchBox(props: SearchBoxProps) {
     <form onSubmit={handleClick}>
       <SearchWrapper>
         <div data-testid='search-box'>
-          <TextField id='outlined-search' label='Search field' type='search' {...cafeSearch} />
+          <TextField id='outlined-search' label='Search field' type='search' ref={inputRef} />
           <Button variant='contained' size='large' type='submit' data-testid='search-button'>
             Search
           </Button>
