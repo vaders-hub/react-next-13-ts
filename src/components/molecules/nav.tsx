@@ -1,6 +1,7 @@
 'use client';
 
 import React, { memo, useCallback, useEffect, useState } from 'react';
+import { useRouter, usePathname } from 'next/navigation';
 import Link from 'next/link';
 import { wretchNextInstance } from 'util/wretch';
 import { generate } from 'random-words';
@@ -26,16 +27,19 @@ const StyledLI = styled('li')`
 `;
 
 function Nav() {
+  const router = useRouter();
   const loadedLnb = useNav();
 
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
 
   const handleClick = (event: React.MouseEvent<HTMLAnchorElement>) => {
+    event.preventDefault();
     setAnchorEl(event.currentTarget);
   };
-  const handleClose = () => {
+  const handleClose = (url: string) => {
     setAnchorEl(null);
+    router.push(url);
   };
 
   const topics = useTopics();
@@ -53,46 +57,37 @@ function Nav() {
     <StyledUL>
       {loadedLnb?.map((lnb: any) => (
         <StyledLI key={lnb.name}>
-          {lnb.name !== 'News' && (
-            <>
-              {lnb.path ? (
-                <Link href={lnb.path}>
+          <>
+            {lnb.path ? (
+              <Link href={`${lnb.path}${lnb.name === 'News' ? `/${selected}` : ''}`}>
+                <Typography variant='button' display='block' gutterBottom>
+                  {lnb.name}
+                </Typography>
+              </Link>
+            ) : (
+              <>
+                <a href='' onClick={handleClick}>
                   <Typography variant='button' display='block' gutterBottom>
                     {lnb.name}
                   </Typography>
-                </Link>
-              ) : (
-                <>
-                  <a href='#' onClick={handleClick}>
-                    <Typography variant='button' display='block' gutterBottom>
-                      {lnb.name}
-                    </Typography>
-                  </a>
-                  <Menu
-                    id='basic-menu'
-                    anchorEl={anchorEl}
-                    open={open}
-                    MenuListProps={{
-                      'aria-labelledby': 'basic-button',
-                    }}
-                  >
-                    {lnb?.sub.map((item: any, index: number) => (
-                      <MenuItem key={`${item}-${index}`} onClick={handleClose}>
-                        {item.name}
-                      </MenuItem>
-                    ))}
-                  </Menu>
-                </>
-              )}
-            </>
-          )}
-          {lnb.name === 'News' && (
-            <Link href={`${lnb.path}/${selected}`}>
-              <Typography variant='button' display='block' gutterBottom>
-                {lnb.name}
-              </Typography>
-            </Link>
-          )}
+                </a>
+                <Menu
+                  id='basic-menu'
+                  anchorEl={anchorEl}
+                  open={open}
+                  MenuListProps={{
+                    'aria-labelledby': 'basic-button',
+                  }}
+                >
+                  {lnb?.sub.map((item: any, index: number) => (
+                    <MenuItem key={`${item}-${index}`} onClick={() => handleClose(item.path)}>
+                      {item.name}
+                    </MenuItem>
+                  ))}
+                </Menu>
+              </>
+            )}
+          </>
         </StyledLI>
       ))}
     </StyledUL>

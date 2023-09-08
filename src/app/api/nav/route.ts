@@ -9,7 +9,7 @@ export async function GET(request: Request) {
       name: 'lab',
       sub: [
         { name: 'interception', path: '/interception' },
-        { name: 'test 1', path: '/test1' },
+        { name: 'camera', path: '/camera' },
         { name: 'test 2', path: '/test2' },
       ],
     },
