@@ -5,7 +5,14 @@ export async function GET(request: Request) {
     { name: 'Home', path: '/' },
     { name: 'Cafes', path: '/cafes' },
     { name: 'News', path: '/news' },
-    { name: 'lab', path: '/interception' },
+    {
+      name: 'lab',
+      sub: [
+        { name: 'interception', path: '/interception' },
+        { name: 'test 1', path: '/test1' },
+        { name: 'test 2', path: '/test2' },
+      ],
+    },
   ];
   return NextResponse.json(nav);
 }
