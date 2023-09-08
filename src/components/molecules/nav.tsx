@@ -37,9 +37,9 @@ function Nav() {
     event.preventDefault();
     setAnchorEl(event.currentTarget);
   };
-  const handleClose = (url: string) => {
+  const handleClose = (url?: string) => {
     setAnchorEl(null);
-    router.push(url);
+    if (url) router.push(url);
   };
 
   const topics = useTopics();
@@ -51,6 +51,14 @@ function Nav() {
     addTopcis(generatedTopics);
     if (!selected) setSelected(generatedTopics[0]);
   }
+
+  useEffect(() => {
+    document.body.addEventListener('click', () => handleClose());
+    return () => {
+      document.body.removeEventListener('click', () => handleClose());
+    };
+  }, []);
+
   // const params = new URLSearchParams(`topic=${selected || topics[0]}`);
 
   return (
