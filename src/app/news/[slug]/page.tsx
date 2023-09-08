@@ -1,9 +1,13 @@
 import { Suspense } from 'react';
 import dynamic from 'next/dynamic';
+import dayjs from 'dayjs';
 import { generate } from 'random-words';
 import { generatedTopics } from 'util/common';
 import { fetchNews } from 'store/news';
+
+import PageLoader from 'components/atoms/pageLoader';
 import Title from 'components/atoms/title';
+import DateConfig from 'components/molecules/dateConfig';
 import Words from 'components/molecules/words';
 
 interface PageProps {
@@ -19,15 +23,16 @@ export async function generateStaticParams() {
 }
 
 const List = dynamic(() => import('components/organisms/news/list'), {
-  loading: () => <p>Loading...</p>,
+  loading: () => <PageLoader />,
 });
 
 export default async function News({ params }: PageProps) {
   const { slug } = params;
+  const today = dayjs(new Date()).format('DD-MM-YYYY');
   const param = {
     q: slug,
-    from: '2023-08-16',
-    to: '2023-08-16',
+    from: today,
+    to: today,
     sortBy: 'popularity',
     page: 1,
     pageSize: 10,
@@ -46,6 +51,7 @@ export default async function News({ params }: PageProps) {
         <Title title={'News Feed'} />
         <div>
           <Words />
+          <DateConfig today={today} />
           {initialData.length > 0 && <List initialData={initialData} />}
           {!initialData.length && slug}
         </div>

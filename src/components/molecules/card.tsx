@@ -5,6 +5,8 @@ import CardHeader from '@mui/material/CardHeader';
 import CardMedia from '@mui/material/CardMedia';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
+import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder';
+import BookmarkIcon from '@mui/icons-material/Bookmark';
 
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
@@ -18,12 +20,22 @@ const StyledCard = styled(Card)(({ theme }) => ({
   position: 'relative',
   margin: '0.5rem',
   padding: '1rem',
+  '& .MuiCardContent-root': {
+    padding: '0 0 0.5rem 0',
+  },
+}));
+
+const StyledBookmarks = styled('div')(({ theme }) => ({
+  float: 'right',
 }));
 
 export default function BasicCard({ cafeDatas }: CafeProps) {
   return (
     <StyledCard>
       <CardContent>
+        <StyledBookmarks>
+          <BookmarkBorderIcon />
+        </StyledBookmarks>
         <Typography variant='h5' component='div'>
           {cafeDatas?.company?.name}
         </Typography>

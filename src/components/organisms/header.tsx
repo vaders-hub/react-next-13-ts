@@ -2,8 +2,9 @@
 
 import * as React from 'react';
 import { useFavoriteToggleAction } from 'store/index';
-import FavoriteIcon from '@mui/icons-material/Favorite';
+
 import { styled } from '@mui/system';
+import FavoriteIcon from '@mui/icons-material/Favorite';
 import Nav from 'components/molecules/nav';
 import ModeSwitch from 'components/atoms/modeSwitch';
 interface IHeaderProps {

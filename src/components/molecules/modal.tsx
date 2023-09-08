@@ -40,7 +40,7 @@ export default function DraggableDialog({ children }: any) {
   }, [pathname]);
 
   return (
-    <div>
+    <>
       <Dialog open={visible} PaperComponent={PaperComponent} aria-labelledby='draggable-dialog-title'>
         <DialogTitle style={{ cursor: 'move' }} id='draggable-dialog-title'>
           Subscribe
@@ -62,6 +62,6 @@ export default function DraggableDialog({ children }: any) {
           <Button>Subscribe</Button>
         </DialogActions>
       </Dialog>
-    </div>
+    </>
   );
 }
