@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { memo, useCallback, useEffect, useMemo, useState } from 'react';
 import { useRouter, usePathname } from 'next/navigation';
 import { generate } from 'random-words';
 
@@ -23,7 +23,7 @@ const StyledChip = styled(Chip)`
   margin: 0 0.5rem 0.5rem 0;
 `;
 
-export default function Words() {
+function Words() {
   const router = useRouter();
   const topics = useTopics();
   const selected = useSelectedTopic();
@@ -41,20 +41,20 @@ export default function Words() {
 
   useEffect(() => {
     if (topics.length && selected === null) setSelected(topics[0]);
-  }, [topics, setSelected]);
+  }, []);
 
   return (
-    <>
-      <StyledStack direction='row'>
-        {topics?.map((topic, index) => (
-          <StyledChip
-            key={`${topic}-${index}`}
-            className={topic === selected ? 'selected' : ''}
-            label={topic}
-            onClick={() => handleClick(topic)}
-          />
-        ))}
-      </StyledStack>
-    </>
+    <StyledStack direction='row'>
+      {topics?.map((topic, index) => (
+        <StyledChip
+          key={`${topic}-${index}`}
+          className={topic === selected ? 'selected' : ''}
+          label={topic}
+          onClick={() => handleClick(topic)}
+        />
+      ))}
+    </StyledStack>
   );
 }
+
+export default memo(Words);

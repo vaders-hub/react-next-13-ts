@@ -1,13 +1,11 @@
 import { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 import useInput from 'hooks/useInput';
-import useChange from 'hooks/useChange';
 
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
-import Select, { SelectChangeEvent } from '@mui/material/Select';
-import MenuItem from '@mui/material/MenuItem';
 import { styled } from '@mui/system';
+import Selects from 'components/molecules/forms/selects';
 
 import type { SearchBoxProps } from 'types/cafe';
 
@@ -40,25 +38,26 @@ const SearchWrapper = styled('div')`
 function SearchBox(props: SearchBoxProps) {
   const { lastPage, setCafePageNo, setCafeSearchWords } = props;
   const noOfPages = useMemo(() => lastPage, [lastPage]);
-  const pageList = useMemo(() => (noOfPages ? new Array(noOfPages).fill(0).map((_, i) => i + 1) : [1]), [noOfPages]);
   const cafeSearch = useInput();
-  const pageSearch = useChange({ defaultValue: 1 });
-  const inputRef = useRef<HTMLInputElement>(null);
+  const inputRef = useRef<HTMLDivElement>(null);
 
   const handleClick = useCallback(
     (event: React.FormEvent<HTMLFormElement>) => {
       event.preventDefault();
       if (inputRef.current) {
-        pageSearch.reset(1);
-        setCafeSearchWords(inputRef.current.value);
+        const inputEl = inputRef.current.querySelector('input');
+        if (inputEl) setCafeSearchWords(inputEl.value);
       }
     },
     [setCafeSearchWords],
   );
 
-  useEffect(() => {
-    setCafePageNo(parseInt(pageSearch.value));
-  }, [pageSearch.value, setCafePageNo]);
+  const onChagePageNo = useCallback(
+    (no: string) => {
+      setCafePageNo(parseInt(no));
+    },
+    [setCafePageNo],
+  );
 
   return (
     <form onSubmit={handleClick}>
@@ -68,19 +67,7 @@ function SearchBox(props: SearchBoxProps) {
           <Button variant='contained' size='large' type='submit' data-testid='search-button'>
             Search
           </Button>
-          <Select
-            labelId='page-select-label'
-            id='page-select'
-            label='Page'
-            value={pageSearch.value}
-            onChange={pageSearch.onChange}
-          >
-            {pageList?.map((item, index) => (
-              <MenuItem key={index} value={item}>
-                {item}
-              </MenuItem>
-            ))}
-          </Select>
+          <Selects noOfPages={noOfPages} onChagePageNo={onChagePageNo} />
         </div>
       </SearchWrapper>
     </form>

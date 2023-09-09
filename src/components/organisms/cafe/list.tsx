@@ -8,7 +8,7 @@ import PageLoader from 'components/atoms/pageLoader';
 import SearchBox from 'components/molecules/searchBox';
 import Card from 'components/molecules/card';
 
-export default function List() {
+function List() {
   const [page, setPage] = useState(1);
   const [search, setSearch] = useState('');
   const { isLoading, isError, data } = useCafeQuery({ page, search });
@@ -30,7 +30,7 @@ export default function List() {
     if (data) {
       if (data.last_page !== lastPage) setLastPage(data.last_page);
     }
-  }, [lastPage, data]);
+  }, [lastPage, data, setLastPage]);
 
   return (
     <>
@@ -46,3 +46,5 @@ export default function List() {
     </>
   );
 }
+
+export default memo(List);
