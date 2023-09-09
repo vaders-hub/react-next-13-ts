@@ -38,7 +38,7 @@ const SearchWrapper = styled('div')`
 function SearchBox(props: SearchBoxProps) {
   const { lastPage, setCafePageNo, setCafeSearchWords } = props;
   const noOfPages = useMemo(() => lastPage, [lastPage]);
-  const cafeSearch = useInput();
+  const [words, setWords] = useState('');
   const inputRef = useRef<HTMLDivElement>(null);
 
   const handleClick = useCallback(
@@ -46,7 +46,10 @@ function SearchBox(props: SearchBoxProps) {
       event.preventDefault();
       if (inputRef.current) {
         const inputEl = inputRef.current.querySelector('input');
-        if (inputEl) setCafeSearchWords(inputEl.value);
+        if (inputEl) {
+          setWords(inputEl.value);
+          setCafeSearchWords(inputEl.value);
+        }
       }
     },
     [setCafeSearchWords],
@@ -67,7 +70,7 @@ function SearchBox(props: SearchBoxProps) {
           <Button variant='contained' size='large' type='submit' data-testid='search-button'>
             Search
           </Button>
-          <Selects noOfPages={noOfPages} onChagePageNo={onChagePageNo} />
+          <Selects noOfPages={noOfPages} words={words} onChagePageNo={onChagePageNo} />
         </div>
       </SearchWrapper>
     </form>

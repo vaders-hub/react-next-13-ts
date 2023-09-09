@@ -25,11 +25,27 @@ export const metadata: Metadata = {
 };
 
 const fetchLnb = async () => {
-  const data: any = await wretchNextInstance.get('/nav');
+  // const data: any = await wretchNextInstance.get('/nav');
+
+  // temp
+  const data = [
+    { name: 'Home', path: '/' },
+    { name: 'Cafes', path: '/cafes' },
+    { name: 'News', path: '/news' },
+    {
+      name: 'lab',
+      sub: [
+        { name: 'interception', path: '/interception' },
+        { name: 'camera', path: '/camera' },
+        { name: 'test 2', path: '/test2' },
+      ],
+    },
+  ];
   return data;
 };
 
-export default async function RootLayout({ children, random }: RootLayoutProps) {
+// TODO : define types
+export default async function RootLayout({ children, random }: any) {
   const nav: any = await fetchLnb();
 
   return (
