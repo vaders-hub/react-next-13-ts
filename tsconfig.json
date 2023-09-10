@@ -40,6 +40,6 @@
     "dist/types/**/*.ts",
     "src/cypress/e2e/**/*.js", "src/tests/**/*.js"  ],
   "exclude": [
-    "node_modules"
+    "node_modules", "src/app/news/*.tsx"
   ],
 }

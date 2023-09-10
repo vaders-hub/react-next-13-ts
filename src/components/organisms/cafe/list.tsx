@@ -1,12 +1,16 @@
 'use client';
 
 import { memo, useCallback, useEffect, useMemo, useState } from 'react';
+import dynamic from 'next/dynamic';
 import { useCafeQuery } from 'store/cafe';
 import Masonry, { ResponsiveMasonry } from 'react-responsive-masonry';
 
 import PageLoader from 'components/atoms/pageLoader';
 import SearchBox from 'components/molecules/searchBox';
-import Card from 'components/molecules/card';
+
+const Card = dynamic(() => import('components/molecules/card'), {
+  loading: () => <></>,
+});
 
 function List() {
   const [page, setPage] = useState(1);

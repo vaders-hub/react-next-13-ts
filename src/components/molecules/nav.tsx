@@ -29,6 +29,7 @@ const StyledLI = styled('li')`
 function Nav() {
   const router = useRouter();
   const loadedLnb = useNav();
+  const [localLnb, setLocalLnb] = useState([]);
 
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
@@ -42,15 +43,19 @@ function Nav() {
     if (url) router.push(url);
   };
 
-  const topics = useTopics();
-  const selected = useSelectedTopic();
+  useEffect(() => {
+    setLocalLnb(loadedLnb);
+  }, [loadedLnb]);
 
-  const { addTopcis, setSelected } = useSelectedTopicActions();
+  // const topics = useTopics();
+  // const selected = useSelectedTopic();
 
-  if (!topics.length) {
-    addTopcis(generatedTopics);
-    if (!selected) setSelected(generatedTopics[0]);
-  }
+  // const { addTopcis, setSelected } = useSelectedTopicActions();
+
+  // if (!topics.length) {
+  //   addTopcis(generatedTopics);
+  //   if (!selected) setSelected(generatedTopics[0]);
+  // }
 
   useEffect(() => {
     document.body.addEventListener('click', () => handleClose());
@@ -60,42 +65,39 @@ function Nav() {
   }, []);
 
   // const params = new URLSearchParams(`topic=${selected || topics[0]}`);
-
   return (
     <StyledUL>
-      {loadedLnb?.map((lnb: any) => (
+      {localLnb?.map((lnb: any, index: number) => (
         <StyledLI key={lnb.name}>
-          <>
-            {lnb.path ? (
-              <Link href={`${lnb.path}${lnb.name === 'News' ? `/${selected}` : ''}`}>
+          {lnb.path ? (
+            <Link href={`${lnb.path}`}>
+              <Typography variant='button' display='block' gutterBottom>
+                {lnb.name}
+              </Typography>
+            </Link>
+          ) : (
+            <>
+              <a href='' onClick={handleClick}>
                 <Typography variant='button' display='block' gutterBottom>
                   {lnb.name}
                 </Typography>
-              </Link>
-            ) : (
-              <>
-                <a href='' onClick={handleClick}>
-                  <Typography variant='button' display='block' gutterBottom>
-                    {lnb.name}
-                  </Typography>
-                </a>
-                <Menu
-                  id='basic-menu'
-                  anchorEl={anchorEl}
-                  open={open}
-                  MenuListProps={{
-                    'aria-labelledby': 'basic-button',
-                  }}
-                >
-                  {lnb?.sub.map((item: any, index: number) => (
-                    <MenuItem key={`${item}-${index}`} onClick={() => handleClose(item.path)}>
-                      {item.name}
-                    </MenuItem>
-                  ))}
-                </Menu>
-              </>
-            )}
-          </>
+              </a>
+              <Menu
+                id='basic-menu'
+                anchorEl={anchorEl}
+                open={open}
+                MenuListProps={{
+                  'aria-labelledby': 'basic-button',
+                }}
+              >
+                {lnb?.sub.map((item: any, index: number) => (
+                  <MenuItem key={`${item}-${index}`} onClick={() => handleClose(item.path)}>
+                    {item.name}
+                  </MenuItem>
+                ))}
+              </Menu>
+            </>
+          )}
         </StyledLI>
       ))}
     </StyledUL>

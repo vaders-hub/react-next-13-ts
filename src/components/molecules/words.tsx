@@ -25,35 +25,37 @@ const StyledChip = styled(Chip)`
 
 function Words() {
   const router = useRouter();
-  const topics = useTopics();
-  const selected = useSelectedTopic();
-  const { addTopcis, setSelected } = useSelectedTopicActions();
+  // const topics = useTopics();
+  // const selected = useSelectedTopic();
+  // const { addTopcis, setSelected } = useSelectedTopicActions();
 
-  const handleClick = useCallback(
-    (topic: string) => {
-      const params = new URLSearchParams(`topic=${topic}`);
+  // const handleClick = useCallback(
+  //   (topic: string) => {
+  //     const params = new URLSearchParams(`topic=${topic}`);
 
-      setSelected(topic);
-      router.push(`/news/${topic}`);
-    },
-    [router, setSelected],
-  );
+  //     setSelected(topic);
+  //     router.push(`/news/${topic}`);
+  //   },
+  //   [router, setSelected],
+  // );
 
   useEffect(() => {
-    if (topics.length && selected === null) setSelected(topics[0]);
+    // if (topics.length && selected === null) setSelected(topics[0]);
   }, []);
 
   return (
-    <StyledStack direction='row'>
-      {topics?.map((topic, index) => (
-        <StyledChip
-          key={`${topic}-${index}`}
-          className={topic === selected ? 'selected' : ''}
-          label={topic}
-          onClick={() => handleClick(topic)}
-        />
-      ))}
-    </StyledStack>
+    <>
+      {/* <StyledStack direction='row'>
+        {topics?.map((topic, index) => (
+          <StyledChip
+            key={`${topic}-${index}`}
+            className={topic === selected ? 'selected' : ''}
+            label={topic}
+            onClick={() => handleClick(topic)}
+          />
+        ))}
+      </StyledStack> */}
+    </>
   );
 }
 

@@ -4,6 +4,7 @@ import { wretchNextInstance } from 'util/wretch';
 import { useCommonStore, createNewCustomStore } from 'store/index';
 import QueryWrapper from 'helpers/queryWrapper';
 import SessionProvider from 'helpers/sessionProvider';
+import PendingWrapper from 'helpers/pendingWrapper';
 import ThemeWrapper from 'components/templates/wrapper';
 import CommonContext from 'helpers/commonContext';
 
@@ -52,14 +53,13 @@ export default async function RootLayout({ children, random }: any) {
     <html lang='en' suppressHydrationWarning>
       <ThemeWrapper>
         <body>
-          <QueryWrapper>
-            <SessionProvider data={nav}>
-              <CommonContext>
-                {children}
-                {random}
-              </CommonContext>
-            </SessionProvider>
-          </QueryWrapper>
+          <PendingWrapper>
+            <QueryWrapper>
+              <CommonContext />
+              {children}
+              {random}
+            </QueryWrapper>
+          </PendingWrapper>
         </body>
       </ThemeWrapper>
     </html>

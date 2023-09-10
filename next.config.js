@@ -1,10 +1,18 @@
+const path = require('path');
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   // output: 'export',
   // distDir: 'dist',
+
   skipTrailingSlashRedirect: true,
   productionBrowserSourceMaps: false,
-  reactStrictMode: false,
+  reactStrictMode: true,
+  swcMinify: true,
+  i18n: {
+    locales: ['en'],
+    defaultLocale: 'en',
+  },
   images: {
     loader: 'custom',
     loaderFile: './src/util/image-loader.ts',
@@ -23,6 +31,25 @@ const nextConfig = {
   },
   typescript: {
     ignoreBuildErrors: false,
+  },
+  webpack: (config, { buildId, dev, isServer, defaultLoaders, nextRuntime, webpack }) => {
+    /*
+    if (process.env.NEXT_OUTPUT_MODE !== 'export' || !config.module) {
+      return config;
+    }
+    */
+    /*
+    config.module.rules?.push({
+      test: /src\/app\/news/,
+      loader: 'ignore-loader',
+    });
+    */
+
+    // config.module.rules.push({
+    //   test: [/\.(js|jsx|ts|tsx)$/],
+    //   exclude: [path.resolve(__dirname, 'src/app/news')],
+    // });
+    return config;
   },
 };
 

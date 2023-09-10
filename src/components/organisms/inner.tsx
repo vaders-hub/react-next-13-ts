@@ -1,3 +1,5 @@
+'use client';
+
 import * as React from 'react';
 import { useFavoriteToggleAction } from 'store/index';
 
@@ -10,7 +12,7 @@ interface IHeaderProps {
   children: React.ReactNode;
 }
 
-const plainHeader = ({ className, children }: IHeaderProps) => <header className={className}>{children}</header>;
+const plainHeader = ({ className, children }: IHeaderProps) => <div className={className}>{children}</div>;
 
 const StyledHeader = styled(plainHeader)(({ theme }) => ({
   position: 'relative',
