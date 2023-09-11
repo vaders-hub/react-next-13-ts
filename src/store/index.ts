@@ -51,29 +51,21 @@ export const createNewCustomStore = (initProps?: Partial<any>) => {
 };
 
 export const useCommonStore = create<CommonState>()(
-  devtools(
-    persist(
-      (set, get) => ({
-        pageLoaded: false,
-        favoriteOpened: false,
-        modal: { visible: false, component: '', callback: null },
-        nav: [],
-        actions: {
-          setPageLoad: flag => set({ pageLoaded: flag }),
-          toggleFavorite: () => set(state => ({ favoriteOpened: !state.favoriteOpened })),
-          setNav: data => set({ nav: data }),
-          modal: {
-            showModal: () => set(state => ({ modal: { ...state.modal, visible: true } })),
-            closeModal: () => set(state => ({ modal: { visible: false, component: '', callback: null } })),
-          },
-        },
-      }),
-      {
-        name: 'common-storage',
-        partialize: state => ({ nav: state.nav }),
+  devtools((set, get) => ({
+    pageLoaded: false,
+    favoriteOpened: false,
+    modal: { visible: false, component: '', callback: null },
+    nav: [],
+    actions: {
+      setPageLoad: flag => set({ pageLoaded: flag }),
+      toggleFavorite: () => set(state => ({ favoriteOpened: !state.favoriteOpened })),
+      setNav: data => set({ nav: data }),
+      modal: {
+        showModal: () => set(state => ({ modal: { ...state.modal, visible: true } })),
+        closeModal: () => set(state => ({ modal: { visible: false, component: '', callback: null } })),
       },
-    ),
-  ),
+    },
+  })),
 );
 
 const useThemeStore = create<ThemeState>()(

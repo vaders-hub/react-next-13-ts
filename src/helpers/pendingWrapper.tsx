@@ -5,17 +5,20 @@ import { useNavActions, useNav } from 'store/index';
 
 interface ChildProp {
   children: React.ReactNode;
+  data: any;
 }
 
-export default function PendingWrapper({ children }: ChildProp) {
-  const [visible, setVisible] = useState(false);
-  const nav = useNavActions();
+export default function PendingWrapper({ children, data }: ChildProp) {
+  const [visible, setVisible] = useState(true);
   const loadedLnb = useNav();
+  const nav = useNavActions();
+
+  if (data && !loadedLnb.length) nav.setNav(data);
 
   useEffect(() => {
-    if (loadedLnb.length) setVisible(true);
+    if (data.length) setVisible(true);
     return () => {};
-  }, [loadedLnb]);
+  }, [data]);
 
   return <>{visible ? <>{children}</> : <>loading....</>}</>;
 }
