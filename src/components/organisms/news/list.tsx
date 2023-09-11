@@ -21,13 +21,24 @@ const Item = styled(Paper)(({ theme }) => ({
   color: theme.palette.text.secondary,
 }));
 
+const StyledTextBox = styled(Typography)(({ theme }) => ({
+  paddingBottom: '1rem',
+  textOverflow: 'ellipsis',
+  whiteSpace: 'nowrap',
+  overflow: 'hidden',
+}));
+
 const StyledImageLoader = styled('div')(({ theme }) => ({
   position: 'relative',
-  minHeight: '10rem',
+  height: '15rem',
   overflow: 'hidden',
   '& div': {
-    width: '100%',
-    marginTop: '-10.5rem',
+    // position: 'relative',
+    // width: '100%',
+    // height: 'auto',
+    // marginTop: '-9rem',
+    // paddingBottom: '0',
+    // overflow: 'auto',
   },
 }));
 
@@ -43,10 +54,9 @@ export default function List({ initialData }: any) {
           {subDatas?.map((article, index) => (
             <Grid xs={2} sm={2} md={4} key={index}>
               <Item>
-                <Typography sx={{ fontSize: 14 }} color='text.secondary' gutterBottom>
+                <StyledTextBox sx={{ fontSize: 14 }} color='text.secondary' gutterBottom title={article?.title}>
                   {article?.title}
-                </Typography>
-
+                </StyledTextBox>
                 <StyledImageLoader>
                   <ImageLoader imgUrl={article?.urlToImage} />
                 </StyledImageLoader>
