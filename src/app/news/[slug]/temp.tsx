@@ -1,5 +1,5 @@
 import { Suspense } from 'react';
-import dynamic from 'next/dynamic';
+// import dynamic from 'next/dynamic';
 import dayjs from 'dayjs';
 import { generate } from 'random-words';
 import { generatedTopics } from 'util/common';
@@ -17,14 +17,15 @@ interface PageProps {
 
 export const dynamicParams = true;
 export const revalidate = 5; // false | 'force-cache' | 0 | number
+export const dynamic = 'force-dynamic';
 
 export async function generateStaticParams() {
   return generatedTopics?.map(topic => ({ slug: topic, all: generatedTopics }));
 }
 
-const List = dynamic(() => import('components/organisms/news/list'), {
-  loading: () => <PageLoader />,
-});
+// const List = dynamic(() => import('components/organisms/news/list'), {
+//   loading: () => <PageLoader />,
+// });
 
 export default async function News({ params }: PageProps) {
   const { slug } = params;
@@ -52,7 +53,7 @@ export default async function News({ params }: PageProps) {
         <div>
           <Words />
           <DateConfig today={today} />
-          {initialData.length > 0 && <List initialData={initialData} />}
+          {/* {initialData.length > 0 && <List initialData={initialData} />} */}
           {!initialData.length && slug}
         </div>
       </Suspense>
