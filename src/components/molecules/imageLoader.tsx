@@ -1,8 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import Image from 'next/image';
 
-import { wretchNextInstance } from 'util/wretch';
-
 import { styled } from '@mui/system';
 
 type ImageUrlProps = {
@@ -12,8 +10,6 @@ type ImageUrlProps = {
 
 export default function ImageLoader({ imgUrl, blurUrl }: ImageUrlProps) {
   const [loaded, setLoaded] = useState(false);
-  const blurDataURL = blurUrl ? blurUrl : '';
-  console.log('blurDataURL', blurDataURL);
   const SytledLoaderImageWrap = styled('div')(({ theme }) => ({
     position: 'relative',
     overflow: 'hidden',
@@ -28,8 +24,8 @@ export default function ImageLoader({ imgUrl, blurUrl }: ImageUrlProps) {
         width={0}
         height={0}
         sizes='100vw'
-        blurDataURL={blurDataURL}
-        placeholder={blurDataURL ? 'blur' : 'empty'}
+        blurDataURL={blurUrl}
+        placeholder='blur'
         style={{ width: '100%', height: loaded ? 'auto' : '15rem', objectFit: 'cover' }}
         onLoad={e => setLoaded(true)}
         onError={e => <span>error</span>}
