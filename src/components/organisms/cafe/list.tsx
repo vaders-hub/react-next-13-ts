@@ -54,6 +54,7 @@ function List() {
   const setCafeSearchWords = useCallback(
     (words: string) => {
       setSearch(words);
+      setCafedatasWithBlur([]);
     },
     [setSearch],
   );
