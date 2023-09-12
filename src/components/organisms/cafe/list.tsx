@@ -17,7 +17,6 @@ const Card = dynamic(() => import('components/molecules/card'), {
 function List() {
   const [page, setPage] = useState(1);
   const [search, setSearch] = useState('');
-  const [blurImg, setBlurImg] = useState<any>('');
   const { isLoading, isError, data } = useCafeQuery({ page, search });
 
   const [lastPage, setLastPage] = useState(0);
@@ -68,7 +67,7 @@ function List() {
   return (
     <>
       <SearchBox lastPage={lastPage} setCafePageNo={setCafePageNo} setCafeSearchWords={setCafeSearchWords} />
-      {isLoading && <PageLoader />}
+      {!cafedatasWithBlur.length && <PageLoader />}
       <div className={'list-wrap'}>
         {cafedatasWithBlur && (
           <ResponsiveMasonry columnsCountBreakPoints={{ 350: 1, 750: 2, 900: 3, 1200: 4 }}>
