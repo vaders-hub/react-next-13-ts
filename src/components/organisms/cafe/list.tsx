@@ -2,7 +2,9 @@
 
 import { memo, useCallback, useEffect, useMemo, useState } from 'react';
 import dynamic from 'next/dynamic';
+import { wretchNextInstance } from 'util/wretch';
 import { useCafeQuery } from 'store/cafe';
+
 import Masonry, { ResponsiveMasonry } from 'react-responsive-masonry';
 
 import PageLoader from 'components/atoms/pageLoader';
@@ -15,14 +17,41 @@ const Card = dynamic(() => import('components/molecules/card'), {
 function List() {
   const [page, setPage] = useState(1);
   const [search, setSearch] = useState('');
+  const [blurImg, setBlurImg] = useState<any>('');
   const { isLoading, isError, data } = useCafeQuery({ page, search });
 
   const [lastPage, setLastPage] = useState(0);
   const currentPage = useMemo(() => data?.current_page, [data]);
   const cafeDatas = useMemo(() => data?.data, [data]);
+  const [cafedatasWithBlur, setCafedatasWithBlur] = useState([]);
+
+  const fetchBase64 = async (imgUrl: string) => {
+    try {
+      const g = await wretchNextInstance.options({ headers: { extra: 'extra' } }).get(`/common?imgUrl=${imgUrl}`);
+      if (g) return g;
+    } catch (e) {}
+  };
+
+  const getBlurData = useCallback(async () => {
+    const bData: any = await Promise.all(
+      cafeDatas?.map(async (data: any) => {
+        data.blurImg = await fetchBase64(data.primary_image_url);
+        return data;
+      }),
+    );
+
+    if (!cafedatasWithBlur.length) setCafedatasWithBlur(bData);
+  }, [cafeDatas, cafedatasWithBlur]);
+
+  useEffect(() => {
+    if (cafeDatas) getBlurData();
+  }, [cafeDatas, getBlurData]);
+
   const setCafePageNo = useCallback((pageNo: number) => {
     setPage(pageNo);
+    setCafedatasWithBlur([]);
   }, []);
+
   const setCafeSearchWords = useCallback(
     (words: string) => {
       setSearch(words);
@@ -41,9 +70,9 @@ function List() {
       <SearchBox lastPage={lastPage} setCafePageNo={setCafePageNo} setCafeSearchWords={setCafeSearchWords} />
       {isLoading && <PageLoader />}
       <div className={'list-wrap'}>
-        {cafeDatas && (
+        {cafedatasWithBlur && (
           <ResponsiveMasonry columnsCountBreakPoints={{ 350: 1, 750: 2, 900: 3, 1200: 4 }}>
-            <Masonry>{cafeDatas?.map((cafe: any) => <Card cafeDatas={cafe} key={cafe.id} />)}</Masonry>
+            <Masonry>{cafedatasWithBlur?.map((cafe: any) => <Card cafeDatas={cafe} key={cafe.id} />)}</Masonry>
           </ResponsiveMasonry>
         )}
       </div>

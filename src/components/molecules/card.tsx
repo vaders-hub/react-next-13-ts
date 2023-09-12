@@ -40,7 +40,7 @@ export default function BasicCard({ cafeDatas }: CafeProps) {
           {cafeDatas?.company?.name}
         </Typography>
       </CardContent>
-      <ImageLoader imgUrl={cafeDatas?.primary_image_url} />
+      <ImageLoader imgUrl={cafeDatas?.primary_image_url} blurUrl={cafeDatas?.blurImg} />
       {/* <CardMedia component='img' image={cafeDatas?.primary_image_url} alt='Paella dish' /> */}
       <CardContent>
         <Typography sx={{ fontSize: 14 }} color='text.secondary' gutterBottom>

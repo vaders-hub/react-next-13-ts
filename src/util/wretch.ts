@@ -12,6 +12,7 @@ const contextMiddleware = (next: any) => (url: string, opts: any) => {
     // Mutate "context"
     opts.context.property = 'anything';
   }
+
   return next(url, opts);
 };
 
@@ -23,7 +24,8 @@ const wretchInstance = wretch(baseUrl, { mode: 'cors' })
   .middlewares([contextMiddleware]);
 
 const nextBaseUrl = 'http://localhost:3001/api/';
-const wretchNextInstance = wretch(nextBaseUrl, { mode: 'cors' })
+const wretchNextInstance = wretch(nextBaseUrl)
+  .options({ headers: { Accept: 'application/json' } })
   .errorType('json')
   .resolve(r => {
     return r.json();
