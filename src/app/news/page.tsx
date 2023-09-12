@@ -30,7 +30,7 @@ const List = dynamic(() => import('components/organisms/news/list'), {
 export default async function News({ searchParams }: PageProps) {
   const today = dayjs(new Date()).format('YYYY-MM-DD');
   const yesterday = dayjs(new Date()).subtract(1, 'day').format('YYYY-MM-DD');
-  const topic = Object.entries(searchParams).length ? searchParams.topic : 'soccer';
+  const topic = Object.entries(searchParams).length ? searchParams.topic : 'football';
   const param = {
     q: topic,
     from: yesterday,
@@ -43,7 +43,6 @@ export default async function News({ searchParams }: PageProps) {
 
   try {
     const result = await fetchNews(param);
-
     if (result.articles.length) {
       const bData: any = await Promise.all(
         result.articles?.map(async (data: any) => {
@@ -65,6 +64,7 @@ export default async function News({ searchParams }: PageProps) {
           <Words />
           <DateConfig today={today} yesterday={yesterday} />
           {initialData.length > 0 && <List initialData={initialData} />}
+          {!initialData.length && <div>[ current topic: {topic} ] no result</div>}
         </div>
       </Suspense>
     </>
