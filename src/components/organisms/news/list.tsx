@@ -58,7 +58,7 @@ export default function List({ initialData }: any) {
                   {article?.title}
                 </StyledTextBox>
                 <StyledImageLoader>
-                  <ImageLoader imgUrl={article?.urlToImage} />
+                  <ImageLoader imgUrl={article?.urlToImage} blurUrl={article?.blurImg} />
                 </StyledImageLoader>
               </Item>
             </Grid>

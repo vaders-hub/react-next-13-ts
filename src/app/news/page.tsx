@@ -2,6 +2,7 @@ import React, { Suspense } from 'react';
 import dynamic from 'next/dynamic';
 
 import dayjs from 'dayjs';
+import { wretchNextInstance } from 'util/wretch';
 
 import PageLoader from 'components/atoms/pageLoader';
 import Title from 'components/atoms/title';
@@ -14,6 +15,13 @@ interface PageProps {
   params: { slug: string };
   searchParams: { [key: string]: string | string[] | undefined };
 }
+
+const fetchBase64 = async (imgUrl: string) => {
+  try {
+    const g = await wretchNextInstance.options({ headers: { extra: 'extra' } }).get(`/common?imgUrl=${imgUrl}`);
+    if (g) return g;
+  } catch (e) {}
+};
 
 const List = dynamic(() => import('components/organisms/news/list'), {
   loading: () => <PageLoader />,
@@ -36,7 +44,15 @@ export default async function News({ searchParams }: PageProps) {
   try {
     const result = await fetchNews(param);
 
-    if (result.articles.length) Object.assign(initialData, result.articles);
+    if (result.articles.length) {
+      const bData: any = await Promise.all(
+        result.articles?.map(async (data: any) => {
+          data.blurImg = await fetchBase64(data.urlToImage);
+          return data;
+        }),
+      );
+      Object.assign(initialData, bData);
+    }
   } catch (e: any) {
     console.log('e', e.response.status);
   }

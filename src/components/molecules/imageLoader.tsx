@@ -13,7 +13,7 @@ type ImageUrlProps = {
 export default function ImageLoader({ imgUrl, blurUrl }: ImageUrlProps) {
   const [loaded, setLoaded] = useState(false);
   const blurDataURL = blurUrl ? blurUrl : '';
-
+  console.log('blurDataURL', blurDataURL);
   const SytledLoaderImageWrap = styled('div')(({ theme }) => ({
     position: 'relative',
     overflow: 'hidden',
@@ -30,7 +30,7 @@ export default function ImageLoader({ imgUrl, blurUrl }: ImageUrlProps) {
         sizes='100vw'
         blurDataURL={blurDataURL}
         placeholder={blurDataURL ? 'blur' : 'empty'}
-        style={{ width: '100%', height: loaded ? 'auto' : '10rem', objectFit: 'cover' }}
+        style={{ width: '100%', height: loaded ? 'auto' : '15rem', objectFit: 'cover' }}
         onLoad={e => setLoaded(true)}
         onError={e => <span>error</span>}
       />
