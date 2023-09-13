@@ -30,7 +30,7 @@
       ]
     },
     "types": ["node", "jest"],
-    "typeRoots": ["./types", "./node_modules/@types"]
+    "typeRoots": ["./types", "./node_modules/@types"],
   },
   "include": [
     "next-env.d.ts",
@@ -39,7 +39,5 @@
     ".next/types/**/*.ts",
     "dist/types/**/*.ts",
     "src/cypress/e2e/**/*.js", "src/tests/**/*.js"  ],
-  "exclude": [
-    "node_modules", "src/app/news/*.tsx"
-  ],
+  "exclude": ["node_modules"]
 }
