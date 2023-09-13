@@ -18,7 +18,7 @@ export default function ImageLoader({ imgUrl, blurUrl }: ImageUrlProps) {
 
   return (
     <SytledLoaderImageWrap>
-      {/* <Image
+      <Image
         src={imgUrl}
         alt='cafe image'
         width={0}
@@ -26,16 +26,6 @@ export default function ImageLoader({ imgUrl, blurUrl }: ImageUrlProps) {
         sizes='100vw'
         blurDataURL={blurUrl ? blurUrl : ''}
         placeholder={blurUrl ? 'blur' : 'empty'}
-        style={{ width: '100%', height: loaded ? 'auto' : '15rem', objectFit: 'cover' }}
-        onLoad={e => setLoaded(true)}
-        onError={e => <span>error</span>}
-      /> */}
-      <Image
-        src={imgUrl}
-        alt='cafe image'
-        width={0}
-        height={0}
-        sizes='100vw'
         style={{ width: '100%', height: loaded ? 'auto' : '15rem', objectFit: 'cover' }}
         onLoad={e => setLoaded(true)}
         onError={e => <span>error</span>}
