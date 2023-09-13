@@ -2,8 +2,8 @@
 
 import { memo, useCallback, useEffect, useMemo, useState } from 'react';
 import dynamic from 'next/dynamic';
-import { wretchNextInstance } from 'util/wretch';
 import { useCafeQuery } from 'store/cafe';
+import { fetchBase64 } from 'util/common';
 
 import Masonry, { ResponsiveMasonry } from 'react-responsive-masonry';
 
@@ -23,13 +23,6 @@ function List() {
   const currentPage = useMemo(() => data?.current_page, [data]);
   const cafeDatas = useMemo(() => data?.data, [data]);
   const [cafedatasWithBlur, setCafedatasWithBlur] = useState([]);
-
-  const fetchBase64 = async (imgUrl: string) => {
-    try {
-      const g = await wretchNextInstance.options({ headers: { extra: 'extra' } }).get(`/common?imgUrl=${imgUrl}`);
-      if (g) return g;
-    } catch (e) {}
-  };
 
   const getBlurData = useCallback(async () => {
     const bData: any = await Promise.all(

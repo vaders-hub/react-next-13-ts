@@ -2,7 +2,9 @@ import React, { Suspense } from 'react';
 import dynamic from 'next/dynamic';
 
 import dayjs from 'dayjs';
-import { wretchNextInstance } from 'util/wretch';
+import { generatedTopics, fetchBase64 } from 'util/common';
+
+import Typography from '@mui/material/Typography';
 
 import PageLoader from 'components/atoms/pageLoader';
 import Title from 'components/atoms/title';
@@ -11,26 +13,27 @@ import Words from 'components/molecules/words';
 
 import { fetchNews } from 'store/news';
 
+interface SearchParamTypes {
+  [key: number | string]: unknown;
+  topic: string;
+  startDate: string;
+  endDate: string;
+}
 interface PageProps {
   params: { slug: string };
-  searchParams: { [key: string]: string | string[] | undefined };
+  searchParams: SearchParamTypes;
 }
-
-const fetchBase64 = async (imgUrl: string) => {
-  try {
-    const g = await wretchNextInstance.options({ headers: { extra: 'extra' } }).get(`/common?imgUrl=${imgUrl}`);
-    if (g) return g;
-  } catch (e) {}
-};
 
 const List = dynamic(() => import('components/organisms/news/list'), {
   loading: () => <PageLoader />,
 });
 
-export default async function News({ searchParams }: PageProps) {
-  const today = dayjs(new Date()).format('YYYY-MM-DD');
-  const yesterday = dayjs(new Date()).subtract(1, 'day').format('YYYY-MM-DD');
-  const topic = Object.entries(searchParams).length ? searchParams.topic : 'football';
+export default async function News({ params, searchParams }: PageProps) {
+  const { topic, startDate, endDate } = searchParams;
+  const searchTopic = topic ? topic : generatedTopics[0];
+  const yesterday = startDate ? startDate : dayjs(new Date()).subtract(1, 'day').format('YYYY-MM-DD');
+  const today = endDate ? endDate : dayjs(new Date()).format('YYYY-MM-DD');
+
   const param = {
     q: topic,
     from: yesterday,
@@ -46,14 +49,14 @@ export default async function News({ searchParams }: PageProps) {
     if (result.articles.length) {
       const bData: any = await Promise.all(
         result.articles?.map(async (data: any) => {
-          data.blurImg = await fetchBase64(data.urlToImage);
+          data.blurImg = data.urlToImage ? await fetchBase64(data.urlToImage) : '';
           return data;
         }),
       );
       Object.assign(initialData, bData);
     }
   } catch (e: any) {
-    console.log('e', e.response.status);
+    console.log('error :: ', e.response.status);
   }
 
   return (
@@ -61,10 +64,13 @@ export default async function News({ searchParams }: PageProps) {
       <Suspense>
         <Title title={'News Feed'} />
         <div>
-          <Words />
+          <Typography variant='h5' gutterBottom data-testid='title'>
+            Random topics
+          </Typography>
+          <Words generatedTopics={generatedTopics} />
           <DateConfig today={today} yesterday={yesterday} />
           {initialData.length > 0 && <List initialData={initialData} />}
-          {!initialData.length && <div>[ current topic: {topic} ] no result</div>}
+          {!initialData.length && <div>no result for {searchTopic}</div>}
         </div>
       </Suspense>
     </>

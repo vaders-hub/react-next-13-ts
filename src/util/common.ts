@@ -1,31 +1,14 @@
+import { wretchNextInstance } from 'util/wretch';
 import { generate } from 'random-words';
 
-const generatedTopics: string[] = [
-  'whose',
-  'reason',
-  'parts',
-  'fun',
-  'movement',
-  'anybody',
-  'rocky',
-  'hide',
-  'pitch',
-  'stomach',
-  'political',
-  'trick',
-  'trap',
-  'fifth',
-  'alike',
-  'stick',
-  'making',
-  'mysterious',
-  'forth',
-  'someone',
-];
-// const generatedTopics = () => {
-//   if (!generated.length) Object.assign(generated, generate(20));
+const generatedTopics = generate(20);
+const fetchBase64 = async (imgUrl: string) => {
+  try {
+    const g = await wretchNextInstance.options({ headers: { extra: 'extra' } }).get(`/common?imgUrl=${imgUrl}`);
+    if (g) return g;
+  } catch (e) {
+    console.log('base64 error', e);
+  }
+};
 
-//   return generated;
-// };
-
-export { generatedTopics };
+export { generatedTopics, fetchBase64 };

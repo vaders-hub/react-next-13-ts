@@ -1,11 +1,11 @@
+import React from 'react';
 import { getCookie, getCookies, setCookie, hasCookie } from 'cookies-next';
 
 import { wretchNextInstance } from 'util/wretch';
 import { useCommonStore, createNewCustomStore } from 'store/index';
-import QueryWrapper from 'helpers/queryWrapper';
-import SessionProvider from 'helpers/sessionProvider';
-import PendingWrapper from 'helpers/pendingWrapper';
 import ThemeWrapper from 'components/templates/wrapper';
+import PendingWrapper from 'helpers/pendingWrapper';
+import QueryWrapper from 'helpers/queryWrapper';
 import CommonContext from 'helpers/commonContext';
 
 import type { Metadata } from 'next';

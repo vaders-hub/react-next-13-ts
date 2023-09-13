@@ -13,7 +13,7 @@ import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import ImageLoader from 'components/molecules/imageLoader';
 
-const Item = styled(Paper)(({ theme }) => ({
+const Item = styled(Paper)(({ theme }: any) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
   ...theme.typography.body2,
   padding: theme.spacing(2),
@@ -21,14 +21,14 @@ const Item = styled(Paper)(({ theme }) => ({
   color: theme.palette.text.secondary,
 }));
 
-const StyledTextBox = styled(Typography)(({ theme }) => ({
+const StyledTextBox = styled(Typography)(({ theme }: any) => ({
   paddingBottom: '1rem',
   textOverflow: 'ellipsis',
   whiteSpace: 'nowrap',
   overflow: 'hidden',
 }));
 
-const StyledImageLoader = styled('div')(({ theme }) => ({
+const StyledImageLoader = styled('div')(({ theme }: any) => ({
   position: 'relative',
   height: '15rem',
   overflow: 'hidden',
@@ -57,9 +57,12 @@ export default function List({ initialData }: any) {
                 <StyledTextBox sx={{ fontSize: 14 }} color='text.secondary' gutterBottom title={article?.title}>
                   {article?.title}
                 </StyledTextBox>
-                <StyledImageLoader>
-                  <ImageLoader imgUrl={article?.urlToImage} blurUrl={article?.blurImg} />
-                </StyledImageLoader>
+                {!article?.urlToImage && <p>NO IMAGE</p>}
+                {article?.urlToImage && article?.blurImg && (
+                  <StyledImageLoader>
+                    <ImageLoader imgUrl={article?.urlToImage} blurUrl={article?.blurImg} />
+                  </StyledImageLoader>
+                )}
               </Item>
             </Grid>
           ))}
