@@ -67,7 +67,7 @@ export default function ModeSwitch() {
   const colorMode = useMemo(() => (checked ? 'light' : 'dark'), [checked]);
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setChecked(event.target.checked);
-    setCookie('theme', colorMode);
+    setCookie('theme', colorMode, { maxAge: 60 * 6 * 24 });
     toggleTheme(colorMode);
   };
 
