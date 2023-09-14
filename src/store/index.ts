@@ -1,6 +1,5 @@
 import { create, createStore, useStore } from 'zustand';
 import { devtools, persist, createJSONStorage, StateStorage } from 'zustand/middleware';
-import { lightTheme, darkTheme } from 'styles/themes/index';
 
 type ThemeMode = 'light' | 'dark';
 type CallbackType = null | (() => any);
@@ -23,7 +22,7 @@ interface CommonState {
 interface ThemeState {
   mode: ThemeMode;
   actions: {
-    toggleTheme: (newMode: any) => void;
+    toggleTheme: (newMode: ThemeMode) => void;
   };
 }
 
@@ -71,18 +70,15 @@ export const useCommonStore = create<CommonState>()(
 
 const useThemeStore = create<ThemeState>()(
   devtools(
-    persist(
-      (set, get) => ({
-        mode: 'light',
-        actions: {
-          toggleTheme: newMode => set({ mode: newMode }),
-        },
-      }),
-      {
-        name: 'theme-storage',
-        partialize: state => ({ mode: state.mode }),
+    (set, get) => ({
+      mode: 'light',
+      actions: {
+        toggleTheme: newMode => set({ mode: newMode }),
       },
-    ),
+    }),
+    {
+      name: 'theme-storage',
+    },
   ),
 );
 
@@ -96,4 +92,3 @@ export const useNav = () => useCommonStore(state => state.nav);
 export const useNavActions = () => useCommonStore(state => state.actions);
 export const useTheme = () => useThemeStore(state => state.mode);
 export const useThemeActions = () => useThemeStore(state => state.actions);
-export { useThemeStore };

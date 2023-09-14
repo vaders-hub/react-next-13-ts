@@ -2,37 +2,44 @@
 
 import React, { useEffect, useMemo, useState } from 'react';
 
+import { getCookie, setCookie } from 'cookies-next';
+import usePrevious from 'hooks/usePrevious';
+
 import { useTheme, useThemeActions } from 'store/index';
 import { ThemeProvider } from '@mui/material/styles';
 import { CssBaseline } from '@mui/material';
 
 import { lightTheme, darkTheme } from 'styles/themes/index';
 
+type ThemeMode = 'light' | 'dark';
+
 interface ChildProp {
   children: React.ReactNode;
+  ssrTheme: ThemeMode | undefined;
 }
 
-export default function Wrapper({ children }: ChildProp) {
+export default function Wrapper({ children, ssrTheme }: ChildProp) {
   const mode = useTheme();
-  const [mounted, setMounted] = useState(false);
   const { toggleTheme } = useThemeActions();
-  const selectedTheme = mode === 'light' ? lightTheme : darkTheme;
+  const selectedTheme = ssrTheme === 'light' ? lightTheme : darkTheme;
   const [clientTheme, setClientTheme] = useState<any>(selectedTheme);
-
-  useEffect(() => {}, [mode, setClientTheme]);
+  const [mounted, setMounted] = useState(false);
+  const isMounted = usePrevious(mounted);
 
   useEffect(() => {
     setMounted(true);
-  }, []);
+  }, [mounted, setMounted]);
 
-  if (!mounted) {
-    return null;
-  }
+  useEffect(() => {
+    if (ssrTheme) toggleTheme(ssrTheme);
+  }, [ssrTheme, toggleTheme]);
+
+  useEffect(() => {
+    if (isMounted) mode === 'light' ? setClientTheme(lightTheme) : setClientTheme(darkTheme);
+  }, [mounted, isMounted, mode, selectedTheme, setClientTheme]);
 
   return (
     <>
-      <p>{typeof window}</p>
-
       <ThemeProvider theme={clientTheme}>
         <CssBaseline enableColorScheme />
         {children}

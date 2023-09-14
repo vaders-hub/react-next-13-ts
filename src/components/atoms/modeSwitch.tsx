@@ -1,12 +1,13 @@
 'use client';
 
 import React, { useEffect, useMemo, useState } from 'react';
-import { createTheme, ThemeProvider, styled } from '@mui/material/styles';
-import { lightTheme, darkTheme } from 'styles/themes/index';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Switch from '@mui/material/Switch';
+import { getCookie, setCookie } from 'cookies-next';
 
 import { useTheme, useThemeActions } from 'store/index';
+
+import { styled } from '@mui/system';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Switch from '@mui/material/Switch';
 
 const StyledSwitch = styled(Switch)(({ theme }) => ({
   width: 62,
@@ -60,24 +61,26 @@ const StyledFormControlLabel = styled(FormControlLabel)`
 `;
 
 export default function ModeSwitch() {
+  const mode = useTheme();
   const { toggleTheme } = useThemeActions();
   const [checked, setChecked] = useState(false);
   const colorMode = useMemo(() => (checked ? 'light' : 'dark'), [checked]);
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setChecked(event.target.checked);
-    toggleTheme(lightTheme);
+    setCookie('theme', colorMode);
+    toggleTheme(colorMode);
   };
 
-  // useEffect(() => {
-  //   checked ? toggleTheme(darkTheme) : toggleTheme(lightTheme);
-  // }, [checked, toggleTheme]);
+  useEffect(() => {
+    mode === 'light' ? setChecked(false) : setChecked(true);
+  }, [mode]);
+
   return (
     <>
-      {/* <StyledFormControlLabel
+      <StyledFormControlLabel
         label=''
         control={<StyledSwitch sx={{ m: 1 }} checked={checked} onChange={handleChange} />}
-      /> */}
-      <button onClick={() => setChecked(state => !state)}>toggle {JSON.stringify(checked)}</button>
+      />
     </>
   );
 }

@@ -1,5 +1,6 @@
 import React from 'react';
 import { cookies } from 'next/headers';
+import { getCookie, getCookies, setCookie, hasCookie } from 'cookies-next';
 
 import { wretchNextInstance } from 'util/wretch';
 
@@ -47,15 +48,14 @@ const fetchLnb = async () => {
 
 // TODO : define types
 export default async function RootLayout({ children, random }: RootLayoutProps) {
-  const cookieStore = cookies();
-  const theme = cookieStore.get('theme');
+  const ssrTheme: any = cookies()?.get('theme')?.value;
   const nav: any = await fetchLnb();
-  console.log('cookieStore', cookieStore, theme);
+
   return (
     <html lang='en' suppressHydrationWarning>
       <body>
         <PendingWrapper data={nav}>
-          <ThemeWrapper>
+          <ThemeWrapper ssrTheme={ssrTheme}>
             <QueryWrapper>
               <CommonContext />
               {children}
