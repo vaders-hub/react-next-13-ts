@@ -21,7 +21,7 @@ interface CommonState {
 }
 
 interface ThemeState {
-  mode: any;
+  mode: ThemeMode;
   actions: {
     toggleTheme: (newMode: any) => void;
   };
@@ -73,7 +73,7 @@ const useThemeStore = create<ThemeState>()(
   devtools(
     persist(
       (set, get) => ({
-        mode: lightTheme,
+        mode: 'light',
         actions: {
           toggleTheme: newMode => set({ mode: newMode }),
         },

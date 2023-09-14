@@ -16,16 +16,10 @@ export default function Wrapper({ children }: ChildProp) {
   const mode = useTheme();
   const [mounted, setMounted] = useState(false);
   const { toggleTheme } = useThemeActions();
-  const selectedTheme = mode.palette.mode === 'light' ? lightTheme : darkTheme;
+  const selectedTheme = mode === 'light' ? lightTheme : darkTheme;
   const [clientTheme, setClientTheme] = useState<any>(selectedTheme);
-  // console.log('mode', mode);
-  useEffect(() => {
-    if (typeof window !== 'undefined') {
-      if (mode.palette.mode === 'light') setClientTheme(lightTheme);
-      if (mode.palette.mode === 'dark') setClientTheme(darkTheme);
-      console.log('mode.palette.mode', mode.palette.mode);
-    }
-  }, [mode, setClientTheme]);
+
+  useEffect(() => {}, [mode, setClientTheme]);
 
   useEffect(() => {
     setMounted(true);
