@@ -51,7 +51,7 @@ export default async function News({ params }: PageProps) {
       <Suspense>
         <Title title={'News Feed'} />
         <div>
-          <Words />
+          {/* <Words /> */}
           <DateConfig today={today} />
           {/* {initialData.length > 0 && <List initialData={initialData} />} */}
           {!initialData.length && slug}

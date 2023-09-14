@@ -7,6 +7,12 @@ const nextConfig = {
   productionBrowserSourceMaps: false,
   reactStrictMode: true,
   swcMinify: true,
+  compiler: {
+    styledComponents: {
+      ssr: true,
+      displayName: true,
+    },
+  },
   i18n: {
     locales: ['en'],
     defaultLocale: 'en',

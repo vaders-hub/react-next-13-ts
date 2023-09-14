@@ -2,7 +2,8 @@ import React from 'react';
 import { getCookie, getCookies, setCookie, hasCookie } from 'cookies-next';
 
 import { wretchNextInstance } from 'util/wretch';
-import { useCommonStore, createNewCustomStore } from 'store/index';
+
+import { useThemeStore } from 'store/index';
 import ThemeWrapper from 'components/templates/wrapper';
 import PendingWrapper from 'helpers/pendingWrapper';
 import QueryWrapper from 'helpers/queryWrapper';
@@ -45,22 +46,22 @@ const fetchLnb = async () => {
 };
 
 // TODO : define types
-export default async function RootLayout({ children, random }: any) {
+export default async function RootLayout({ children, random }: RootLayoutProps) {
   const nav: any = await fetchLnb();
 
   return (
     <html lang='en' suppressHydrationWarning>
-      <ThemeWrapper>
-        <body>
-          <PendingWrapper data={nav}>
+      <body>
+        <PendingWrapper data={nav}>
+          <ThemeWrapper>
             <QueryWrapper>
               <CommonContext />
               {children}
               {random}
             </QueryWrapper>
-          </PendingWrapper>
-        </body>
-      </ThemeWrapper>
+          </ThemeWrapper>
+        </PendingWrapper>
+      </body>
     </html>
   );
 }
