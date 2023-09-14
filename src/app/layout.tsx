@@ -4,7 +4,6 @@ import { getCookie, getCookies, setCookie, hasCookie } from 'cookies-next';
 
 import { wretchNextInstance } from 'util/wretch';
 
-import { useThemeStore } from 'store/index';
 import ThemeWrapper from 'components/templates/wrapper';
 import PendingWrapper from 'helpers/pendingWrapper';
 import QueryWrapper from 'helpers/queryWrapper';
@@ -14,6 +13,11 @@ import type { Metadata } from 'next';
 interface RootLayoutProps {
   children: React.ReactNode;
   random: React.ReactNode;
+}
+
+type ThemeMode = 'light' | 'dark';
+interface SsrThemeType {
+  mode: ThemeMode;
 }
 
 import 'asset/styles/globals.css';
@@ -48,14 +52,19 @@ const fetchLnb = async () => {
 
 // TODO : define types
 export default async function RootLayout({ children, random }: RootLayoutProps) {
-  const ssrTheme: any = cookies()?.get('theme')?.value;
+  const ssrTheme: SsrThemeType = { mode: 'light' };
+  const themeCookie = cookies()?.get('theme')?.value;
   const nav: any = await fetchLnb();
+
+  if (themeCookie) {
+    Object.assign(ssrTheme, { mode: themeCookie });
+  }
 
   return (
     <html lang='en' suppressHydrationWarning>
       <body>
         <PendingWrapper data={nav}>
-          <ThemeWrapper ssrTheme={ssrTheme}>
+          <ThemeWrapper ssrTheme={ssrTheme.mode}>
             <QueryWrapper>
               <CommonContext />
               {children}
