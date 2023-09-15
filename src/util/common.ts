@@ -2,6 +2,13 @@ import { wretchNextInstance } from 'util/wretch';
 import { generate } from 'random-words';
 
 const generatedTopics = generate(20);
+
+const fetchLnb = async () => {
+  const data: any = wretchNextInstance.get('/nav');
+
+  return data;
+};
+
 const fetchBase64 = async (imgUrl: string) => {
   try {
     const g = await wretchNextInstance.options({ headers: { extra: 'extra' } }).get(`/common?imgUrl=${imgUrl}`);
@@ -11,4 +18,4 @@ const fetchBase64 = async (imgUrl: string) => {
   }
 };
 
-export { generatedTopics, fetchBase64 };
+export { generatedTopics, fetchLnb, fetchBase64 };
