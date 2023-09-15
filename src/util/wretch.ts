@@ -23,7 +23,7 @@ const wretchInstance = wretch(baseUrl, { mode: 'cors' })
   })
   .middlewares([contextMiddleware]);
 
-const port = process.env.DEFAULT_PORT;
+const port = process.env.DEFAULT_PORT || 3001;
 const nextBaseUrl = `http://localhost:${port}/api`;
 const wretchNextInstance = wretch(nextBaseUrl)
   .options({ headers: { Accept: 'application/json' } })
