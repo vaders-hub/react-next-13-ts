@@ -1,6 +1,7 @@
 'use client';
 
 import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useRouter, usePathname, useSearchParams } from 'next/navigation';
 import { useNewsQuery } from 'store/news';
 import { useModal, useModalActions } from 'store/';
 import { useSelectedTopic } from 'store/news';
@@ -44,30 +45,34 @@ const StyledImageLoader = styled('div')(({ theme }: any) => ({
 
 export default function List({ initialData }: any) {
   const { showModal } = useModalActions();
+  const searchParams = useSearchParams();
+  const searchTopic = searchParams.get('topic');
   const severDatas = initialData;
   const subDatas = useMemo(() => [...severDatas], [severDatas]);
 
   return (
     <>
-      <Box sx={{ flexGrow: 1 }}>
-        <Grid container spacing={{ xs: 2, md: 2 }} columns={{ xs: 4, sm: 8, md: 12 }}>
-          {subDatas?.map((article, index) => (
-            <Grid xs={2} sm={2} md={4} key={index}>
-              <Item>
-                <StyledTextBox sx={{ fontSize: 14 }} color='text.secondary' gutterBottom title={article?.title}>
-                  {article?.title}
-                </StyledTextBox>
-                {!article?.urlToImage && <p>NO IMAGE</p>}
-                {article?.urlToImage && article?.blurImg && (
-                  <StyledImageLoader>
-                    <ImageLoader imgUrl={article?.urlToImage} blurUrl={article?.blurImg} />
-                  </StyledImageLoader>
-                )}
-              </Item>
-            </Grid>
-          ))}
-        </Grid>
-      </Box>
+      {searchTopic && (
+        <Box sx={{ flexGrow: 1 }}>
+          <Grid container spacing={{ xs: 2, md: 2 }} columns={{ xs: 4, sm: 8, md: 12 }}>
+            {subDatas?.map((article, index) => (
+              <Grid xs={2} sm={2} md={4} key={index}>
+                <Item>
+                  <StyledTextBox sx={{ fontSize: 14 }} color='text.secondary' gutterBottom title={article?.title}>
+                    {article?.title}
+                  </StyledTextBox>
+                  {!article?.urlToImage && <p>NO IMAGE</p>}
+                  {article?.urlToImage && article?.blurImg && (
+                    <StyledImageLoader>
+                      <ImageLoader imgUrl={article?.urlToImage} blurUrl={article?.blurImg} />
+                    </StyledImageLoader>
+                  )}
+                </Item>
+              </Grid>
+            ))}
+          </Grid>
+        </Box>
+      )}
       {/* <div style={{ textAlign: 'center' }}>
         <Button size='small' onClick={fetchMore}>
           Load More

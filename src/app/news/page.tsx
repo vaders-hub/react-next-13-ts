@@ -70,7 +70,7 @@ export default async function News({ params, searchParams }: PageProps) {
           <Words generatedTopics={generatedTopics} />
           <DateConfig today={today} yesterday={yesterday} />
           {initialData.length > 0 && <List initialData={initialData} />}
-          {!initialData.length && <div>no result for {searchTopic}</div>}
+          {!initialData.length && <PageLoader />}
         </div>
       </Suspense>
     </>

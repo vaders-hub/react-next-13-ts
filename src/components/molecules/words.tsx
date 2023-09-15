@@ -55,7 +55,6 @@ function Words({ generatedTopics }: WordsProps) {
   useEffect(() => {
     if (generatedTopics.length) {
       const firstTopic = generatedTopics[0];
-      console.log('topic exists....', searchTopic);
       if (!searchTopic) {
         if (localSelected) router.push(`/news?topic=${localSelected}`);
         if (!localSelected) router.push(`/news?topic=${generatedTopics[0]}`);
