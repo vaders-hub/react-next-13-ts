@@ -32,13 +32,14 @@ const newsAxiosInstance = axios.create({
   baseURL: 'https://newsapi.org/v2',
 });
 
+const newsKey = process.env.NEWS_KEY;
 newsAxiosInstance.interceptors.request.use(
   config => {
     const baseConfig = {
       ...config,
       params: {
         ...config.params,
-        apiKey: '7e3e8748837845e0a3763d6711159528', // '71eecdf3565f41b0bf4d80fc01205d8f',
+        apiKey: newsKey,
       },
     };
 
