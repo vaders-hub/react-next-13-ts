@@ -47,12 +47,12 @@ function DateConfig({ today, yesterday }: DateConfigs) {
     [datesValue, setDatesValue],
   );
 
-  const onFetchTopic = () => {
+  const onFetchTopic = useCallback(() => {
     if (searchTopic) {
       const { start, end } = datesValue;
       router.push(`/news?topic=${searchTopic}&startDate=${start}&endDate=${end}`);
     }
-  };
+  }, [router, datesValue, searchTopic]);
 
   return (
     <StyledConfig>

@@ -11,7 +11,7 @@
   "editor.formatOnSave": true,
   "htmlhint.enable": true,
   "editor.codeActionsOnSave": {
-    "source.fixAll.eslint": false
+    "source.fixAll.eslint": "never"
   },
   "eslint.validate": ["javascript", "typescript"],
   "[css]": {

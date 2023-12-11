@@ -33,6 +33,7 @@ const newsAxiosInstance = axios.create({
 });
 
 const newsKey = process.env.NEWS_KEY;
+
 newsAxiosInstance.interceptors.request.use(
   config => {
     const baseConfig = {
@@ -58,4 +59,5 @@ newsAxiosInstance.interceptors.response.use(
     return Promise.reject(error);
   },
 );
+
 export { cafeAxiosInstance, newsAxiosInstance };
