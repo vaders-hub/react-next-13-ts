@@ -1,22 +1,19 @@
 'use client';
-import React from 'react';
+
+import React, { useState } from 'react';
+import { ReactQueryStreamedHydration } from '@tanstack/react-query-next-experimental';
 import { Hydrate, QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 
-const queryWrapper = ({ children }: React.PropsWithChildren) => {
-  const queryClient = new QueryClient({
-    defaultOptions: {
-      queries: {
-        refetchOnWindowFocus: false,
-      },
-    },
-  });
+function QueryWrapper({ children }: React.PropsWithChildren) {
+  const [client] = useState(new QueryClient());
+
   return (
-    <QueryClientProvider client={queryClient}>
-      <Hydrate>{children}</Hydrate>
+    <QueryClientProvider client={client}>
+      <ReactQueryStreamedHydration>{children}</ReactQueryStreamedHydration>
       <ReactQueryDevtools initialIsOpen={false} />
     </QueryClientProvider>
   );
-};
+}
 
-export default queryWrapper;
+export default QueryWrapper;

@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useEffect, useRef, useState } from 'react';
+import { usePathname, useSearchParams, useRouter } from 'next/navigation';
 import { useNavActions, useNav } from 'store/index';
 
 interface ChildProp {
@@ -9,6 +10,10 @@ interface ChildProp {
 }
 
 export default function PendingWrapper({ children, data }: ChildProp) {
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const allSP = searchParams.toString();
   const [visible, setVisible] = useState(true);
   const loadedLnb = useNav();
   const nav = useNavActions();

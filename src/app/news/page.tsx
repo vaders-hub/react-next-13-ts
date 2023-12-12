@@ -31,21 +31,27 @@ const List = dynamic(() => import('components/organisms/news/list'), {
 export default async function News({ params, searchParams }: PageProps) {
   const { topic, startDate, endDate } = searchParams;
   const searchTopic = topic ? topic : generatedTopics[0];
+  const current = { topic: '' };
   const yesterday = startDate ? startDate : dayjs(new Date()).subtract(1, 'day').format('YYYY-MM-DD');
   const today = endDate ? endDate : dayjs(new Date()).format('YYYY-MM-DD');
 
   const param = {
-    q: topic,
+    q: searchTopic,
     from: yesterday,
     to: today,
     sortBy: 'popularity',
     page: 1,
     pageSize: 10,
   };
+
+  const status = {
+    error: false,
+  };
   const initialData: any = [];
 
   try {
     const result = await fetchNews(param);
+
     if (result.articles.length) {
       const bData: any = await Promise.all(
         result.articles?.map(async (data: any) => {
@@ -54,25 +60,33 @@ export default async function News({ params, searchParams }: PageProps) {
         }),
       );
       Object.assign(initialData, bData);
+      Object.assign(current, { topic: searchTopic });
+      status.error = false;
     }
   } catch (e: any) {
+    status.error = true;
     console.log('error :: ', e.response.status);
   }
 
   return (
     <>
-      <Suspense>
+      {/* <Suspense>
         <Title title={'News Feed'} />
+
         <div>
           <Typography variant='h5' gutterBottom data-testid='title'>
             Random topics
           </Typography>
           <Words generatedTopics={generatedTopics} />
           <DateConfig today={today} yesterday={yesterday} />
-          {initialData.length > 0 && <List initialData={initialData} />}
-          {!initialData.length && <PageLoader />}
+
+          {initialData.length && <List initialData={initialData} />}
+          {!status.error && !initialData.length && <PageLoader />}
+          {status.error && !initialData.length && <p>Error Occurred</p>}
         </div>
-      </Suspense>
+      </Suspense> */}
+      <Words generatedTopics={generatedTopics} />
+      <div>{searchTopic}</div>
     </>
   );
 }

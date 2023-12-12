@@ -5,10 +5,10 @@ import { getCookie, getCookies, setCookie, hasCookie } from 'cookies-next';
 import { wretchNextInstance } from 'util/wretch';
 import { fetchLnb } from 'util/common';
 
-import ThemeWrapper from 'components/templates/wrapper';
-import PendingWrapper from 'helpers/pendingWrapper';
-import QueryWrapper from 'helpers/queryWrapper';
-import CommonContext from 'helpers/commonContext';
+import ThemeWrapper from 'components/templates/Wrapper';
+import PendingWrapper from 'helpers/PendingWrapper';
+import QueryWrapper from 'helpers/QueryWrapper';
+import CommonContext from 'helpers/CommonContext';
 
 import type { Metadata } from 'next';
 interface RootLayoutProps {

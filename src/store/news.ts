@@ -2,6 +2,7 @@ import { create } from 'zustand';
 import { devtools, persist, createJSONStorage } from 'zustand/middleware';
 import { newsAxiosInstance } from 'util/axios';
 import { useQuery } from '@tanstack/react-query';
+import { useCommonStore } from 'store/index';
 
 interface NewsState {
   topics: string[];

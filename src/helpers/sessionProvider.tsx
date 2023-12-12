@@ -3,7 +3,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useRouter, usePathname, useSearchParams } from 'next/navigation';
 import { usePageLoaded, usePageLoadActions } from 'store';
-import { useNavActions, createNewCustomStore } from 'store/index';
+import { useNavActions } from 'store/index';
 import { useSession } from 'store/session';
 import usePrevious from 'hooks/usePrevious';
 

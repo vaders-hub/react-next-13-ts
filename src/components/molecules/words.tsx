@@ -4,7 +4,9 @@ import React, { memo, useCallback, useEffect, useMemo, useState } from 'react';
 import { useRouter, usePathname, useSearchParams } from 'next/navigation';
 import { generate } from 'random-words';
 
+import { usePageLoaded, usePageLoadActions } from 'store';
 import { useTopics, useSelectedTopic, useSelectedTopicActions } from 'store/news';
+import useCustomRouter from 'hooks/useCustomRouter';
 
 import { styled } from '@mui/system';
 import Chip from '@mui/material/Chip';
@@ -29,22 +31,25 @@ const StyledChip = styled(Chip)`
 
 function Words({ generatedTopics }: WordsProps) {
   const router = useRouter();
+  const customRouter = useCustomRouter();
   const searchParams = useSearchParams();
   const searchTopic = searchParams.get('topic');
 
+  const { setPageLoad } = usePageLoadActions();
+  const { addTopcis, setSelected } = useSelectedTopicActions();
   // const topics = useTopics();
   const selected = useSelectedTopic();
   const [localSelected, setLocalSelected] = useState<string | null>(null);
-  const { addTopcis, setSelected } = useSelectedTopicActions();
 
   const handleClick = useCallback(
     (topic: string) => {
       const params = new URLSearchParams(`topic=${topic}`);
-
+      setPageLoad(true);
       setSelected(topic);
-      router.push(`/news?topic=${topic}`);
+      // console.log('customRouter', customRouter);
+      customRouter.push(`/news?topic=${topic}`);
     },
-    [router, setSelected],
+    [setPageLoad, setSelected, customRouter],
   );
 
   useEffect(() => {

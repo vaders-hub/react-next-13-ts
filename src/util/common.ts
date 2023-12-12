@@ -1,7 +1,28 @@
 import { wretchNextInstance } from 'util/wretch';
 import { generate } from 'random-words';
 
-const generatedTopics = generate(20);
+const generatedTopics = [
+  'sudden',
+  'grain',
+  'rhyme',
+  'tip',
+  'plain',
+  'find',
+  'character',
+  'ring',
+  'tried',
+  'driven',
+  'suggest',
+  'flight',
+  'break',
+  'sides',
+  'joined',
+  'trouble',
+  'supper',
+  'similar',
+  'gravity',
+  'threw',
+]; //generate(20);
 
 const fetchLnb = async () => {
   const data: any = wretchNextInstance.get('/nav');

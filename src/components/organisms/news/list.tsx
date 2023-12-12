@@ -50,6 +50,17 @@ export default function List({ initialData }: any) {
   const severDatas = initialData;
   const subDatas = useMemo(() => [...severDatas], [severDatas]);
 
+  // const param = {
+  //   q: 'search',
+  //   from: '2023-12-10',
+  //   to: '2023-12-12',
+  //   sortBy: 'popularity',
+  //   page: 1,
+  //   pageSize: 10,
+  // };
+
+  // const { isLoading, isError, data } = useNewsQuery(param, true);
+
   return (
     <>
       {searchTopic && (

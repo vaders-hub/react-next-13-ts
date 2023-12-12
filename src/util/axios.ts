@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { useSessionStore } from 'store/session';
+import { useCommonStore } from 'store';
 
 const cafeAxiosInstance = axios.create({
   baseURL: 'https://api.roastandbrew.coffee/api/v1/',
@@ -43,6 +43,10 @@ newsAxiosInstance.interceptors.request.use(
         apiKey: newsKey,
       },
     };
+
+    const commonState = useCommonStore.getState();
+    const pageStat = commonState?.pageLoaded;
+    console.log('api call', pageStat);
 
     return baseConfig;
   },

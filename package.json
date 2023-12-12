@@ -24,6 +24,7 @@
     "@plaiceholder/next": "^3.0.0",
     "@tanstack/react-query": "^4.32.0",
     "@tanstack/react-query-devtools": "^4.32.6",
+    "@tanstack/react-query-next-experimental": "^5.13.4",
     "autoprefixer": "10.4.14",
     "axios": "^1.4.0",
     "cookies-next": "^3.0.0",
