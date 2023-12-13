@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import { cookies } from 'next/headers';
 import { getCookie, getCookies, setCookie, hasCookie } from 'cookies-next';
 
@@ -6,8 +6,8 @@ import { wretchNextInstance } from 'util/wretch';
 import { fetchLnb } from 'util/common';
 
 import ThemeWrapper from 'components/templates/Wrapper';
-import PendingWrapper from 'helpers/PendingWrapper';
-import QueryWrapper from 'helpers/QueryWrapper';
+import PendingWrapper from 'helpers/pendingWrapper';
+import QueryWrapper from 'helpers/queryWrapper';
 import CommonContext from 'helpers/CommonContext';
 
 import type { Metadata } from 'next';

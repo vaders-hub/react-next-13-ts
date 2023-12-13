@@ -42,11 +42,11 @@ export const useCommonStore = create<any>()(
     nav: [],
     actions: {
       ...createNewsSlice(set).actions,
-      setPageLoad: flag => set({ pageLoaded: flag }),
-      toggleFavorite: () => set(state => ({ favoriteOpened: !state.favoriteOpened })),
-      setNav: data => set({ nav: data }),
-      showModal: () => set(state => ({ modal: { ...state.modal, visible: true } })),
-      closeModal: () => set(state => ({ modal: { visible: false, component: '', callback: null } })),
+      setPageLoad: (flag: any) => set({ pageLoaded: flag }),
+      toggleFavorite: () => set((state: any) => ({ favoriteOpened: !state.favoriteOpened })),
+      setNav: (data: any) => set({ nav: data }, false, 'setGlobalNav'),
+      showModal: () => set((state: any) => ({ modal: { ...state.modal, visible: true } })),
+      closeModal: () => set((state: any) => ({ modal: { visible: false, component: '', callback: null } })),
     },
   })),
 );

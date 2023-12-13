@@ -27,7 +27,7 @@ const StyledChip = styled(Chip)`
   margin: 0 0.5rem 0.5rem 0;
 `;
 
-function Words() {
+function Words({ generatedTopics }: WordsProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
   const searchTopic = searchParams.get('topic');
@@ -46,22 +46,26 @@ function Words() {
     if (!searchTopic) {
       router.replace(`/news?topic=${generatedTopics[0]}`);
     }
-  }, [searchTopic, router]);
+
+    if (searchTopic) {
+      if (!generatedTopics.includes(searchTopic)) {
+        router.replace(`/news?topic=${generatedTopics[0]}`);
+      }
+    }
+  }, [searchTopic, router, generatedTopics]);
 
   return (
     <>
-      {searchTopic && (
-        <StyledStack direction='row'>
-          {generatedTopics?.map((topic, index) => (
-            <StyledChip
-              key={`${topic}-${index}`}
-              className={topic === searchTopic ? 'selected' : ''}
-              label={topic}
-              onClick={() => handleClick(topic)}
-            />
-          ))}
-        </StyledStack>
-      )}
+      <StyledStack direction='row'>
+        {generatedTopics?.map((topic, index) => (
+          <StyledChip
+            key={`${topic}-${index}`}
+            className={topic === searchTopic ? 'selected' : ''}
+            label={topic}
+            onClick={() => handleClick(topic)}
+          />
+        ))}
+      </StyledStack>
     </>
   );
 }

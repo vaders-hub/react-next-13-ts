@@ -11,7 +11,7 @@ import Title from 'components/atoms/title';
 import DateConfig from 'components/molecules/dateConfig';
 import Words from 'components/molecules/words';
 
-import { fetchNews } from 'store/news';
+import { fetchNews } from 'apis';
 
 interface SearchParamTypes {
   [key: number | string]: unknown;
@@ -30,25 +30,27 @@ const List = dynamic(() => import('components/organisms/news/list'), {
 
 export default async function News({ params, searchParams }: PageProps) {
   const { topic, startDate, endDate } = searchParams;
-  const searchTopic = topic ? topic : generatedTopics[0];
-  const current = { topic: '' };
   const yesterday = startDate ? startDate : dayjs(new Date()).subtract(1, 'day').format('YYYY-MM-DD');
   const today = endDate ? endDate : dayjs(new Date()).format('YYYY-MM-DD');
 
-  const param = {
-    q: searchTopic,
-    from: yesterday,
-    to: today,
-    sortBy: 'popularity',
-    page: 1,
-    pageSize: 10,
-  };
+  if (topic) {
+    const param = {
+      q: topic,
+      from: yesterday,
+      to: today,
+      sortBy: 'popularity',
+      page: 1,
+      pageSize: 10,
+    };
 
-  const status = {
-    error: false,
-  };
-  const initialData: any = [];
+    const status = {
+      error: false,
+    };
+    const initialData: any = [];
 
+    const result = await fetchNews(param);
+    console.log('news result', result);
+  }
   // try {
   //   const result = await fetchNews(param);
 
@@ -70,9 +72,8 @@ export default async function News({ params, searchParams }: PageProps) {
 
   return (
     <>
-      {/* <Suspense>
+      <Suspense>
         <Title title={'News Feed'} />
-
         <div>
           <Typography variant='h5' gutterBottom data-testid='title'>
             Random topics
@@ -80,13 +81,10 @@ export default async function News({ params, searchParams }: PageProps) {
           <Words generatedTopics={generatedTopics} />
           <DateConfig today={today} yesterday={yesterday} />
 
-          {initialData.length && <List initialData={initialData} />}
+          {/* {initialData.length && <List initialData={initialData} />}
           {!status.error && !initialData.length && <PageLoader />}
-          {status.error && !initialData.length && <p>Error Occurred</p>}
+          {status.error && !initialData.length && <p>Error Occurred</p>} */}
         </div>
-      </Suspense> */}
-      <Suspense>
-        <Words />
       </Suspense>
     </>
   );

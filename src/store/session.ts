@@ -1,6 +1,5 @@
 import { create } from 'zustand';
 import { devtools, persist, createJSONStorage } from 'zustand/middleware';
-import { useNewsStore } from 'store/news';
 
 interface SessionState {
   isLoggedIn: boolean;

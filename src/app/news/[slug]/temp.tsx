@@ -3,7 +3,7 @@ import { Suspense } from 'react';
 import dayjs from 'dayjs';
 import { generate } from 'random-words';
 import { generatedTopics } from 'util/common';
-import { fetchNews } from 'store/news';
+import { fetchNews } from 'apis';
 
 import PageLoader from 'components/atoms/pageLoader';
 import Title from 'components/atoms/title';

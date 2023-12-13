@@ -3,6 +3,7 @@ import { devtools, persist, createJSONStorage } from 'zustand/middleware';
 import { newsAxiosInstance } from 'util/axios';
 import { useQuery } from '@tanstack/react-query';
 import { useCommonStore } from 'store/index';
+import { fetchNews } from 'apis/';
 
 interface NewsState {
   topics: string[];
@@ -23,11 +24,6 @@ interface NewsParams {
   page?: number;
 }
 
-export const fetchNews = async (params: NewsParams): Promise<any> => {
-  const response = await newsAxiosInstance.get('everything/', { params });
-  return response.data;
-};
-
 export const useNewsQuery = (params: NewsParams, flag: any) => {
   const queryInfo = useQuery({
     queryKey: ['news', params],
@@ -46,9 +42,9 @@ export const createNewsSlice = (set: any) => ({
   topics: [],
   selected: null,
   actions: {
-    addTopcis: topics => set({ topics: [...topics] }),
+    addTopcis: (topics: any) => set({ topics: [...topics] }),
     clearTopics: () => set({ topics: [] }),
-    setSelected: topic => set({ selected: topic }),
+    setSelected: (topic: any) => set({ selected: topic }),
   },
 });
 
