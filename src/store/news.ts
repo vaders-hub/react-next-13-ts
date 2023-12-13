@@ -42,27 +42,37 @@ export const useNewsQuery = (params: NewsParams, flag: any) => {
   };
 };
 
-export const useNewsStore = create<NewsState>()(
-  devtools(
-    persist(
-      (set, get) => ({
-        topics: [],
-        selected: null,
-        actions: {
-          addTopcis: topics => set({ topics: [...topics] }),
-          clearTopics: () => set({ topics: [] }),
-          setSelected: topic => set({ selected: topic }),
-        },
-      }),
-      {
-        name: 'news-storage',
-        storage: createJSONStorage(() => sessionStorage),
-        partialize: state => Object.fromEntries(Object.entries(state).filter(([key]) => !['actions'].includes(key))),
-      },
-    ),
-  ),
-);
+export const createNewsSlice = (set: any) => ({
+  topics: [],
+  selected: null,
+  actions: {
+    addTopcis: topics => set({ topics: [...topics] }),
+    clearTopics: () => set({ topics: [] }),
+    setSelected: topic => set({ selected: topic }),
+  },
+});
 
-export const useTopics = () => useNewsStore(state => state.topics);
-export const useSelectedTopic = () => useNewsStore(state => state.selected);
-export const useSelectedTopicActions = () => useNewsStore(state => state.actions);
+// export const useNewsStore = create<NewsState>()(
+//   devtools(
+//     persist(
+//       (set, get) => ({
+//         topics: [],
+//         selected: null,
+//         actions: {
+//           addTopcis: topics => set({ topics: [...topics] }),
+//           clearTopics: () => set({ topics: [] }),
+//           setSelected: topic => set({ selected: topic }),
+//         },
+//       }),
+//       {
+//         name: 'news-storage',
+//         storage: createJSONStorage(() => sessionStorage),
+//         partialize: state => Object.fromEntries(Object.entries(state).filter(([key]) => !['actions'].includes(key))),
+//       },
+//     ),
+//   ),
+// );
+
+export const useTopics = () => useCommonStore(state => state.topics);
+export const useSelectedTopic = () => useCommonStore(state => state.selected);
+export const useSelectedTopicActions = () => useCommonStore(state => state.actions);

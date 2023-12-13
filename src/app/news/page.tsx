@@ -49,24 +49,24 @@ export default async function News({ params, searchParams }: PageProps) {
   };
   const initialData: any = [];
 
-  try {
-    const result = await fetchNews(param);
+  // try {
+  //   const result = await fetchNews(param);
 
-    if (result.articles.length) {
-      const bData: any = await Promise.all(
-        result.articles?.map(async (data: any) => {
-          data.blurImg = data.urlToImage ? await fetchBase64(data.urlToImage) : '';
-          return data;
-        }),
-      );
-      Object.assign(initialData, bData);
-      Object.assign(current, { topic: searchTopic });
-      status.error = false;
-    }
-  } catch (e: any) {
-    status.error = true;
-    console.log('error :: ', e.response.status);
-  }
+  //   if (result.articles.length) {
+  //     const bData: any = await Promise.all(
+  //       result.articles?.map(async (data: any) => {
+  //         data.blurImg = data.urlToImage ? await fetchBase64(data.urlToImage) : '';
+  //         return data;
+  //       }),
+  //     );
+  //     Object.assign(initialData, bData);
+  //     Object.assign(current, { topic: searchTopic });
+  //     status.error = false;
+  //   }
+  // } catch (e: any) {
+  //   status.error = true;
+  //   console.log('error :: ', e.response.status);
+  // }
 
   return (
     <>
@@ -85,8 +85,9 @@ export default async function News({ params, searchParams }: PageProps) {
           {status.error && !initialData.length && <p>Error Occurred</p>}
         </div>
       </Suspense> */}
-      <Words generatedTopics={generatedTopics} />
-      <div>{searchTopic}</div>
+      <Suspense>
+        <Words />
+      </Suspense>
     </>
   );
 }

@@ -1,6 +1,8 @@
 import { create, createStore, useStore } from 'zustand';
 import { devtools, persist, createJSONStorage, StateStorage } from 'zustand/middleware';
 
+import { createNewsSlice } from 'store/news';
+
 type ThemeMode = 'light' | 'dark';
 type CallbackType = null | (() => any);
 interface CommonState {
@@ -12,10 +14,8 @@ interface CommonState {
     setPageLoad: (flag: boolean) => void;
     toggleFavorite: () => void;
     setNav: (data: any) => void;
-    modal: {
-      showModal: () => void;
-      closeModal: () => void;
-    };
+    showModal: () => void;
+    closeModal: () => void;
   };
 }
 
@@ -26,44 +26,27 @@ interface ThemeState {
   };
 }
 
-export const createNewCustomStore = (initProps?: Partial<any>) => {
-  const DEFAULT_PROPS: any = {
-    pageLoaded: false,
-    modal: { visible: false, component: '', callback: null },
-    nav: [],
-  };
+export const createBearSlice = (set: any) => ({
+  bears: 0,
+  addBear: () => set((state: any) => ({ bears: state.bears + 1 })),
+  eatFish: () => set((state: any) => ({ fishes: state.fishes - 1 })),
+});
 
-  return createStore<CommonState>()(set => ({
-    ...DEFAULT_PROPS,
-    ...initProps,
-    pageLoaded: false,
-    modal: { visible: false, component: '', callback: null },
-    // nav: [],
-    actions: {
-      setPageLoad: flag => set({ pageLoaded: flag }),
-      setNav: data => set({ nav: data }),
-      modal: {
-        showModal: () => set(state => ({ modal: { ...state.modal, visible: true } })),
-        closeModal: () => set(state => ({ modal: { visible: false, component: '', callback: null } })),
-      },
-    },
-  }));
-};
-
-export const useCommonStore = create<CommonState>()(
+export const useCommonStore = create<any>()(
   devtools((set, get) => ({
+    ...createBearSlice(set),
+    ...createNewsSlice(set),
     pageLoaded: false,
     favoriteOpened: false,
     modal: { visible: false, component: '', callback: null },
     nav: [],
     actions: {
+      ...createNewsSlice(set).actions,
       setPageLoad: flag => set({ pageLoaded: flag }),
       toggleFavorite: () => set(state => ({ favoriteOpened: !state.favoriteOpened })),
       setNav: data => set({ nav: data }),
-      modal: {
-        showModal: () => set(state => ({ modal: { ...state.modal, visible: true } })),
-        closeModal: () => set(state => ({ modal: { visible: false, component: '', callback: null } })),
-      },
+      showModal: () => set(state => ({ modal: { ...state.modal, visible: true } })),
+      closeModal: () => set(state => ({ modal: { visible: false, component: '', callback: null } })),
     },
   })),
 );
@@ -87,7 +70,7 @@ export const usePageLoadActions = () => useCommonStore(state => state.actions);
 export const useFavoriteToggle = () => useCommonStore(state => state.favoriteOpened);
 export const useFavoriteToggleAction = () => useCommonStore(state => state.actions.toggleFavorite);
 export const useModal = () => useCommonStore(state => state.modal);
-export const useModalActions = () => useCommonStore(state => state.actions.modal);
+export const useModalActions = () => useCommonStore(state => state.actions);
 export const useNav = () => useCommonStore(state => state.nav);
 export const useNavActions = () => useCommonStore(state => state.actions);
 export const useTheme = () => useThemeStore(state => state.mode);
