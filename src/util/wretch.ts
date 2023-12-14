@@ -10,7 +10,7 @@ const contextMiddleware = (next: any) => (url: string, opts: any) => {
     
     console.log('useSessionRoot', useSessionStore.getState());
     */
-  console.log('useSessionRoot');
+  // console.log('useSessionRoot');
   if (opts.context) {
     // Mutate "context"
     opts.context.property = 'anything';
@@ -32,7 +32,7 @@ const wretchNextInstance = wretch(nextBaseUrl)
   .options({ headers: { Accept: 'application/json' } })
   .errorType('json')
   .resolve(r => {
-    console.log('complete....');
+    // console.log('complete....');
     return r.json();
   })
   .middlewares([contextMiddleware]);

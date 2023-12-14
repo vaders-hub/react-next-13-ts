@@ -16,5 +16,5 @@ const GlobalLoadingBox = styled(Box)`
 `;
 
 export default function Loading() {
-  return <GlobalLoadingBox>loading global</GlobalLoadingBox>;
+  return <GlobalLoadingBox></GlobalLoadingBox>;
 }

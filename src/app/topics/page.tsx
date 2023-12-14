@@ -9,7 +9,7 @@ import Typography from '@mui/material/Typography';
 import PageLoader from 'components/atoms/pageLoader';
 import Title from 'components/atoms/title';
 import DateConfig from 'components/molecules/dateConfig';
-import Words from 'components/molecules/words';
+import Topics from 'components/molecules/topics';
 
 import { fetchNews } from 'apis';
 
@@ -50,26 +50,29 @@ export default async function News({ params, searchParams }: PageProps) {
 
     initialData.splice(0);
     status.fetching = true;
+    console.log('start', status.fetching, new Date());
+    await new Promise(resolve => setTimeout(resolve, 6000));
+    status.fetching = false;
+    console.log('end', status.fetching, new Date());
+    // try {
+    //   const result = await fetchNews(param);
 
-    try {
-      const result = await fetchNews(param);
-
-      if (result.articles.length) {
-        initialData.splice(0);
-        const bData: any = await Promise.all(
-          result.articles?.map(async (data: any) => {
-            data.blurImg = data.urlToImage ? await fetchBase64(data.urlToImage) : '';
-            return data;
-          }),
-        );
-        Object.assign(initialData, bData);
-        status.fetching = false;
-        status.error = false;
-      }
-    } catch (e: any) {
-      status.error = true;
-      console.log('error :: ', e.response.status);
-    }
+    //   if (result.articles.length) {
+    //     initialData.splice(0);
+    //     const bData: any = await Promise.all(
+    //       result.articles?.map(async (data: any) => {
+    //         data.blurImg = data.urlToImage ? await fetchBase64(data.urlToImage) : '';
+    //         return data;
+    //       }),
+    //     );
+    //     Object.assign(initialData, bData);
+    //     status.fetching = false;
+    //     status.error = false;
+    //   }
+    // } catch (e: any) {
+    //   status.error = true;
+    //   console.log('error :: ', e.response.status);
+    // }
   }
 
   return (
@@ -79,12 +82,12 @@ export default async function News({ params, searchParams }: PageProps) {
         <Typography variant='h5' gutterBottom data-testid='title'>
           Random topics
         </Typography>
-        <Words generatedTopics={generatedTopics} />
+        <Topics generatedTopics={generatedTopics} />
         <DateConfig today={today} yesterday={yesterday} />
         <div>status.fetching {JSON.stringify(status.fetching)}</div>
         {!status.error ? (
           !initialData.length || status.fetching ? (
-            <div>!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!</div>
+            <PageLoader />
           ) : (
             <List initialData={initialData} />
           )

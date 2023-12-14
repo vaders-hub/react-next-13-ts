@@ -1,4 +1,5 @@
 import { wretchNextInstance } from 'util/wretch';
+import { newsAxiosInstance } from 'util/axios';
 
 interface NewsState {
   topics: string[];
@@ -20,9 +21,9 @@ interface NewsParams {
 }
 
 export const fetchNews = async (params: NewsParams): Promise<any> => {
-  // const response = await newsAxiosInstance.get('everything/', { params });
-  // return response.data;
-  const data: any = wretchNextInstance.get('/news');
+  const response = await newsAxiosInstance.get('everything/', { params });
+  return response.data;
+  // const data: any = wretchNextInstance.get('/news');
 
-  return data;
+  // return data;
 };

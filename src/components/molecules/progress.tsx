@@ -35,9 +35,7 @@ export default function Progress() {
 
   return (
     <>
-      <StyledBox sx={{ display: display }}>
-        <div></div>
-      </StyledBox>
+      <StyledBox sx={{ display: display }}></StyledBox>
     </>
   );
 }

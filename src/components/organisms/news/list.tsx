@@ -63,7 +63,7 @@ export default function List({ initialData }: any) {
 
   return (
     <>
-      {searchTopic && (
+      {subDatas ? (
         <Box sx={{ flexGrow: 1 }}>
           <Grid container spacing={{ xs: 2, md: 2 }} columns={{ xs: 4, sm: 8, md: 12 }}>
             {subDatas?.map((article, index) => (
@@ -83,6 +83,8 @@ export default function List({ initialData }: any) {
             ))}
           </Grid>
         </Box>
+      ) : (
+        <p></p>
       )}
       {/* <div style={{ textAlign: 'center' }}>
         <Button size='small' onClick={fetchMore}>

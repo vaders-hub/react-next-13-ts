@@ -5,7 +5,6 @@ import { useRouter, usePathname, useSearchParams } from 'next/navigation';
 
 import { usePageLoaded, usePageLoadActions } from 'store';
 import { generatedTopics, fetchBase64 } from 'util/common';
-import usePrevious from 'hooks/usePrevious';
 
 import { styled } from '@mui/system';
 import Chip from '@mui/material/Chip';
@@ -30,20 +29,30 @@ const StyledChip = styled(Chip)`
 
 function Words({ generatedTopics }: WordsProps) {
   const router = useRouter();
-  const { setPageLoad } = usePageLoadActions();
   const searchParams = useSearchParams();
   const searchTopic = searchParams.get('topic');
-  const previousTopic = usePrevious(searchTopic);
+  const { setPageLoad } = usePageLoadActions();
 
   const handleClick = useCallback(
     (topic: string) => {
       const params = new URLSearchParams(`topic=${topic}`);
 
-      setPageLoad(true);
       router.push(`/news?topic=${topic}`);
     },
-    [router, setPageLoad],
+    [router],
   );
+
+  useEffect(() => {
+    if (!searchTopic) {
+      router.replace(`/news?topic=${generatedTopics[0]}`);
+    }
+
+    if (searchTopic) {
+      if (!generatedTopics.includes(searchTopic)) {
+        router.replace(`/news?topic=${generatedTopics[0]}`);
+      }
+    }
+  }, [searchTopic, router, generatedTopics]);
 
   return (
     <>
