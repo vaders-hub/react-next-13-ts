@@ -74,17 +74,16 @@ export default async function News({ params, searchParams }: PageProps) {
 
   return (
     <>
-      <Title title={'News Feed'} />
+      {/* <Title title={'News Feed'} /> */}
       <div>
         <Typography variant='h5' gutterBottom data-testid='title'>
           Random topics
         </Typography>
         <Words generatedTopics={generatedTopics} />
         <DateConfig today={today} yesterday={yesterday} />
-        <div>status.fetching {JSON.stringify(status.fetching)}</div>
         {!status.error ? (
           !initialData.length || status.fetching ? (
-            <div>!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!</div>
+            <PageLoader />
           ) : (
             <List initialData={initialData} />
           )

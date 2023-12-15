@@ -2,7 +2,7 @@
 
 import React, { memo, useCallback, useEffect, useMemo, useState } from 'react';
 import { useRouter, usePathname, useSearchParams } from 'next/navigation';
-
+import { useQueryState } from 'next-usequerystate';
 import { usePageLoaded, usePageLoadActions } from 'store';
 import { generatedTopics, fetchBase64 } from 'util/common';
 import usePrevious from 'hooks/usePrevious';
@@ -34,6 +34,7 @@ function Words({ generatedTopics }: WordsProps) {
   const searchParams = useSearchParams();
   const searchTopic = searchParams.get('topic');
   const previousTopic = usePrevious(searchTopic);
+  const [mounted, setMounted] = useState(false);
 
   const handleClick = useCallback(
     (topic: string) => {
@@ -44,6 +45,10 @@ function Words({ generatedTopics }: WordsProps) {
     },
     [router, setPageLoad],
   );
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   return (
     <>

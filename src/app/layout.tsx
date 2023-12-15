@@ -4,6 +4,7 @@ import { getCookie, getCookies, setCookie, hasCookie } from 'cookies-next';
 
 import { wretchNextInstance } from 'util/wretch';
 import { fetchLnb } from 'util/common';
+import { AppRouterCacheProvider } from '@mui/material-nextjs/v13-appRouter';
 
 import ThemeWrapper from 'components/templates/Wrapper';
 import PendingWrapper from 'helpers/pendingWrapper';
@@ -44,15 +45,17 @@ export default async function RootLayout({ children, random }: RootLayoutProps) 
   return (
     <html lang='en' suppressHydrationWarning>
       <body>
-        <PendingWrapper data={nav}>
-          <ThemeWrapper ssrTheme={ssrTheme.mode}>
-            <QueryWrapper>
-              <CommonContext />
-              {children}
-              {random}
-            </QueryWrapper>
-          </ThemeWrapper>
-        </PendingWrapper>
+        <AppRouterCacheProvider>
+          <PendingWrapper data={nav}>
+            <ThemeWrapper ssrTheme={ssrTheme.mode}>
+              <QueryWrapper>
+                <CommonContext />
+                {children}
+                {random}
+              </QueryWrapper>
+            </ThemeWrapper>
+          </PendingWrapper>
+        </AppRouterCacheProvider>
       </body>
     </html>
   );
