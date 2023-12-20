@@ -4,7 +4,7 @@ import Box from '@mui/material/Box';
 import { styled } from '@mui/system';
 
 const GlobalLoadingBox = styled(Box)`
-  position: fixed;
+  position: absolute;
   top: 0;
   width: 100%;
   height: 100%;

@@ -1,9 +1,11 @@
 'use client';
 
 import React, { useEffect, useRef, useState } from 'react';
-import { usePathname, useSearchParams, useRouter } from 'next/navigation';
+import { flushSync } from 'react-dom';
 import { useQueryState } from 'next-usequerystate';
+
 import { useNavActions, useNav } from 'store/index';
+import { usePageLoaded, usePageLoadActions } from 'store';
 
 interface ChildProp {
   children: React.ReactNode;
@@ -13,38 +15,32 @@ interface ChildProp {
 type PushStateInput = [data: any, unused: string, url?: string | URL | null | undefined];
 
 export default function PendingWrapper({ children, data }: ChildProp) {
-  const router = useRouter();
-  const pathname = usePathname();
-  const [topic, setTopic] = useQueryState('');
-  const searchParams = useSearchParams();
-  const searchTopic = searchParams.get('topic');
-  const [visible, setVisible] = useState(true);
   const loadedLnb = useNav();
-  const { setNav, setPageLoad } = useNavActions();
+  const { setNav } = useNavActions();
+  const { setPageLoad } = usePageLoadActions();
 
-  if (data && !loadedLnb.length) setNav(data);
+  const penderStatus = {
+    visible: false,
+  };
 
-  useEffect(() => {
-    if (data.length) setVisible(true);
-    return () => {};
-  }, [data]);
-
-  useEffect(() => {
-    if (searchTopic) setPageLoad(false);
-    // console.log('compare topics', searchTopic);
-  }, [searchTopic, setPageLoad]);
+  if (data) {
+    if (!loadedLnb.length) setNav(data);
+    penderStatus.visible = true;
+  }
 
   useEffect(() => {
     const handleAnchorClick = (event: MouseEvent) => {
       const targetUrl = (event.currentTarget as HTMLAnchorElement).href;
       const currentUrl = window.location.href;
       if (targetUrl !== currentUrl) {
+        setPageLoad(false);
+
         console.log('route started');
       }
     };
 
     const handleMutation: MutationCallback = () => {
-      const anchorElements: NodeListOf<HTMLAnchorElement> = document.querySelectorAll('a[href] button');
+      const anchorElements: NodeListOf<HTMLAnchorElement> = document.querySelectorAll('a[href]');
 
       anchorElements.forEach(anchor => anchor.addEventListener('click', handleAnchorClick));
     };
@@ -55,11 +51,15 @@ export default function PendingWrapper({ children, data }: ChildProp) {
 
     window.history.pushState = new Proxy(window.history.pushState, {
       apply: (target, thisArg, argArray: PushStateInput) => {
+        setTimeout(() => {
+          setPageLoad(false);
+        });
+
         console.log('route finished');
         return target.apply(thisArg, argArray);
       },
     });
-  });
+  }, [setPageLoad]);
 
-  return <>{visible ? <>{children}</> : <>loading....</>}</>;
+  return <>{penderStatus.visible ? <>{children}</> : <>loading....</>}</>;
 }

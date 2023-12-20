@@ -38,6 +38,8 @@ export default async function News({ params, searchParams }: PageProps) {
   };
   const initialData: any = [];
 
+  // await new Promise(resolve => setTimeout(resolve, 1000));
+
   if (topic) {
     const param = {
       q: topic,
@@ -74,10 +76,10 @@ export default async function News({ params, searchParams }: PageProps) {
 
   return (
     <>
-      {/* <Title title={'News Feed'} /> */}
+      <Title title={'News Feed'} />
       <div>
         <Typography variant='h5' gutterBottom data-testid='title'>
-          Random topics
+          Topics
         </Typography>
         <Words generatedTopics={generatedTopics} />
         <DateConfig today={today} yesterday={yesterday} />

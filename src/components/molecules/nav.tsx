@@ -27,7 +27,6 @@ const StyledLI = styled('li')`
 function Nav() {
   const router = useRouter();
   const loadedLnb = useNav();
-  const [localLnb, setLocalLnb] = useState([]);
 
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
@@ -36,29 +35,20 @@ function Nav() {
     event.preventDefault();
     setAnchorEl(event.currentTarget);
   };
-  const handleClose = (url?: string) => {
-    setAnchorEl(null);
-    if (url) router.push(url);
-  };
-
-  // const topics = useTopics();
-  // const selected = useSelectedTopic();
-
-  // const { addTopcis, setSelected } = useSelectedTopicActions();
-
-  // if (!topics.length) {
-  //   addTopcis(generatedTopics);
-  //   if (!selected) setSelected(generatedTopics[0]);
-  // }
+  const handleClose = useCallback(
+    (url?: string) => {
+      setAnchorEl(null);
+      if (url) router.push(url);
+    },
+    [router],
+  );
 
   useEffect(() => {
     document.body.addEventListener('click', () => handleClose());
     return () => {
       document.body.removeEventListener('click', () => handleClose());
     };
-  }, []);
-
-  // const params = new URLSearchParams(`topic=${selected || topics[0]}`);
+  }, [handleClose]);
 
   return (
     <>
@@ -87,7 +77,7 @@ function Nav() {
                       'aria-labelledby': 'basic-button',
                     }}
                   >
-                    {lnb?.sub.map((item: any, index: number) => (
+                    {lnb?.sub?.map((item: any, index: number) => (
                       <MenuItem key={`${item}-${index}`} onClick={() => handleClose(item.path)}>
                         {item.name}
                       </MenuItem>

@@ -10,7 +10,7 @@ import { styled } from '@mui/system';
 
 const StyledBox = styled(Box)`
   display: none;
-  position: fixed;
+  position: absolute;
   top: 0;
   width: 100%;
   height: 100%;
@@ -24,18 +24,18 @@ const StyledBox = styled(Box)`
 export default function Progress() {
   const pageLoaded = usePageLoaded();
   const divClass = useRef('pageLoaderWrap visible');
-  const [display, setDisplay] = useState('none');
   const color = useRef('#fcaf17');
   const failedColor = useRef('#ed3f14');
   const progressTimeout: any = useRef();
+  const cssStatus = {
+    display: 'none',
+  };
 
-  useEffect(() => {
-    pageLoaded ? setDisplay('block') : setDisplay('none');
-  }, [pageLoaded, setDisplay]);
+  pageLoaded ? (cssStatus.display = 'block') : (cssStatus.display = 'none');
 
   return (
     <>
-      <StyledBox sx={{ display: display }}></StyledBox>
+      <StyledBox sx={{ display: cssStatus.display }}></StyledBox>
     </>
   );
 }
