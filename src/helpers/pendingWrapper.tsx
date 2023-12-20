@@ -29,11 +29,12 @@ export default function PendingWrapper({ children, data }: ChildProp) {
   }
 
   useEffect(() => {
-    const handleAnchorClick = (event: MouseEvent) => {
-      const targetUrl = (event.currentTarget as HTMLAnchorElement).href;
+    const handleAnchorClick = (e: MouseEvent) => {
+      console.log('handleAnchorClick', e.currentTarget);
+      const targetUrl = (e.currentTarget as HTMLAnchorElement).href;
       const currentUrl = window.location.href;
       if (targetUrl !== currentUrl) {
-        setPageLoad(false);
+        // setPageLoad(true);
 
         console.log('route started');
       }

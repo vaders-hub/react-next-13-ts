@@ -2,8 +2,9 @@
 
 import React, { memo, useCallback, useEffect, useMemo, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import dayjs, { Dayjs } from 'dayjs';
+import useCustomRouter from 'hooks/useCustomRouter';
 
+import dayjs, { Dayjs } from 'dayjs';
 import { styled } from '@mui/system';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers';
@@ -32,7 +33,7 @@ const StyledConfig = styled('div')(({ theme }: any) => ({
 }));
 
 function DateConfig({ today, yesterday }: DateConfigs) {
-  const router = useRouter();
+  const router = useCustomRouter();
   const searchParams = useSearchParams();
   const searchTopic = searchParams?.get('topic');
   const [datesValue, setDatesValue] = useState<DateConfigs>({ start: yesterday, end: today });
