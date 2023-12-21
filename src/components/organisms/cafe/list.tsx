@@ -16,57 +16,59 @@ const Card = dynamic(() => import('components/molecules/card'), {
 
 function List() {
   const [page, setPage] = useState(1);
+  // let page = 1;
   const [search, setSearch] = useState('');
-  const { isLoading, isError, data } = useCafeQuery({ page, search });
+  // let search = '';
+  // const [lastPage, setLastPage] = useState(0);
+  // let lastPage = 0;
 
-  const [lastPage, setLastPage] = useState(0);
-  const currentPage = useMemo(() => data?.current_page, [data]);
-  const cafeDatas = useMemo(() => data?.data, [data]);
+  const { isLoading, isError, data } = useCafeQuery({ page, search });
+  const currentPage = data?.current_page;
+  const cafeDatas = data?.data;
+  const lastPage = data?.last_page;
   const [cafedatasWithBlur, setCafedatasWithBlur] = useState([]);
 
   const getBlurData = useCallback(async () => {
-    const bData: any = await Promise.all(
-      cafeDatas?.map(async (data: any) => {
-        data.blurImg = await fetchBase64(data.primary_image_url);
-        return data;
-      }),
-    );
-
-    if (!cafedatasWithBlur.length) setCafedatasWithBlur(bData);
+    try {
+      const bData: any = await Promise.all(
+        cafeDatas?.map(async (data: any) => {
+          data.blurImg = await fetchBase64(data.primary_image_url);
+          return data;
+        }),
+      );
+      if (bData) {
+        if (!cafedatasWithBlur.length) setCafedatasWithBlur(bData);
+        console.log('bdata', bData, cafedatasWithBlur);
+      }
+    } catch (e) {}
   }, [cafeDatas, cafedatasWithBlur]);
 
-  useEffect(() => {
-    if (cafeDatas) getBlurData();
-  }, [cafeDatas, getBlurData]);
+  const setCafePageNo = (pageNo: number) => {
+    // console.log('setCafePageNo', pageNo);
 
-  const setCafePageNo = useCallback((pageNo: number) => {
-    setPage(pageNo);
-    setCafedatasWithBlur([]);
-  }, []);
-
-  const setCafeSearchWords = useCallback(
-    (words: string) => {
-      setSearch(words);
-      setCafedatasWithBlur([]);
-    },
-    [setSearch],
-  );
-
-  useEffect(() => {
-    if (data) {
-      if (data.last_page !== lastPage) setLastPage(data.last_page);
+    if (currentPage !== pageNo) {
+      setTimeout(() => {
+        setPage(pageNo);
+      }, 0);
     }
-  }, [lastPage, data, setLastPage]);
+  };
 
+  const setCafeSearchWords = (words: string) => {
+    if (words !== search) setSearch(words);
+  };
+
+  console.log('CAFE LIST');
   return (
     <>
       <SearchBox lastPage={lastPage} setCafePageNo={setCafePageNo} setCafeSearchWords={setCafeSearchWords} />
-      {!cafedatasWithBlur.length && <PageLoader />}
+
       <div className={'list-wrap'}>
-        {cafedatasWithBlur && (
+        {!isLoading ? (
           <ResponsiveMasonry columnsCountBreakPoints={{ 350: 1, 750: 2, 900: 3, 1200: 4 }}>
-            <Masonry>{cafedatasWithBlur?.map((cafe: any) => <Card cafeDatas={cafe} key={cafe.id} />)}</Masonry>
+            <Masonry>{cafeDatas?.map((cafe: any) => <Card cafeDatas={cafe} key={cafe.id} />)}</Masonry>
           </ResponsiveMasonry>
+        ) : (
+          <PageLoader />
         )}
       </div>
     </>

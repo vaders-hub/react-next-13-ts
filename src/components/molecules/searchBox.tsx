@@ -42,8 +42,8 @@ function SearchBox(props: SearchBoxProps) {
   const inputRef = useRef<HTMLDivElement>(null);
 
   const handleClick = useCallback(
-    (event: React.FormEvent<HTMLFormElement>) => {
-      event.preventDefault();
+    (e: React.FormEvent<HTMLFormElement>) => {
+      e.preventDefault();
       if (inputRef.current) {
         const inputEl = inputRef.current.querySelector('input');
         if (inputEl) {
@@ -55,12 +55,10 @@ function SearchBox(props: SearchBoxProps) {
     [setCafeSearchWords],
   );
 
-  const onChagePageNo = useCallback(
-    (no: string) => {
-      setCafePageNo(parseInt(no));
-    },
-    [setCafePageNo],
-  );
+  const onChagePageNo = (no: string) => {
+    // console.log('onChagePageNo', no);
+    setCafePageNo(parseInt(no));
+  };
 
   return (
     <form onSubmit={handleClick}>

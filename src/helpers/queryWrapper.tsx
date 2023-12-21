@@ -6,7 +6,15 @@ import { Hydrate, QueryClient, QueryClientProvider } from '@tanstack/react-query
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 
 function QueryWrapper({ children }: React.PropsWithChildren) {
-  const [client] = useState(new QueryClient());
+  const [client] = useState(
+    new QueryClient({
+      defaultOptions: {
+        queries: {
+          refetchOnWindowFocus: false,
+        },
+      },
+    }),
+  );
 
   return (
     <QueryClientProvider client={client}>

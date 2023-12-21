@@ -1,4 +1,4 @@
-import React, { memo, useEffect, useMemo } from 'react';
+import React, { memo, useEffect, useMemo, useState } from 'react';
 
 import usePrevious from 'hooks/usePrevious';
 import useChange from 'hooks/useChange';
@@ -12,31 +12,33 @@ function Selects(props: any) {
   const pageList = useMemo(() => (noOfPages ? new Array(noOfPages).fill(0).map((_, i) => i + 1) : [1]), [noOfPages]);
   const pageSearch = useChange({ defaultValue: 1 });
 
-  useEffect(() => {
-    if (previousWords !== words) {
-      pageSearch.reset(1);
-    }
-  }, [previousWords, words, pageSearch]);
-
-  useEffect(() => {
+  if (pageSearch.value) {
     onChagePageNo(pageSearch.value);
-  }, [pageSearch.value, onChagePageNo]);
+  }
+
+  if (previousWords !== undefined && previousWords !== words) {
+    if (pageSearch.value !== 1) pageSearch.reset(1);
+  }
 
   return (
-    <Select
-      labelId='page-select-label'
-      id='page-select'
-      label='Page'
-      value={pageSearch.value}
-      onChange={pageSearch.onChange}
-    >
-      {pageList?.map((item, index) => (
-        <MenuItem key={index} value={item}>
-          {item}
-        </MenuItem>
-      ))}
-    </Select>
+    <>
+      {
+        <Select
+          labelId='page-select-label'
+          id='page-select'
+          label='Page'
+          value={noOfPages ? pageSearch.value : ''}
+          onChange={pageSearch.onChange}
+        >
+          {pageList?.map((item, index) => (
+            <MenuItem key={index} value={item}>
+              {item}
+            </MenuItem>
+          ))}
+        </Select>
+      }
+    </>
   );
 }
 
-export default memo(Selects);
+export default Selects;

@@ -15,7 +15,7 @@ interface CafePrams {
 
 export const fetchCafe = async ({ page, search }: CafePrams): Promise<any> => {
   const response = await cafeAxiosInstance.get('cafes', { params: { page, search } });
-  const wretchResponse = await wretchInstance.get('/todos/1');
+  // const wretchResponse = await wretchInstance.get('/todos/1');
   return response.data;
 };
 
@@ -27,16 +27,3 @@ export const useCafeQuery = ({ page, search }: CafePrams) => {
     data: queryInfo.data,
   };
 };
-
-const useCafeStore = create<CafeState>()(
-  devtools(
-    (set, get) => ({
-      list: [],
-    }),
-    {
-      name: 'cafe-storage',
-    },
-  ),
-);
-
-export const useCafeList = () => useCafeStore(state => state.list);
