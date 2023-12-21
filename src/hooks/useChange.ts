@@ -4,8 +4,8 @@ import type { SelectChangeEvent } from '@mui/material/Select';
 
 export default function useInput(props: any) {
   const { defaultValue } = props;
-
   const [value, setValue] = useState(defaultValue);
+
   const input = (event: SelectChangeEvent<HTMLInputElement>) => {
     setValue(event?.target?.value);
   };

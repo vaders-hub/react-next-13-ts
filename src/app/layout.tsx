@@ -46,15 +46,17 @@ export default async function RootLayout({ children, random }: RootLayoutProps) 
     <html lang='en' suppressHydrationWarning>
       <body>
         <AppRouterCacheProvider>
-          <PendingWrapper data={nav}>
-            <ThemeWrapper ssrTheme={ssrTheme.mode}>
-              <QueryWrapper>
-                <CommonContext />
-                {children}
-                {random}
-              </QueryWrapper>
-            </ThemeWrapper>
-          </PendingWrapper>
+          <Suspense>
+            <PendingWrapper data={nav}>
+              <ThemeWrapper ssrTheme={ssrTheme.mode}>
+                <QueryWrapper>
+                  <CommonContext />
+                  {children}
+                  {random}
+                </QueryWrapper>
+              </ThemeWrapper>
+            </PendingWrapper>
+          </Suspense>
         </AppRouterCacheProvider>
       </body>
     </html>

@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useEffect, useRef, useState } from 'react';
+import { usePathname, useSearchParams } from 'next/navigation';
 import { flushSync } from 'react-dom';
 import { useQueryState } from 'next-usequerystate';
 
@@ -18,6 +19,14 @@ export default function PendingWrapper({ children, data }: ChildProp) {
   const loadedLnb = useNav();
   const { setNav } = useNavActions();
   const { setPageLoad } = usePageLoadActions();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+
+  useEffect(() => {
+    const url = `${pathname}?${searchParams}`;
+    console.log('route finished');
+    setPageLoad(false);
+  }, [pathname, searchParams, setPageLoad]);
 
   const penderStatus = {
     visible: false,
@@ -48,17 +57,6 @@ export default function PendingWrapper({ children, data }: ChildProp) {
     const mutationObserver = new MutationObserver(handleMutation);
 
     mutationObserver.observe(document, { childList: true, subtree: true });
-
-    window.history.pushState = new Proxy(window.history.pushState, {
-      apply: (target, thisArg, argArray: PushStateInput) => {
-        setTimeout(() => {
-          setPageLoad(false);
-        });
-
-        console.log('route finished');
-        return target.apply(thisArg, argArray);
-      },
-    });
   }, [setPageLoad]);
 
   return <>{penderStatus.visible ? <>{children}</> : <>loading....</>}</>;

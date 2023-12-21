@@ -14,7 +14,7 @@ const Card = dynamic(() => import('components/molecules/card'), {
   loading: () => <></>,
 });
 
-function List() {
+function List(props: any) {
   const [page, setPage] = useState(1);
   // let page = 1;
   const [search, setSearch] = useState('');
