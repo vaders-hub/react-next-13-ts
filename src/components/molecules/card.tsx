@@ -7,6 +7,7 @@ import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder';
 import BookmarkIcon from '@mui/icons-material/Bookmark';
+import { LazyLoadImage } from 'react-lazy-load-image-component';
 
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
@@ -40,7 +41,13 @@ export default function BasicCard({ cafeDatas }: CafeProps) {
           {cafeDatas?.company?.name}
         </Typography>
       </CardContent>
-      <ImageLoader imgUrl={cafeDatas?.primary_image_url} blurUrl={cafeDatas?.blurImg} />
+      {/* <ImageLoader imgUrl={cafeDatas?.primary_image_url} blurUrl={cafeDatas?.blurImg} /> */}
+
+      <LazyLoadImage
+        alt={cafeDatas.slug}
+        src={cafeDatas?.primary_image_url} // use normal <img> attributes as props
+      />
+      <span>{cafeDatas.slug}</span>
       {/* <CardMedia component='img' image={cafeDatas?.primary_image_url} alt='Paella dish' /> */}
       <CardContent>
         <Typography sx={{ fontSize: 14 }} color='text.secondary' gutterBottom>
