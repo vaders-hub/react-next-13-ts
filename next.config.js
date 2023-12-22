@@ -2,7 +2,7 @@
 const nextConfig = {
   // output: 'export',
   // distDir: 'dist',
-  
+
   skipTrailingSlashRedirect: true,
   productionBrowserSourceMaps: false,
   reactStrictMode: true,

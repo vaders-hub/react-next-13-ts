@@ -29,7 +29,7 @@
         "./src/*"
       ]
     },
-    "types": ["node", "jest"],
+    "types": ["node", "jest", "webpack-env"],
     "typeRoots": ["./types", "./node_modules/@types"],
   },
   "include": [

@@ -75,4 +75,5 @@ function List(props: any) {
   );
 }
 
+List.displayName = 'List';
 export default memo(List);

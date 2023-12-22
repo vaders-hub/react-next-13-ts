@@ -4,7 +4,7 @@ import { devtools, persist, createJSONStorage, StateStorage } from 'zustand/midd
 import { createNewsSlice } from 'store/news';
 
 type ThemeMode = 'light' | 'dark';
-type CallbackType = null | (() => any);
+type CallbackType = null | ((param?: any) => any);
 interface CommonState {
   pageLoaded: boolean;
   favoriteOpened: boolean;
@@ -14,7 +14,7 @@ interface CommonState {
     setPageLoad: (flag: boolean) => void;
     toggleFavorite: () => void;
     setNav: (data: any) => void;
-    showModal: () => void;
+    showModal: (param: any) => void;
     closeModal: () => void;
   };
 }
@@ -45,7 +45,10 @@ export const useCommonStore = create<any>()(
       setPageLoad: (flag: any) => set({ pageLoaded: flag }),
       toggleFavorite: () => set((state: any) => ({ favoriteOpened: !state.favoriteOpened })),
       setNav: (data: any) => set({ nav: data }, false, 'setGlobalNav'),
-      showModal: () => set((state: any) => ({ modal: { ...state.modal, visible: true } })),
+      showModal: (param: any) =>
+        set((state: any) => ({
+          modal: { ...state.modal, visible: true, ...param },
+        })),
       closeModal: () => set((state: any) => ({ modal: { visible: false, component: '', callback: null } })),
     },
   })),

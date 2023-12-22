@@ -31,6 +31,19 @@ const fetchLnb = async () => {
   return data;
 };
 
+const getComponent = async (name: string) => {
+  const path = await require.context('../components/organisms/', true, /\.tsx$/);
+
+  const foundModule: any = path
+    .keys()
+    .filter((filename: string) => filename.includes(name))
+    ?.map(path)[0];
+
+  if (foundModule.length) return '<>Not Found</>';
+
+  return foundModule;
+};
+
 const fetchBase64 = async (imgUrl: string) => {
   try {
     const g = await wretchNextInstance.options({ headers: { extra: 'extra' } }).get(`/common?imgUrl=${imgUrl}`);
@@ -40,4 +53,4 @@ const fetchBase64 = async (imgUrl: string) => {
   }
 };
 
-export { generatedTopics, fetchLnb, fetchBase64 };
+export { generatedTopics, fetchLnb, getComponent, fetchBase64 };
