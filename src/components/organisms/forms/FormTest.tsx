@@ -8,6 +8,8 @@ import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
+import NumberFormat from 'react-number-format';
+import { NumericFormat } from 'react-number-format';
 
 const optionSamples = [
   { value: 'female', label: 'Female' },
@@ -19,6 +21,7 @@ export type FormValues = {
   example: string;
   exampleRequired: string;
   currentName: string;
+  currentAmount: string;
   gender: string;
 };
 
@@ -26,6 +29,7 @@ export const defaultValues: DefaultValues<FormValues> = {
   example: '',
   exampleRequired: '',
   currentName: '',
+  currentAmount: '1000',
   gender: optionSamples[0].value,
 };
 
@@ -82,6 +86,21 @@ export default function FormTest() {
         name='gender'
         control={control}
         rules={{ required: true }}
+      />
+
+      <Controller
+        render={({ field: { onChange, name, value } }) => (
+          <NumericFormat
+            name={name}
+            value={value}
+            onChange={onChange}
+            customInput={TextField}
+            thousandSeparator={true}
+            autoComplete='off'
+          />
+        )}
+        name='currentAmount'
+        control={control}
       />
 
       <div>
