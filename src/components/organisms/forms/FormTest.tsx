@@ -18,12 +18,14 @@ const optionSamples = [
 export type FormValues = {
   example: string;
   exampleRequired: string;
+  currentName: string;
   gender: string;
 };
 
 export const defaultValues: DefaultValues<FormValues> = {
   example: '',
   exampleRequired: '',
+  currentName: '',
   gender: optionSamples[0].value,
 };
 
@@ -46,6 +48,25 @@ export default function FormTest() {
       <div>
         <TextField {...register('exampleRequired', { required: true })} />
         {errors.exampleRequired?.type === 'required' && <p role='alert'>exampleRequired is required</p>}
+      </div>
+
+      <div>
+        <Controller
+          name='currentName'
+          control={control}
+          render={({ field }) => <TextField {...field} autoComplete='off' />}
+          rules={{
+            validate: {
+              required: value => {
+                if (value === 'SomeValue') return 'Some Message';
+                if (!value) return '*Required';
+              },
+            },
+            maxLength: 15,
+          }}
+          defaultValue=''
+        />
+        {JSON.stringify(errors.currentName)}
       </div>
 
       <Controller
