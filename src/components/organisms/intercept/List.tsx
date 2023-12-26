@@ -1,4 +1,5 @@
 'use client';
+
 import { useModal, useModalActions } from 'store/';
 
 import Button from '@mui/material/Button';
