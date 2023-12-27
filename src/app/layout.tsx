@@ -36,7 +36,7 @@ export const metadata: Metadata = {
 export default async function RootLayout({ children, random }: RootLayoutProps) {
   const ssrTheme: SsrThemeType = { mode: 'light' };
   const themeCookie = cookies()?.get('theme')?.value;
-  const nav: any = await fetchLnb();
+  const nav = fetchLnb();
 
   if (themeCookie) {
     Object.assign(ssrTheme, { mode: themeCookie });

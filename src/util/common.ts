@@ -26,7 +26,7 @@ const generatedTopics = [
 ];
 
 const fetchLnb = async () => {
-  const data: any = wretchNextInstance.get('/nav');
+  const data: any = await wretchNextInstance.get('/nav');
 
   return data;
 };

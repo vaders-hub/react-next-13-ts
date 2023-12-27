@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useRef, useState } from 'react';
+import React, { use, Suspense, useEffect, useRef, useState } from 'react';
 import { usePathname, useSearchParams } from 'next/navigation';
 import { flushSync } from 'react-dom';
 import { useQueryState } from 'next-usequerystate';
@@ -13,12 +13,11 @@ interface ChildProp {
   data: any;
 }
 
-type PushStateInput = [data: any, unused: string, url?: string | URL | null | undefined];
-
 export default function PendingWrapper({ children, data }: ChildProp) {
-  const loadedLnb = useNav();
+  const navdata = use(data);
   const { setNav } = useNavActions();
   const { setPageLoad } = usePageLoadActions();
+  const loadedLnb = useNav();
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
@@ -28,13 +27,8 @@ export default function PendingWrapper({ children, data }: ChildProp) {
     setPageLoad(false);
   }, [pathname, searchParams, setPageLoad]);
 
-  const penderStatus = {
-    visible: false,
-  };
-
-  if (data) {
-    if (!loadedLnb.length) setNav(data);
-    penderStatus.visible = true;
+  if (navdata) {
+    if (!loadedLnb.length) setNav(navdata);
   }
 
   useEffect(() => {
@@ -59,5 +53,9 @@ export default function PendingWrapper({ children, data }: ChildProp) {
     mutationObserver.observe(document, { childList: true, subtree: true });
   }, [setPageLoad]);
 
-  return <>{penderStatus.visible ? <>{children}</> : <>loading....</>}</>;
+  return (
+    <Suspense fallback={<p>⌛loading initial data...</p>}>
+      <>{children}</>
+    </Suspense>
+  );
 }
