@@ -1,21 +1,21 @@
 'use client';
 
 // https://codesandbox.io/p/sandbox/react-hook-form-v7-controller-ts-jwyzw?file=%2Fsrc%2Findex.tsx%3A254%2C30-254%2C35
-
-import { Controller, DefaultValues, NestedValue, useForm, SubmitHandler } from 'react-hook-form';
+import React, { useState } from 'react';
+import { useTimeout } from 'usehooks-ts';
+import { Controller, DefaultValues, useForm, SubmitHandler } from 'react-hook-form';
 
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
-import NumberFormat from 'react-number-format';
 import { NumericFormat } from 'react-number-format';
 
-const optionSamples = [
-  { value: 'female', label: 'Female' },
-  { value: 'male', label: 'Male' },
-  { value: 'other', label: 'Other' },
-];
+type OptionsType = {
+  value?: unknown;
+  label?: string;
+  [key: string]: any;
+};
 
 export type FormValues = {
   example: string;
@@ -25,15 +25,18 @@ export type FormValues = {
   gender: string;
 };
 
-export const defaultValues: DefaultValues<FormValues> = {
+const defaultValues: DefaultValues<FormValues> = {
   example: '',
   exampleRequired: '',
   currentName: '',
   currentAmount: '1000',
-  gender: optionSamples[0].value,
+  gender: '',
 };
 
 export default function FormTest() {
+  console.log('FORMTEST');
+  const [menuItems, setMenuItems] = useState<OptionsType>([]);
+
   const {
     control,
     register,
@@ -42,6 +45,22 @@ export default function FormTest() {
     reset,
     formState: { errors },
   } = useForm<FormValues>({ defaultValues });
+
+  const merge = () => {
+    const options = [
+      { value: 'female', label: 'Female' },
+      { value: 'male', label: 'Male' },
+      { value: 'other', label: 'Other' },
+    ];
+    setMenuItems(options);
+    reset({
+      ...defaultValues,
+      gender: options[0].value,
+    });
+  };
+
+  useTimeout(merge, 3000);
+
   const onSubmit: SubmitHandler<FormValues> = data => console.log(data);
 
   return (
@@ -68,40 +87,42 @@ export default function FormTest() {
             },
             maxLength: 15,
           }}
-          defaultValue=''
         />
-        {JSON.stringify(errors.currentName)}
       </div>
 
-      <Controller
-        render={({ field }) => (
-          <Select {...field}>
-            {optionSamples?.map(item => (
-              <MenuItem key={item.value} value={item.value}>
-                {item.label}
-              </MenuItem>
-            ))}
-          </Select>
-        )}
-        name='gender'
-        control={control}
-        rules={{ required: true }}
-      />
+      <div>
+        <Controller
+          render={({ field }) => (
+            <Select {...field}>
+              {menuItems?.map((item: any) => (
+                <MenuItem key={item.value} value={item.value}>
+                  {item.label}
+                </MenuItem>
+              ))}
+            </Select>
+          )}
+          name='gender'
+          control={control}
+          rules={{ required: true }}
+        />
+      </div>
 
-      <Controller
-        render={({ field: { onChange, name, value } }) => (
-          <NumericFormat
-            name={name}
-            value={value}
-            onChange={onChange}
-            customInput={TextField}
-            thousandSeparator={true}
-            autoComplete='off'
-          />
-        )}
-        name='currentAmount'
-        control={control}
-      />
+      <div>
+        <Controller
+          render={({ field: { onChange, name, value } }) => (
+            <NumericFormat
+              name={name}
+              value={value}
+              onChange={onChange}
+              customInput={TextField}
+              thousandSeparator={true}
+              autoComplete='off'
+            />
+          )}
+          name='currentAmount'
+          control={control}
+        />
+      </div>
 
       <div>
         <Button type='submit'>Submit</Button>
