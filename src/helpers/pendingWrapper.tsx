@@ -1,8 +1,11 @@
 'use client';
 
 import React, { use, Suspense, useEffect, useRef, useState } from 'react';
+import { ErrorBoundary } from 'react-error-boundary';
+
+import { getCookie, setCookie } from 'cookies-next';
 import { usePathname, useSearchParams } from 'next/navigation';
-import { flushSync } from 'react-dom';
+
 import { useQueryState } from 'next-usequerystate';
 
 import { useNavActions, useNav } from 'store/index';
@@ -21,10 +24,32 @@ export default function PendingWrapper({ children, data }: ChildProp) {
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
+  /*
+  * leave warning 
+  * get set cookie
+  useEffect(() => {
+    const unloadCallback = (e: BeforeUnloadEvent) => {
+      e.preventDefault();
+      e.returnValue = '';
+      return '';
+    };
+    console.log('getCookie', getCookie('myCookie'));
+    setCookie('router-test', 'safe', { maxAge: 3600, path: '/' });
+
+    window.addEventListener('beforeunload', unloadCallback);
+
+    return () => {
+      window.removeEventListener('beforeunload', unloadCallback);
+    };
+  }, []);
+*/
   useEffect(() => {
     const url = `${pathname}?${searchParams}`;
     console.log('route finished');
     setPageLoad(false);
+    return () => {
+      console.log('route started');
+    };
   }, [pathname, searchParams, setPageLoad]);
 
   if (navdata) {
@@ -38,7 +63,7 @@ export default function PendingWrapper({ children, data }: ChildProp) {
       if (targetUrl !== currentUrl) {
         setPageLoad(true);
 
-        console.log('route started');
+        console.log('click route started');
       }
     };
 
@@ -54,8 +79,10 @@ export default function PendingWrapper({ children, data }: ChildProp) {
   }, [setPageLoad]);
 
   return (
-    <Suspense fallback={<p>⌛loading initial data...</p>}>
-      <>{children}</>
-    </Suspense>
+    <ErrorBoundary fallback={<p>⚠️Something went wrong</p>}>
+      <Suspense fallback={<p>⌛loading initial data...</p>}>
+        <>{children}</>
+      </Suspense>
+    </ErrorBoundary>
   );
 }

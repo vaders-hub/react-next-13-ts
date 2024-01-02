@@ -25,6 +25,8 @@ const generatedTopics = [
   'vapor',
 ];
 
+const reqHeaderInfo = {};
+
 const fetchLnb = async () => {
   const data: any = await wretchNextInstance.get('/nav');
 
@@ -53,4 +55,4 @@ const fetchBase64 = async (imgUrl: string) => {
   }
 };
 
-export { generatedTopics, fetchLnb, getComponent, fetchBase64 };
+export { generatedTopics, reqHeaderInfo, fetchLnb, getComponent, fetchBase64 };

@@ -3,7 +3,8 @@ import { cookies } from 'next/headers';
 import { getCookie, getCookies, setCookie, hasCookie } from 'cookies-next';
 
 import { wretchNextInstance } from 'util/wretch';
-import { fetchLnb } from 'util/common';
+import headerInfo from 'util/headerInfo';
+import { fetchLnb, reqHeaderInfo } from 'util/common';
 import { AppRouterCacheProvider } from '@mui/material-nextjs/v13-appRouter';
 
 import ThemeWrapper from 'components/templates/Wrapper';
@@ -34,6 +35,7 @@ export const metadata: Metadata = {
 };
 
 export default async function RootLayout({ children, random }: RootLayoutProps) {
+  const fetchedHeaderInfo = await headerInfo();
   const ssrTheme: SsrThemeType = { mode: 'light' };
   const themeCookie = cookies()?.get('theme')?.value;
   const nav = fetchLnb();
