@@ -33,6 +33,12 @@ const fetchLnb = async () => {
   return data;
 };
 
+const fetchTopicCells = async () => {
+  const data: any = await wretchNextInstance.get('/news');
+
+  return data;
+};
+
 const getComponent = async (name: string) => {
   const path = await require.context('../components/organisms/', true, /\.tsx$/);
 
@@ -46,6 +52,16 @@ const getComponent = async (name: string) => {
   return foundModule;
 };
 
+const getSlice = async () => {
+  const path = await require.context('../store/', true, /\.ts$/);
+
+  const foundModules: any = path.keys()?.map(path);
+
+  console.log('foundModule', foundModules);
+
+  return foundModules;
+};
+
 const fetchBase64 = async (imgUrl: string) => {
   try {
     const g = await wretchNextInstance.options({ headers: { extra: 'extra' } }).get(`/common?imgUrl=${imgUrl}`);
@@ -55,4 +71,4 @@ const fetchBase64 = async (imgUrl: string) => {
   }
 };
 
-export { generatedTopics, reqHeaderInfo, fetchLnb, getComponent, fetchBase64 };
+export { generatedTopics, reqHeaderInfo, fetchLnb, fetchTopicCells, getComponent, getSlice, fetchBase64 };

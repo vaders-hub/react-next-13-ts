@@ -13,6 +13,8 @@ export default function Interception() {
     showModal({ component: 'ActionForm', callback: testCallback });
   };
 
+  console.log('INTERCEPT LIST');
+
   return (
     <>
       <div>

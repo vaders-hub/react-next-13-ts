@@ -2,6 +2,10 @@
 
 import { memo, useCallback, useEffect, useMemo, useState } from 'react';
 import dynamic from 'next/dynamic';
+import Image from 'next/image';
+
+import { CellMeasurer, CellMeasurerCache, createMasonryCellPositioner } from 'react-virtualized';
+
 import { useCafeQuery } from 'store/cafe';
 import { fetchBase64 } from 'util/common';
 
@@ -9,9 +13,25 @@ import Masonry, { ResponsiveMasonry } from 'react-responsive-masonry';
 
 import PageLoader from 'components/atoms/pageLoader';
 import SearchBox from 'components/molecules/searchBox';
+import { AnyNaptrRecord } from 'dns';
 
 const Card = dynamic(() => import('components/molecules/card'), {
   loading: () => <></>,
+});
+
+// Default sizes help Masonry decide how many images to batch-measure
+const cache = new CellMeasurerCache({
+  defaultHeight: 250,
+  defaultWidth: 200,
+  fixedWidth: true,
+});
+
+// Our masonry layout will use 3 columns with a 10px gutter between
+const cellPositioner = createMasonryCellPositioner({
+  cellMeasurerCache: cache,
+  columnCount: 3,
+  columnWidth: 200,
+  spacer: 10,
 });
 
 function List(props: any) {
@@ -42,6 +62,26 @@ function List(props: any) {
       }
     } catch (e) {}
   }, [cafeDatas, cafedatasWithBlur]);
+
+  function cellRenderer({ index, key, parent, style }: any) {
+    const datum = cafeDatas[index];
+
+    return (
+      <CellMeasurer cache={cache} index={index} key={key} parent={parent}>
+        <div style={style}>
+          <Image
+            src={datum.source}
+            alt='image'
+            style={{
+              height: datum.imageHeight,
+              width: datum.imageWidth,
+            }}
+          />
+          <h4>{datum.caption}</h4>
+        </div>
+      </CellMeasurer>
+    );
+  }
 
   const setCafePageNo = (pageNo: number) => {
     // console.log('setCafePageNo', pageNo);

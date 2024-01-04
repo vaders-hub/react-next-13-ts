@@ -1,23 +1,17 @@
-'use client';
+'use server';
 
-import Link from 'next/link';
 import dynamic from 'next/dynamic';
-import { generatedTopics } from 'util/common';
+import TopicCells from 'components/molecules/TopicCells';
 
-const listStr = 'List';
-const List = dynamic(() => import(`components/organisms/intercept/${listStr}`), {
+const List = dynamic(() => import('components/organisms/intercept/List'), {
   loading: () => <>Loading...</>,
 });
 
-export default function Interception() {
+export default async function Interception() {
   return (
     <>
       <main>
-        {generatedTopics?.map((topic, index) => (
-          <Link key={`${topic}-${index}`} href={`/loc/${topic}`}>
-            <span style={{ marginRight: '0.5rem' }}>{topic}</span>
-          </Link>
-        ))}
+        <TopicCells />
         <List />
       </main>
     </>

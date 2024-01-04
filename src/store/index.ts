@@ -1,6 +1,7 @@
 import { create, createStore, useStore } from 'zustand';
 import { devtools, persist, createJSONStorage, StateStorage } from 'zustand/middleware';
 
+import { getSlice } from 'util/common';
 import { createNewsSlice } from 'store/news';
 
 type ThemeMode = 'light' | 'dark';
@@ -31,6 +32,8 @@ export const createBearSlice = (set: any) => ({
   addBear: () => set((state: any) => ({ bears: state.bears + 1 })),
   eatFish: () => set((state: any) => ({ fishes: state.fishes - 1 })),
 });
+
+console.log('getSlice', getSlice());
 
 export const useCommonStore = create<any>()(
   devtools((set, get) => ({

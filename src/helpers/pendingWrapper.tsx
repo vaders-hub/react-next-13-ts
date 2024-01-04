@@ -24,6 +24,8 @@ export default function PendingWrapper({ children, data }: ChildProp) {
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
+  if (!loadedLnb.length) setNav(navdata);
+
   /*
   * leave warning 
   * get set cookie
@@ -52,10 +54,6 @@ export default function PendingWrapper({ children, data }: ChildProp) {
     };
   }, [pathname, searchParams, setPageLoad]);
 
-  if (navdata) {
-    if (!loadedLnb.length) setNav(navdata);
-  }
-
   useEffect(() => {
     const handleAnchorClick = (e: MouseEvent) => {
       const targetUrl = (e.currentTarget as HTMLAnchorElement).href;
@@ -79,10 +77,8 @@ export default function PendingWrapper({ children, data }: ChildProp) {
   }, [setPageLoad]);
 
   return (
-    <ErrorBoundary fallback={<p>⚠️Something went wrong</p>}>
-      <Suspense fallback={<p>⌛loading initial data...</p>}>
-        <>{children}</>
-      </Suspense>
-    </ErrorBoundary>
+    <Suspense fallback={<p>⌛loading initial data...</p>}>
+      <>{children}</>
+    </Suspense>
   );
 }
