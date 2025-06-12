@@ -8,9 +8,10 @@ import { fetchLnb, reqHeaderInfo } from 'util/common';
 import { AppRouterCacheProvider } from '@mui/material-nextjs/v13-appRouter';
 
 import ThemeWrapper from 'components/templates/Wrapper';
-import PendingWrapper from 'helpers/pendingWrapper';
-import QueryWrapper from 'helpers/queryWrapper';
+import PendingWrapper from 'helpers/PendingWrapper';
+import QueryWrapper from 'helpers/QueryWrapper';
 import CommonContext from 'helpers/CommonContext';
+import TestHeader from 'components/organisms/TestHeader';
 
 import type { Metadata } from 'next';
 interface RootLayoutProps {
@@ -37,11 +38,11 @@ export const metadata: Metadata = {
 export default async function RootLayout({ children, random }: RootLayoutProps) {
   const fetchedHeaderInfo = await headerInfo();
   const ssrTheme: SsrThemeType = { mode: 'light' };
-  const themeCookie = cookies()?.get('theme')?.value;
+  const Cookies = await cookies();
   const nav = fetchLnb();
 
-  if (themeCookie) {
-    Object.assign(ssrTheme, { mode: themeCookie });
+  if (Cookies) {
+    Object.assign(ssrTheme, { mode: await Cookies.get('theme')?.value });
   }
 
   return (
@@ -51,6 +52,7 @@ export default async function RootLayout({ children, random }: RootLayoutProps) 
           <PendingWrapper data={nav}>
             <ThemeWrapper ssrTheme={ssrTheme.mode}>
               <QueryWrapper>
+                <TestHeader />
                 <CommonContext />
                 {children}
                 {random}

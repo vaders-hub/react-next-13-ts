@@ -6,7 +6,6 @@ import { getCookie, setCookie } from 'cookies-next';
 export async function middleware(request: NextRequest) {
   const response = NextResponse.next();
   const condition = response.cookies.set('myCookie', '456');
-
   response.headers.set('X-Custom-Header', 'Hello, Middleware!');
 
   const headerInfo = response?.headers?.get('X-Custom-Header');

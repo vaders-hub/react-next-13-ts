@@ -33,7 +33,7 @@ export const createBearSlice = (set: any) => ({
   eatFish: () => set((state: any) => ({ fishes: state.fishes - 1 })),
 });
 
-console.log('getSlice', getSlice());
+// console.log('getSlice', getSlice());
 
 export const useCommonStore = create<any>()(
   devtools((set, get) => ({

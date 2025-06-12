@@ -1,9 +1,10 @@
 'use client';
 
 // https://codesandbox.io/p/sandbox/react-hook-form-v7-controller-ts-jwyzw?file=%2Fsrc%2Findex.tsx%3A254%2C30-254%2C35
-import React, { useState, useTransition } from 'react';
+import React, { useEffect, useRef, useState, useTransition } from 'react';
 import { useTimeout } from 'usehooks-ts';
-import { Controller, DefaultValues, useForm, SubmitHandler } from 'react-hook-form';
+import { Controller, useForm } from 'react-hook-form';
+import type { NestedValue, SubmitHandler, DefaultValues } from 'react-hook-form';
 
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
@@ -33,18 +34,21 @@ const defaultValues: DefaultValues<FormValues> = {
   gender: '',
 };
 
+let renderCount = 0;
+// console.log('FORMTEST outside FUNCTION');
 export default function FormTest() {
-  console.log('FORMTEST');
+  const renderCountRef = useRef(0);
   const [menuItems, setMenuItems] = useState<OptionsType>([]);
 
   const {
-    control,
-    register,
     handleSubmit,
-    watch,
+    register,
     reset,
+    control,
     formState: { errors },
-  } = useForm<FormValues>({ defaultValues });
+  } = useForm<FormValues>({
+    defaultValues,
+  });
 
   const merge = () => {
     const options = [
@@ -58,84 +62,97 @@ export default function FormTest() {
       gender: options[0].value,
     });
   };
-
   useTimeout(merge, 3000);
 
-  const onSubmit: SubmitHandler<FormValues> = data => console.log(data);
+  const onSubmit: SubmitHandler<FormValues> = data => console.log('data', data);
+  console.log('FORMTEST outside');
+  useEffect(() => {
+    console.log('FORMTEST');
+    renderCount++;
+  }, []);
+
+  useEffect(() => {
+    renderCountRef.current = renderCountRef.current + 1;
+  }, [renderCountRef]);
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <div>
-        <TextField {...register('example')} />
-      </div>
-      <div>
-        <TextField {...register('exampleRequired', { required: true })} />
-        {errors.exampleRequired?.type === 'required' && <p role='alert'>exampleRequired is required</p>}
-      </div>
+    <div>
+      <p>
+        {renderCount} vs {renderCountRef.current}
+      </p>
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <div>
+          <TextField {...register('example')} />
+        </div>
+        <div>
+          <TextField {...register('exampleRequired', { required: true })} />
+          {errors.exampleRequired?.type === 'required' && <p role='alert'>exampleRequired is required</p>}
+        </div>
 
-      <div>
-        <Controller
-          name='currentName'
-          control={control}
-          render={({ field }) => <TextField {...field} autoComplete='off' />}
-          rules={{
-            validate: {
-              required: value => {
-                if (value === 'SomeValue') return 'Some Message';
-                if (!value) return '*Required';
+        <div>
+          <Controller
+            name='currentName'
+            control={control}
+            render={({ field }) => <TextField {...field} autoComplete='off' />}
+            rules={{
+              validate: {
+                required: value => {
+                  if (value === 'SomeValue') return 'Some Message';
+                  if (!value) return '*Required';
+                },
               },
-            },
-            maxLength: 15,
-          }}
-        />
-      </div>
+              maxLength: 15,
+            }}
+          />
+        </div>
 
-      <div>
-        <Controller
-          render={({ field }) => (
-            <Select {...field}>
-              {menuItems?.map((item: any) => (
-                <MenuItem key={item.value} value={item.value}>
-                  {item.label}
-                </MenuItem>
-              ))}
-            </Select>
-          )}
-          name='gender'
-          control={control}
-          rules={{ required: true }}
-        />
-      </div>
+        <div>
+          <Controller
+            render={({ field }) => (
+              <Select {...field}>
+                {menuItems?.map((item: any) => (
+                  <MenuItem key={item.value} value={item.value}>
+                    {item.label}
+                  </MenuItem>
+                ))}
+              </Select>
+            )}
+            name='gender'
+            control={control}
+            rules={{ required: true }}
+          />
+        </div>
 
-      <div>
-        <Controller
-          render={({ field: { onChange, name, value } }) => (
-            <NumericFormat
-              name={name}
-              value={value}
-              onChange={onChange}
-              customInput={TextField}
-              thousandSeparator={true}
-              autoComplete='off'
-            />
-          )}
-          name='currentAmount'
-          control={control}
-        />
-      </div>
+        <div>
+          <Controller
+            render={({ field: { onChange, name, value } }) => (
+              <NumericFormat
+                name={name}
+                value={value}
+                onChange={onChange}
+                customInput={TextField}
+                thousandSeparator={true}
+                autoComplete='off'
+              />
+            )}
+            name='currentAmount'
+            control={control}
+          />
+        </div>
 
-      <div>
-        <Button type='submit'>Submit</Button>
-      </div>
-      <div>
-        <Button
-          onClick={() => {
-            reset(defaultValues);
-          }}
-        >
-          Reset
-        </Button>
-      </div>
-    </form>
+        <div>
+          <Button type='submit'>Submit</Button>
+        </div>
+        <div>
+          <Button
+            onClick={() => {
+              reset(defaultValues);
+            }}
+          >
+            Reset
+          </Button>
+        </div>
+      </form>
+    </div>
   );
 }

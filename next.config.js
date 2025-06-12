@@ -6,7 +6,7 @@ const nextConfig = {
   skipTrailingSlashRedirect: true,
   productionBrowserSourceMaps: false,
   reactStrictMode: true,
-  swcMinify: true,
+  // swcMinify: true,
   compiler: {
     styledComponents: {
       ssr: true,
